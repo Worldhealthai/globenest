@@ -7,8 +7,25 @@ import Button from '@/components/ui/Button'
 import Card from '@/components/ui/Card'
 import Badge from '@/components/ui/Badge'
 import Image from 'next/image'
+import AppHome from '@/components/features/AppHome'
 
 export default function LandingPage() {
+  return (
+    <>
+      <Navbar />
+
+      {/* Mobile: Show App Home */}
+      <div className="md:hidden">
+        <AppHome />
+      </div>
+
+      {/* Desktop: Show Marketing Landing Page */}
+      <MarketingLanding />
+    </>
+  )
+}
+
+function MarketingLanding() {
   const features = [
     {
       icon: Home,
@@ -83,8 +100,7 @@ export default function LandingPage() {
   ]
 
   return (
-    <div className="min-h-screen mesh-gradient overflow-hidden">
-      <Navbar />
+    <div className="hidden md:block min-h-screen mesh-gradient overflow-hidden">
 
       {/* Hero Section */}
       <section className="pt-32 pb-20 px-4 sm:px-6 lg:px-8 relative">
@@ -99,38 +115,38 @@ export default function LandingPage() {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
+              className="relative z-20"
             >
               <motion.div
-                initial={{ scale: 0.5, rotate: -180 }}
-                animate={{ scale: 1, rotate: 0 }}
-                transition={{ duration: 0.8, type: "spring" }}
-                className="mb-6 inline-block"
+                initial={{ scale: 0.5, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                transition={{ duration: 0.6, delay: 0.2 }}
+                className="mb-8 inline-block"
               >
                 <Image
                   src="/logo.png"
                   alt="GlobeNest"
                   width={120}
                   height={120}
-                  className="w-20 h-20 md:w-28 md:h-28 mx-auto drop-shadow-2xl"
+                  className="w-16 h-16 sm:w-20 sm:h-20 md:w-28 md:h-28 mx-auto drop-shadow-2xl"
                   priority
                 />
               </motion.div>
 
               <motion.div
-                initial={{ scale: 0.8 }}
-                animate={{ scale: 1 }}
-                transition={{ duration: 0.5, delay: 0.3 }}
-                className="inline-block"
+                initial={{ scale: 0.8, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                transition={{ duration: 0.5, delay: 0.4 }}
+                className="inline-block mb-8"
               >
-                <Badge variant="secondary" className="mb-6 glass-secondary px-6 py-2 text-base">
+                <Badge variant="secondary" className="glass-secondary px-6 py-2 text-base">
                   🌍 London's #1 Expat Platform
                 </Badge>
               </motion.div>
 
-              <h1 className="text-4xl sm:text-5xl md:text-8xl font-bold mb-6 sm:mb-8 text-balance leading-tight">
-                Your New Life in
-                <br />
-                <span className="bg-gradient-to-r from-primary via-secondary to-primary bg-clip-text text-transparent animated-gradient-fast inline-block">
+              <h1 className="text-4xl sm:text-5xl md:text-8xl font-bold mb-6 sm:mb-8 text-balance leading-tight relative z-30">
+                <span className="block mb-2">Your New Life in</span>
+                <span className="block bg-gradient-to-r from-primary via-secondary to-primary bg-clip-text text-transparent">
                   London Starts Here
                 </span>
               </h1>
