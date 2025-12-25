@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Menu, X, Home, ShoppingBag, MessageCircle, User } from 'lucide-react'
 import Button from '@/components/ui/Button'
+import Image from 'next/image'
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -19,10 +20,24 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
-          <a href="/" className="flex items-center space-x-2">
+          <a href="/" className="flex items-center gap-2 md:gap-3">
             <motion.div
-              whileHover={{ scale: 1.05 }}
-              className="text-2xl font-bold"
+              whileHover={{ scale: 1.05, rotate: 5 }}
+              whileTap={{ scale: 0.95 }}
+              className="relative"
+            >
+              <Image
+                src="/logo.png"
+                alt="GlobeNest Logo"
+                width={40}
+                height={40}
+                className="w-8 h-8 md:w-10 md:h-10"
+                priority
+              />
+            </motion.div>
+            <motion.div
+              whileHover={{ scale: 1.02 }}
+              className="text-xl md:text-2xl font-bold"
             >
               <span className="text-primary">Globe</span>
               <span className="text-secondary">Nest</span>

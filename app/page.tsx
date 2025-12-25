@@ -6,6 +6,7 @@ import Navbar from '@/components/layout/Navbar'
 import Button from '@/components/ui/Button'
 import Card from '@/components/ui/Card'
 import Badge from '@/components/ui/Badge'
+import Image from 'next/image'
 
 export default function LandingPage() {
   const features = [
@@ -100,9 +101,25 @@ export default function LandingPage() {
               transition={{ duration: 0.8 }}
             >
               <motion.div
+                initial={{ scale: 0.5, rotate: -180 }}
+                animate={{ scale: 1, rotate: 0 }}
+                transition={{ duration: 0.8, type: "spring" }}
+                className="mb-6 inline-block"
+              >
+                <Image
+                  src="/logo.png"
+                  alt="GlobeNest"
+                  width={120}
+                  height={120}
+                  className="w-20 h-20 md:w-28 md:h-28 mx-auto drop-shadow-2xl"
+                  priority
+                />
+              </motion.div>
+
+              <motion.div
                 initial={{ scale: 0.8 }}
                 animate={{ scale: 1 }}
-                transition={{ duration: 0.5 }}
+                transition={{ duration: 0.5, delay: 0.3 }}
                 className="inline-block"
               >
                 <Badge variant="secondary" className="mb-6 glass-secondary px-6 py-2 text-base">
@@ -417,9 +434,18 @@ export default function LandingPage() {
         <div className="max-w-7xl mx-auto">
           <div className="grid md:grid-cols-4 gap-12 mb-12">
             <div>
-              <div className="text-3xl font-bold mb-6">
-                <span className="text-primary">Globe</span>
-                <span className="text-secondary">Nest</span>
+              <div className="flex items-center gap-3 mb-4">
+                <Image
+                  src="/logo.png"
+                  alt="GlobeNest Logo"
+                  width={48}
+                  height={48}
+                  className="w-12 h-12"
+                />
+                <div className="text-3xl font-bold">
+                  <span className="text-primary">Globe</span>
+                  <span className="text-secondary">Nest</span>
+                </div>
               </div>
               <p className="text-white/70 text-lg">
                 Connect. Relocate. Thrive.
