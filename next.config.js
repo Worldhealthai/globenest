@@ -12,6 +12,8 @@ const nextConfig = {
       },
     ],
   },
+  // Empty turbopack config to silence webpack warning
+  turbopack: {},
 }
 
 module.exports = nextConfig
