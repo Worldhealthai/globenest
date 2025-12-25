@@ -286,10 +286,11 @@ nav.fixed.top-0 {
   display: none;
 }
 
-/* Logo with transparent background blend */
+/* Logo with transparent background - optimized for app icon */
 .logo-blend {
-  mix-blend-mode: multiply;
   filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.1));
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
 }
 
 /* Smooth scrolling on mobile */

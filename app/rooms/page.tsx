@@ -83,63 +83,69 @@ export default function RoomsPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            className="flex gap-4 mb-10"
+            className="grid grid-cols-3 gap-3 md:gap-4 mb-6 md:mb-10"
           >
-            <div className="glass px-8 py-4 rounded-2xl backdrop-blur-xl flex-1 card-hover-effect">
-              <span className="text-sm text-gray-600 block mb-1">Liked</span>
-              <div className="flex items-center gap-2">
-                <Heart size={20} className="text-green-600 fill-green-600" />
-                <span className="font-bold text-2xl text-green-600">{likedRooms.length}</span>
+            <div className="glass px-3 py-3 md:px-8 md:py-4 rounded-2xl backdrop-blur-xl card-hover-effect">
+              <span className="text-xs md:text-sm text-gray-600 block mb-1">Liked</span>
+              <div className="flex items-center gap-1 md:gap-2 justify-center md:justify-start">
+                <Heart size={16} className="md:w-5 md:h-5 text-green-600 fill-green-600" />
+                <span className="font-bold text-lg md:text-2xl text-green-600">{likedRooms.length}</span>
               </div>
             </div>
-            <div className="glass px-8 py-4 rounded-2xl backdrop-blur-xl flex-1 card-hover-effect">
-              <span className="text-sm text-gray-600 block mb-1">Passed</span>
-              <div className="flex items-center gap-2">
-                <X size={20} className="text-red-600" />
-                <span className="font-bold text-2xl text-red-600">{passedRooms.length}</span>
+            <div className="glass px-3 py-3 md:px-8 md:py-4 rounded-2xl backdrop-blur-xl card-hover-effect">
+              <span className="text-xs md:text-sm text-gray-600 block mb-1">Passed</span>
+              <div className="flex items-center gap-1 md:gap-2 justify-center md:justify-start">
+                <X size={16} className="md:w-5 md:h-5 text-red-600" />
+                <span className="font-bold text-lg md:text-2xl text-red-600">{passedRooms.length}</span>
               </div>
             </div>
-            <div className="glass px-8 py-4 rounded-2xl backdrop-blur-xl flex-1 card-hover-effect">
-              <span className="text-sm text-gray-600 block mb-1">Remaining</span>
-              <div className="flex items-center gap-2">
-                <Sparkles size={20} className="text-primary" />
-                <span className="font-bold text-2xl text-primary">{rooms.length - currentIndex}</span>
+            <div className="glass px-3 py-3 md:px-8 md:py-4 rounded-2xl backdrop-blur-xl card-hover-effect">
+              <span className="text-xs md:text-sm text-gray-600 block mb-1">Left</span>
+              <div className="flex items-center gap-1 md:gap-2 justify-center md:justify-start">
+                <Sparkles size={16} className="md:w-5 md:h-5 text-primary" />
+                <span className="font-bold text-lg md:text-2xl text-primary">{rooms.length - currentIndex}</span>
               </div>
             </div>
           </motion.div>
 
           {/* Main Content */}
-          <div className="flex flex-col lg:flex-row gap-8">
+          <div className="flex flex-col lg:flex-row gap-6 md:gap-8">
             {/* Card Stack */}
             <div className="flex-1 flex justify-center items-start">
-              <div className="relative w-full max-w-sm h-[600px]">
-                <AnimatePresence>
+              <div className="relative w-full max-w-sm h-[550px] md:h-[600px]">
+                <AnimatePresence mode="popLayout">
                   {currentIndex < rooms.length ? (
                     <>
-                      {/* Stack preview cards */}
+                      {/* Stack preview cards - Hidden on mobile for performance */}
                       {currentIndex + 2 < rooms.length && (
-                        <RoomCard
-                          key={rooms[currentIndex + 2].id}
-                          room={rooms[currentIndex + 2]}
-                          onSwipe={() => {}}
-                          style={{
-                            scale: 0.9,
-                            y: 20,
-                            zIndex: 1,
-                          }}
-                        />
+                        <div className="hidden md:block">
+                          <RoomCard
+                            key={rooms[currentIndex + 2].id}
+                            room={rooms[currentIndex + 2]}
+                            onSwipe={() => {}}
+                            style={{
+                              scale: 0.9,
+                              y: 20,
+                              zIndex: 1,
+                              opacity: 0.5,
+                            }}
+                          />
+                        </div>
                       )}
                       {currentIndex + 1 < rooms.length && (
-                        <RoomCard
-                          key={rooms[currentIndex + 1].id}
-                          room={rooms[currentIndex + 1]}
-                          onSwipe={() => {}}
-                          style={{
-                            scale: 0.95,
-                            y: 10,
-                            zIndex: 2,
-                          }}
-                        />
+                        <div className="hidden md:block">
+                          <RoomCard
+                            key={rooms[currentIndex + 1].id}
+                            room={rooms[currentIndex + 1]}
+                            onSwipe={() => {}}
+                            style={{
+                              scale: 0.95,
+                              y: 10,
+                              zIndex: 2,
+                              opacity: 0.7,
+                            }}
+                          />
+                        </div>
                       )}
                       {/* Active card */}
                       <RoomCard
@@ -153,20 +159,20 @@ export default function RoomsPage() {
                     <motion.div
                       initial={{ opacity: 0, scale: 0.8 }}
                       animate={{ opacity: 1, scale: 1 }}
-                      className="absolute inset-0 flex items-center justify-center"
+                      className="absolute inset-0 flex items-center justify-center p-4"
                     >
-                      <div className="text-center glass backdrop-blur-2xl p-16 rounded-3xl shadow-hard">
+                      <div className="text-center glass backdrop-blur-2xl p-8 md:p-16 rounded-3xl shadow-hard w-full">
                         <motion.div
                           animate={{ rotate: [0, 360] }}
                           transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
                           className="inline-block mb-6"
                         >
-                          <Sparkles className="w-20 h-20 text-primary" />
+                          <Sparkles className="w-16 h-16 md:w-20 md:h-20 text-primary" />
                         </motion.div>
-                        <h2 className="text-4xl font-bold mb-4">
+                        <h2 className="text-2xl md:text-4xl font-bold mb-4">
                           That's all for now! 🎉
                         </h2>
-                        <p className="text-gray-600 mb-8 text-lg">
+                        <p className="text-gray-600 mb-6 md:mb-8 text-sm md:text-lg">
                           You've viewed all available rooms. Check back soon for more matches!
                         </p>
                         <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>

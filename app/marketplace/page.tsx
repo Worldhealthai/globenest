@@ -63,43 +63,49 @@ export default function MarketplacePage() {
             </p>
           </motion.div>
 
-          {/* Search and Filter Bar */}
+          {/* Search Bar */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            className="glass rounded-3xl p-4 md:p-8 mb-6 md:mb-10 backdrop-blur-xl"
+            className="glass rounded-3xl p-4 md:p-8 mb-4 md:mb-6 backdrop-blur-xl"
           >
-            <div className="flex flex-col md:flex-row gap-3 md:gap-4 mb-4 md:mb-6">
-              <div className="flex-1">
-                <Input
-                  placeholder="Search for items..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  icon={<Search size={18} />}
-                  className="glass text-sm md:text-base"
-                />
-              </div>
-              <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                <Button variant="outline" className="glass backdrop-blur-xl w-full md:w-auto min-h-[44px]">
-                  <Filter size={18} className="mr-2" />
-                  <span className="text-sm md:text-base">Filters</span>
-                </Button>
-              </motion.div>
+            <Input
+              placeholder="Search for items..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              icon={<Search size={18} />}
+              className="glass text-sm md:text-base"
+            />
+          </motion.div>
+
+          {/* Category Filters - Mobile Optimized */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3 }}
+            className="mb-6 md:mb-10"
+          >
+            <div className="flex items-center gap-3 mb-3 px-2">
+              <h3 className="text-sm font-semibold text-gray-600">Categories</h3>
+              <div className="flex-1 h-px bg-gradient-to-r from-gray-300 to-transparent" />
             </div>
 
-            {/* Category Tabs */}
-            <div className="flex gap-2 md:gap-3 overflow-x-auto pb-2 scrollbar-hide -mx-1 px-1">
-              {categories.map((category) => (
+            {/* Mobile: Grid Layout, Desktop: Horizontal Scroll */}
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:flex md:flex-wrap gap-2 md:gap-3">
+              {categories.map((category, index) => (
                 <motion.button
                   key={category}
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: index * 0.05 }}
                   onClick={() => setSelectedCategory(category)}
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  className={`px-4 md:px-6 py-2 md:py-3 rounded-xl md:rounded-2xl font-medium whitespace-nowrap transition-all duration-300 text-sm md:text-base min-h-[44px] flex items-center ${
+                  className={`px-4 py-3 rounded-2xl font-medium transition-all duration-300 text-sm min-h-[48px] flex items-center justify-center ${
                     selectedCategory === category
-                      ? 'bg-gradient-to-r from-secondary to-accent text-white shadow-lg scale-105'
-                      : 'glass text-gray-700 hover:shadow-md'
+                      ? 'bg-gradient-to-r from-secondary to-accent text-white shadow-lg'
+                      : 'glass text-gray-700 hover:shadow-md backdrop-blur-xl border border-white/30'
                   }`}
                 >
                   {category.charAt(0).toUpperCase() + category.slice(1)}
