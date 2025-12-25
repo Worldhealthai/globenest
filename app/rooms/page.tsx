@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Heart, X, RotateCcw, Filter, ArrowLeft } from 'lucide-react'
+import { Heart, X, RotateCcw, Filter, ArrowLeft, Sparkles } from 'lucide-react'
 import Navbar from '@/components/layout/Navbar'
 import Button from '@/components/ui/Button'
 import RoomCard from '@/components/features/RoomCard'
@@ -45,46 +45,66 @@ export default function RoomsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-background to-background-secondary">
+    <div className="min-h-screen mesh-gradient overflow-hidden">
       <Navbar />
 
       <div className="pt-24 pb-12 px-4">
         <div className="max-w-7xl mx-auto">
           {/* Header */}
-          <div className="flex items-center justify-between mb-8">
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="flex items-center justify-between mb-8"
+          >
             <div>
-              <a href="/" className="flex items-center text-gray-600 hover:text-primary mb-4">
+              <a href="/" className="flex items-center text-gray-600 hover:text-primary mb-4 transition-all hover:translate-x-1">
                 <ArrowLeft size={20} className="mr-2" />
                 Back to Home
               </a>
-              <h1 className="text-4xl font-bold mb-2">
-                Find Your <span className="text-primary">Perfect Room</span>
+              <h1 className="text-5xl md:text-6xl font-bold mb-3">
+                Find Your <span className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">Perfect Room</span>
               </h1>
-              <p className="text-gray-600">
-                Swipe right to like, left to pass. It's that simple!
+              <p className="text-gray-600 text-xl">
+                Swipe right to like, left to pass. It's that simple! ✨
               </p>
             </div>
-            <Button variant="outline" onClick={() => {}}>
-              <Filter size={20} className="mr-2" />
-              Filters
-            </Button>
-          </div>
+            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+              <Button variant="outline" className="glass" onClick={() => {}}>
+                <Filter size={20} className="mr-2" />
+                Filters
+              </Button>
+            </motion.div>
+          </motion.div>
 
           {/* Stats */}
-          <div className="flex gap-4 mb-8">
-            <div className="bg-white px-6 py-3 rounded-xl shadow-soft">
-              <span className="text-sm text-gray-600">Liked: </span>
-              <span className="font-bold text-green-600">{likedRooms.length}</span>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
+            className="flex gap-4 mb-10"
+          >
+            <div className="glass px-8 py-4 rounded-2xl backdrop-blur-xl flex-1 card-hover-effect">
+              <span className="text-sm text-gray-600 block mb-1">Liked</span>
+              <div className="flex items-center gap-2">
+                <Heart size={20} className="text-green-600 fill-green-600" />
+                <span className="font-bold text-2xl text-green-600">{likedRooms.length}</span>
+              </div>
             </div>
-            <div className="bg-white px-6 py-3 rounded-xl shadow-soft">
-              <span className="text-sm text-gray-600">Passed: </span>
-              <span className="font-bold text-red-600">{passedRooms.length}</span>
+            <div className="glass px-8 py-4 rounded-2xl backdrop-blur-xl flex-1 card-hover-effect">
+              <span className="text-sm text-gray-600 block mb-1">Passed</span>
+              <div className="flex items-center gap-2">
+                <X size={20} className="text-red-600" />
+                <span className="font-bold text-2xl text-red-600">{passedRooms.length}</span>
+              </div>
             </div>
-            <div className="bg-white px-6 py-3 rounded-xl shadow-soft">
-              <span className="text-sm text-gray-600">Remaining: </span>
-              <span className="font-bold text-primary">{rooms.length - currentIndex}</span>
+            <div className="glass px-8 py-4 rounded-2xl backdrop-blur-xl flex-1 card-hover-effect">
+              <span className="text-sm text-gray-600 block mb-1">Remaining</span>
+              <div className="flex items-center gap-2">
+                <Sparkles size={20} className="text-primary" />
+                <span className="font-bold text-2xl text-primary">{rooms.length - currentIndex}</span>
+              </div>
             </div>
-          </div>
+          </motion.div>
 
           {/* Main Content */}
           <div className="flex flex-col lg:flex-row gap-8">
@@ -133,17 +153,26 @@ export default function RoomsPage() {
                       animate={{ opacity: 1, scale: 1 }}
                       className="absolute inset-0 flex items-center justify-center"
                     >
-                      <div className="text-center bg-white p-12 rounded-3xl shadow-hard">
-                        <h2 className="text-3xl font-bold mb-4">
+                      <div className="text-center glass backdrop-blur-2xl p-16 rounded-3xl shadow-hard">
+                        <motion.div
+                          animate={{ rotate: [0, 360] }}
+                          transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+                          className="inline-block mb-6"
+                        >
+                          <Sparkles className="w-20 h-20 text-primary" />
+                        </motion.div>
+                        <h2 className="text-4xl font-bold mb-4">
                           That's all for now! 🎉
                         </h2>
-                        <p className="text-gray-600 mb-6">
+                        <p className="text-gray-600 mb-8 text-lg">
                           You've viewed all available rooms. Check back soon for more matches!
                         </p>
-                        <Button onClick={() => setCurrentIndex(0)}>
-                          <RotateCcw size={20} className="mr-2" />
-                          Start Over
-                        </Button>
+                        <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                          <Button onClick={() => setCurrentIndex(0)} size="lg" className="glow-pulse">
+                            <RotateCcw size={20} className="mr-2" />
+                            Start Over
+                          </Button>
+                        </motion.div>
                       </div>
                     </motion.div>
                   )}
@@ -152,37 +181,54 @@ export default function RoomsPage() {
             </div>
 
             {/* Sidebar - Liked Rooms */}
-            <div className="lg:w-80">
-              <div className="bg-white rounded-2xl shadow-soft p-6 sticky top-24">
-                <h3 className="text-xl font-bold mb-4">
-                  ❤️ Liked Rooms ({likedRooms.length})
-                </h3>
+            <div className="lg:w-96">
+              <div className="glass rounded-3xl p-8 sticky top-24 backdrop-blur-xl">
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="p-3 rounded-2xl bg-gradient-to-br from-green-500/20 to-green-600/20">
+                    <Heart className="w-7 h-7 text-green-600 fill-green-600" />
+                  </div>
+                  <h3 className="text-2xl font-bold">
+                    Liked Rooms ({likedRooms.length})
+                  </h3>
+                </div>
                 {likedRooms.length === 0 ? (
-                  <p className="text-gray-500 text-center py-8">
-                    Start swiping to see your matches here!
-                  </p>
+                  <div className="text-center py-12">
+                    <motion.div
+                      animate={{ scale: [1, 1.1, 1] }}
+                      transition={{ duration: 2, repeat: Infinity }}
+                      className="mb-4"
+                    >
+                      <Heart className="w-16 h-16 mx-auto text-gray-300" />
+                    </motion.div>
+                    <p className="text-gray-500 text-lg">
+                      Start swiping to see your matches here!
+                    </p>
+                  </div>
                 ) : (
-                  <div className="space-y-3 max-h-96 overflow-y-auto">
-                    {likedRooms.map((room) => (
-                      <div
+                  <div className="space-y-4 max-h-96 overflow-y-auto pr-2">
+                    {likedRooms.map((room, index) => (
+                      <motion.div
                         key={room.id}
-                        className="flex gap-3 p-3 rounded-xl hover:bg-gray-50 cursor-pointer transition-colors"
+                        initial={{ opacity: 0, x: 20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: index * 0.1 }}
+                        className="frosted flex gap-4 p-4 rounded-2xl hover:scale-[1.02] cursor-pointer transition-all duration-300 border border-white/20"
                       >
                         <img
                           src={room.images[0]}
                           alt={room.title}
-                          className="w-16 h-16 rounded-lg object-cover"
+                          className="w-20 h-20 rounded-xl object-cover shadow-md"
                         />
                         <div className="flex-1 min-w-0">
-                          <h4 className="font-semibold text-sm truncate">
+                          <h4 className="font-semibold text-base truncate mb-1">
                             {room.title}
                           </h4>
-                          <p className="text-xs text-gray-600">{room.location}</p>
-                          <p className="text-sm font-bold text-primary">
+                          <p className="text-sm text-gray-600 mb-2">{room.location}</p>
+                          <p className="text-lg font-bold text-primary">
                             £{room.price}/mo
                           </p>
                         </div>
-                      </div>
+                      </motion.div>
                     ))}
                   </div>
                 )}
@@ -192,35 +238,40 @@ export default function RoomsPage() {
 
           {/* Action Buttons */}
           {currentIndex < rooms.length && (
-            <div className="flex justify-center gap-6 mt-8">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.4 }}
+              className="flex justify-center gap-8 mt-12"
+            >
               <motion.button
-                whileHover={{ scale: 1.1 }}
+                whileHover={{ scale: 1.15, rotate: -5 }}
                 whileTap={{ scale: 0.9 }}
                 onClick={() => handleButtonSwipe('left')}
-                className="w-16 h-16 bg-white rounded-full shadow-medium flex items-center justify-center text-red-500 hover:bg-red-50 transition-colors"
+                className="w-20 h-20 glass backdrop-blur-xl rounded-full shadow-medium flex items-center justify-center text-red-500 hover:shadow-lg transition-all duration-300 border-2 border-red-500/20 hover:border-red-500/40"
               >
-                <X size={32} />
+                <X size={36} strokeWidth={2.5} />
               </motion.button>
 
               <motion.button
-                whileHover={{ scale: 1.1 }}
+                whileHover={{ scale: 1.15 }}
                 whileTap={{ scale: 0.9 }}
                 onClick={handleUndo}
                 disabled={currentIndex === 0}
-                className="w-16 h-16 bg-white rounded-full shadow-medium flex items-center justify-center text-gray-400 hover:bg-gray-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-20 h-20 glass backdrop-blur-xl rounded-full shadow-medium flex items-center justify-center text-gray-400 hover:text-primary transition-all duration-300 disabled:opacity-40 disabled:cursor-not-allowed border-2 border-gray-300/20 hover:border-primary/40"
               >
-                <RotateCcw size={24} />
+                <RotateCcw size={28} strokeWidth={2.5} />
               </motion.button>
 
               <motion.button
-                whileHover={{ scale: 1.1 }}
+                whileHover={{ scale: 1.15, rotate: 5 }}
                 whileTap={{ scale: 0.9 }}
                 onClick={() => handleButtonSwipe('right')}
-                className="w-16 h-16 bg-white rounded-full shadow-medium flex items-center justify-center text-green-500 hover:bg-green-50 transition-colors"
+                className="w-20 h-20 glass backdrop-blur-xl rounded-full shadow-medium flex items-center justify-center text-green-500 hover:shadow-lg transition-all duration-300 border-2 border-green-500/20 hover:border-green-500/40 glow-pulse"
               >
-                <Heart size={32} />
+                <Heart size={36} strokeWidth={2.5} />
               </motion.button>
-            </div>
+            </motion.div>
           )}
         </div>
       </div>
