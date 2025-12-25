@@ -31,7 +31,7 @@ export default function Navbar() {
                 alt="GlobeNest Logo"
                 width={40}
                 height={40}
-                className="w-8 h-8 md:w-10 md:h-10"
+                className="w-8 h-8 md:w-10 md:h-10 logo-blend"
                 priority
               />
             </motion.div>

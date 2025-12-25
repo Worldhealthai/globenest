@@ -17,8 +17,8 @@ interface RoomCardProps {
 export default function RoomCard({ room, onSwipe, style }: RoomCardProps) {
   const [currentImageIndex, setCurrentImageIndex] = useState(0)
   const x = useMotionValue(0)
-  const rotate = useTransform(x, [-200, 200], [-25, 25])
-  const opacity = useTransform(x, [-200, -100, 0, 100, 200], [0, 1, 1, 1, 0])
+  const rotate = useTransform(x, [-300, 300], [-20, 20])
+  const opacity = useTransform(x, [-300, -150, 0, 150, 300], [0, 1, 1, 1, 0])
 
   const handleDragEnd = (_: any, info: any) => {
     if (Math.abs(info.offset.x) > 100) {
@@ -36,7 +36,11 @@ export default function RoomCard({ room, onSwipe, style }: RoomCardProps) {
       }}
       drag="x"
       dragConstraints={{ left: 0, right: 0 }}
+      dragElastic={0.7}
+      dragTransition={{ bounceStiffness: 300, bounceDamping: 20 }}
       onDragEnd={handleDragEnd}
+      whileTap={{ cursor: 'grabbing' }}
+      transition={{ type: 'spring', stiffness: 300, damping: 30 }}
       className="absolute w-full max-w-sm cursor-grab active:cursor-grabbing"
     >
       <div className="bg-white rounded-3xl shadow-hard overflow-hidden">
