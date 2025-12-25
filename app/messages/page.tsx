@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { ArrowLeft, Send, Phone, Video, MoreVertical, Search, Shield, Smile, ChevronLeft, User, Bell, Archive, Trash2 } from 'lucide-react'
 import Navbar from '@/components/layout/Navbar'
@@ -21,6 +21,13 @@ export default function MessagesPage() {
   const [selectedConversation, setSelectedConversation] = useState<string | null>(null)
   const [messageInput, setMessageInput] = useState('')
   const [showMenu, setShowMenu] = useState(false)
+  const [messages, setMessages] = useState<Message[]>([])
+  const messagesEndRef = useRef<HTMLDivElement>(null)
+
+  // Auto-scroll to bottom when messages change
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
+  }, [messages])
 
   // Mock conversations
   const conversations = [
@@ -44,44 +51,73 @@ export default function MessagesPage() {
     },
   ]
 
-  // Mock messages for selected conversation
-  const messages: Message[] = selectedConversation ? [
-    {
-      id: '1',
-      sender: selectedConversation,
-      content: 'Hi! I saw you\'re interested in the sofa. Are you still looking?',
-      timestamp: new Date('2024-01-15T14:00:00'),
-      isOwn: false,
-    },
-    {
-      id: '2',
-      sender: 'me',
-      content: 'Yes, I am! It looks perfect for my new flat. Is it still available?',
-      timestamp: new Date('2024-01-15T14:15:00'),
-      isOwn: true,
-    },
-    {
-      id: '3',
-      sender: selectedConversation,
-      content: 'The sofa is still available! When would you like to pick it up?',
-      timestamp: new Date('2024-01-15T14:30:00'),
-      isOwn: false,
-    },
-    {
-      id: '4',
-      sender: selectedConversation,
-      content: 'I\'m in Shoreditch, so pickup would be from here. I can help you load it if needed!',
-      timestamp: new Date('2024-01-15T14:31:00'),
-      isOwn: false,
-    },
-  ] : []
+  // Load initial messages when conversation is selected
+  const loadInitialMessages = (userId: string) => {
+    const initialMessages: Message[] = [
+      {
+        id: '1',
+        sender: userId,
+        content: 'Hi! I saw you\'re interested in the sofa. Are you still looking?',
+        timestamp: new Date('2024-01-15T14:00:00'),
+        isOwn: false,
+      },
+      {
+        id: '2',
+        sender: 'me',
+        content: 'Yes, I am! It looks perfect for my new flat. Is it still available?',
+        timestamp: new Date('2024-01-15T14:15:00'),
+        isOwn: true,
+      },
+      {
+        id: '3',
+        sender: userId,
+        content: 'The sofa is still available! When would you like to pick it up?',
+        timestamp: new Date('2024-01-15T14:30:00'),
+        isOwn: false,
+      },
+      {
+        id: '4',
+        sender: userId,
+        content: 'I\'m in Shoreditch, so pickup would be from here. I can help you load it if needed!',
+        timestamp: new Date('2024-01-15T14:31:00'),
+        isOwn: false,
+      },
+    ]
+    setMessages(initialMessages)
+  }
 
   const selectedUser = conversations.find(c => c.user.id === selectedConversation)?.user
 
+  // Load messages when conversation changes
+  if (selectedConversation && messages.length === 0) {
+    loadInitialMessages(selectedConversation)
+  }
+
   const handleSendMessage = () => {
-    if (!messageInput.trim()) return
-    // Add message logic here
+    if (!messageInput.trim() || !selectedConversation) return
+
+    const newMessage: Message = {
+      id: `msg-${Date.now()}`,
+      sender: 'me',
+      content: messageInput.trim(),
+      timestamp: new Date(),
+      isOwn: true,
+    }
+
+    setMessages([...messages, newMessage])
     setMessageInput('')
+
+    // Simulate reply after 2 seconds
+    setTimeout(() => {
+      const replyMessage: Message = {
+        id: `msg-${Date.now()}-reply`,
+        sender: selectedConversation,
+        content: 'Thanks for your message! I\'ll get back to you soon.',
+        timestamp: new Date(),
+        isOwn: false,
+      }
+      setMessages(prev => [...prev, replyMessage])
+    }, 2000)
   }
 
   return (
@@ -133,7 +169,10 @@ export default function MessagesPage() {
                       transition={{ delay: index * 0.1 }}
                       whileHover={{ x: 4 }}
                       whileTap={{ scale: 0.98 }}
-                      onClick={() => setSelectedConversation(conversation.user.id)}
+                      onClick={() => {
+                        setSelectedConversation(conversation.user.id)
+                        setMessages([])
+                      }}
                       className="glass rounded-2xl p-4 cursor-pointer backdrop-blur-xl active:bg-white/30"
                     >
                       <div className="flex items-start gap-3">
@@ -296,7 +335,16 @@ export default function MessagesPage() {
 
               {/* Messages */}
               <div className="flex-1 overflow-y-auto overflow-x-hidden p-4 space-y-3 bg-gradient-to-b from-white/5 to-white/10 overscroll-contain">
-                {messages.map((message, index) => (
+                {messages.length === 0 ? (
+                  <div className="flex items-center justify-center h-full">
+                    <div className="text-center glass backdrop-blur-xl p-8 rounded-3xl">
+                      <div className="text-6xl mb-4">💬</div>
+                      <p className="text-gray-600">Start chatting!</p>
+                    </div>
+                  </div>
+                ) : (
+                  <>
+                    {messages.map((message, index) => (
                   <motion.div
                     key={message.id}
                     initial={{ opacity: 0, y: 10 }}
@@ -323,24 +371,32 @@ export default function MessagesPage() {
                     </div>
                   </motion.div>
                 ))}
+                    <div ref={messagesEndRef} />
+                  </>
+                )}
               </div>
 
               {/* Message Input */}
-              <div className="p-3 border-t border-gray-200 frosted backdrop-blur-xl safe-area-pb">
+              <div className="p-3 border-t border-gray-200 frosted backdrop-blur-xl safe-area-pb bg-white/80">
                 <div className="flex gap-2 items-center">
                   <Input
                     placeholder="Type a message..."
                     value={messageInput}
                     onChange={(e) => setMessageInput(e.target.value)}
-                    onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
-                    className="flex-1 glass backdrop-blur-xl text-sm min-h-[44px]"
+                    onKeyPress={(e) => e.key === 'Enter' && !e.shiftKey && handleSendMessage()}
+                    className="flex-1 glass backdrop-blur-xl text-sm min-h-[44px] bg-white/50 border-2 border-primary/20 focus:border-primary/50"
+                    autoFocus
                   />
                   <motion.div
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                   >
-                    <Button onClick={handleSendMessage} className="glow-pulse min-h-[44px] px-4">
-                      <Send size={18} />
+                    <Button
+                      onClick={handleSendMessage}
+                      disabled={!messageInput.trim()}
+                      className={`min-h-[44px] px-4 ${messageInput.trim() ? 'glow-pulse' : 'opacity-50'}`}
+                    >
+                      <Send size={18} className={messageInput.trim() ? 'text-white' : 'text-gray-400'} />
                     </Button>
                   </motion.div>
                 </div>
@@ -396,7 +452,10 @@ export default function MessagesPage() {
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: index * 0.1 }}
                     whileHover={{ x: 4 }}
-                    onClick={() => setSelectedConversation(conversation.user.id)}
+                    onClick={() => {
+                      setSelectedConversation(conversation.user.id)
+                      setMessages([])
+                    }}
                     className={`p-5 cursor-pointer border-b border-white/10 transition-all duration-300 ${
                       selectedConversation === conversation.user.id
                         ? 'frosted border-l-4 border-l-secondary shadow-md'
@@ -557,7 +616,16 @@ export default function MessagesPage() {
 
                   {/* Messages */}
                   <div className="flex-1 overflow-y-auto overflow-x-hidden p-6 space-y-4 bg-gradient-to-b from-white/5 to-white/10 overscroll-contain">
-                    {messages.map((message, index) => (
+                    {messages.length === 0 ? (
+                      <div className="flex items-center justify-center h-full">
+                        <div className="text-center glass backdrop-blur-xl p-12 rounded-3xl">
+                          <div className="text-8xl mb-6">💬</div>
+                          <p className="text-gray-600 text-xl">Start chatting!</p>
+                        </div>
+                      </div>
+                    ) : (
+                      <>
+                        {messages.map((message, index) => (
                       <motion.div
                         key={message.id}
                         initial={{ opacity: 0, y: 10 }}
@@ -584,10 +652,13 @@ export default function MessagesPage() {
                         </div>
                       </motion.div>
                     ))}
+                        <div ref={messagesEndRef} />
+                      </>
+                    )}
                   </div>
 
                   {/* Message Input */}
-                  <div className="p-6 border-t border-white/20 frosted">
+                  <div className="p-6 border-t border-white/20 frosted bg-white/80">
                     <div className="flex gap-3 items-center">
                       <motion.button
                         whileHover={{ scale: 1.1, rotate: 5 }}
@@ -600,15 +671,20 @@ export default function MessagesPage() {
                         placeholder="Type a message..."
                         value={messageInput}
                         onChange={(e) => setMessageInput(e.target.value)}
-                        onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
-                        className="flex-1 glass backdrop-blur-xl"
+                        onKeyPress={(e) => e.key === 'Enter' && !e.shiftKey && handleSendMessage()}
+                        className="flex-1 glass backdrop-blur-xl bg-white/50 border-2 border-primary/20 focus:border-primary/50"
+                        autoFocus
                       />
                       <motion.div
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
                       >
-                        <Button onClick={handleSendMessage} className="glow-pulse px-6">
-                          <Send size={20} />
+                        <Button
+                          onClick={handleSendMessage}
+                          disabled={!messageInput.trim()}
+                          className={`px-6 ${messageInput.trim() ? 'glow-pulse' : 'opacity-50'}`}
+                        >
+                          <Send size={20} className={messageInput.trim() ? 'text-white' : 'text-gray-400'} />
                         </Button>
                       </motion.div>
                     </div>
