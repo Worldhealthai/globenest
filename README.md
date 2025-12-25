@@ -4,6 +4,8 @@
 
 GlobeNest is the ultimate platform for expats relocating to London. Find housing, flatmates, and essential items all in one trusted, community-driven app.
 
+Available as both a **Next.js web app** and **React Native mobile app** (iOS & Android).
+
 ---
 
 ## ✨ Features
@@ -47,6 +49,7 @@ GlobeNest is the ultimate platform for expats relocating to London. Find housing
 
 ## 🚀 Tech Stack
 
+### Web App
 - **Framework:** Next.js 16 (App Router)
 - **Language:** TypeScript
 - **Styling:** Tailwind CSS v4 with custom design tokens
@@ -55,9 +58,19 @@ GlobeNest is the ultimate platform for expats relocating to London. Find housing
 - **State Management:** Zustand
 - **Forms:** React Hook Form
 
+### Mobile App (iOS & Android)
+- **Framework:** React Native (Expo)
+- **Language:** TypeScript
+- **Navigation:** React Navigation v7
+- **Animations:** React Native Reanimated
+- **Gestures:** React Native Gesture Handler
+- **UI:** Custom components with gradients
+
 ---
 
 ## 📦 Installation
+
+### Web App
 
 ```bash
 # Install dependencies
@@ -73,7 +86,28 @@ npm run build
 npm start
 ```
 
-Open [http://localhost:3000](http://localhost:3000) to view the app.
+Open [http://localhost:3000](http://localhost:3000) to view the web app.
+
+### Mobile App
+
+```bash
+# Navigate to mobile directory
+cd mobile
+
+# Install dependencies
+npm install
+
+# Start Expo development server
+npm start
+
+# Run on iOS (requires macOS)
+npm run ios
+
+# Run on Android
+npm run android
+```
+
+See [mobile/README.md](mobile/README.md) for detailed mobile setup instructions.
 
 ---
 
@@ -81,34 +115,35 @@ Open [http://localhost:3000](http://localhost:3000) to view the app.
 
 ```
 globenest/
-├── app/                      # Next.js app directory
+├── app/                      # Next.js web app
 │   ├── auth/                 # Authentication pages
-│   │   ├── login/
-│   │   └── signup/
 │   ├── marketplace/          # Marketplace page
 │   ├── messages/             # Messaging page
 │   ├── rooms/                # Room matching page
 │   ├── layout.tsx            # Root layout
 │   ├── page.tsx              # Landing page
 │   └── globals.css           # Global styles
-├── components/
-│   ├── features/             # Feature-specific components
-│   │   └── RoomCard.tsx
-│   ├── layout/               # Layout components
-│   │   └── Navbar.tsx
-│   └── ui/                   # Reusable UI components
-│       ├── Badge.tsx
-│       ├── Button.tsx
-│       ├── Card.tsx
-│       └── Input.tsx
-├── lib/
-│   ├── mockData.ts           # Mock data for development
-│   └── utils.ts              # Utility functions
-├── types/
-│   └── index.ts              # TypeScript type definitions
-├── next.config.js            # Next.js configuration
-├── tailwind.config.ts        # Tailwind configuration
-└── tsconfig.json             # TypeScript configuration
+├── mobile/                   # React Native mobile app
+│   ├── src/
+│   │   ├── components/       # UI components
+│   │   ├── screens/          # App screens
+│   │   ├── navigation/       # Navigation setup
+│   │   ├── constants/        # Theme and constants
+│   │   └── types/            # TypeScript types
+│   ├── App.tsx               # Root component
+│   ├── app.json              # Expo configuration
+│   └── README.md             # Mobile app documentation
+├── components/               # Web app components
+│   ├── features/
+│   ├── layout/
+│   └── ui/
+├── lib/                      # Shared utilities
+│   ├── mockData.ts
+│   └── utils.ts
+├── types/                    # Shared types
+│   └── index.ts
+├── next.config.js
+└── tsconfig.json
 ```
 
 ---
