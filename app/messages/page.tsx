@@ -87,22 +87,22 @@ export default function MessagesPage() {
     <div className="min-h-screen mesh-gradient overflow-hidden">
       <Navbar />
 
-      <div className="pt-24 pb-12 px-4">
+      <div className="pt-20 md:pt-24 pb-0 md:pb-12 px-2 md:px-4">
         <div className="max-w-7xl mx-auto">
-          {/* Header */}
+          {/* Header - Hidden on mobile to save space */}
           <motion.div
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="mb-6 md:mb-10"
+            className="hidden md:block mb-10"
           >
-            <a href="/" className="flex items-center text-gray-600 hover:text-primary mb-3 md:mb-4 transition-all hover:translate-x-1 text-sm md:text-base">
-              <ArrowLeft size={18} className="mr-2 md:w-5 md:h-5" />
+            <a href="/" className="flex items-center text-gray-600 hover:text-primary mb-4 transition-all hover:translate-x-1">
+              <ArrowLeft size={20} className="mr-2" />
               Back to Home
             </a>
-            <h1 className="text-3xl sm:text-4xl md:text-6xl font-bold mb-2 md:mb-3 leading-tight">
+            <h1 className="text-6xl font-bold mb-3 leading-tight">
               <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">Messages</span> 💬
             </h1>
-            <p className="text-gray-600 text-base md:text-xl">
+            <p className="text-gray-600 text-xl">
               Chat with matches and coordinate your move ✨
             </p>
           </motion.div>
@@ -112,7 +112,7 @@ export default function MessagesPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            className="grid lg:grid-cols-3 gap-6 h-[calc(100vh-280px)] md:h-[600px]"
+            className="grid lg:grid-cols-3 gap-6 h-[calc(100vh-200px)] md:h-[700px]"
           >
             {/* Conversations List */}
             <div className="glass rounded-3xl overflow-hidden flex flex-col backdrop-blur-xl">
