@@ -68,35 +68,35 @@ export default function MarketplacePage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            className="glass rounded-3xl p-8 mb-10 backdrop-blur-xl"
+            className="glass rounded-3xl p-4 md:p-8 mb-6 md:mb-10 backdrop-blur-xl"
           >
-            <div className="flex flex-col md:flex-row gap-4 mb-6">
+            <div className="flex flex-col md:flex-row gap-3 md:gap-4 mb-4 md:mb-6">
               <div className="flex-1">
                 <Input
                   placeholder="Search for items..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  icon={<Search size={20} />}
-                  className="glass"
+                  icon={<Search size={18} />}
+                  className="glass text-sm md:text-base"
                 />
               </div>
               <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                <Button variant="outline" className="glass backdrop-blur-xl">
-                  <Filter size={20} className="mr-2" />
-                  More Filters
+                <Button variant="outline" className="glass backdrop-blur-xl w-full md:w-auto min-h-[44px]">
+                  <Filter size={18} className="mr-2" />
+                  <span className="text-sm md:text-base">Filters</span>
                 </Button>
               </motion.div>
             </div>
 
             {/* Category Tabs */}
-            <div className="flex gap-3 overflow-x-auto pb-2 scrollbar-hide">
+            <div className="flex gap-2 md:gap-3 overflow-x-auto pb-2 scrollbar-hide -mx-1 px-1">
               {categories.map((category) => (
                 <motion.button
                   key={category}
                   onClick={() => setSelectedCategory(category)}
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  className={`px-6 py-3 rounded-2xl font-medium whitespace-nowrap transition-all duration-300 ${
+                  className={`px-4 md:px-6 py-2 md:py-3 rounded-xl md:rounded-2xl font-medium whitespace-nowrap transition-all duration-300 text-sm md:text-base min-h-[44px] flex items-center ${
                     selectedCategory === category
                       ? 'bg-gradient-to-r from-secondary to-accent text-white shadow-lg scale-105'
                       : 'glass text-gray-700 hover:shadow-md'

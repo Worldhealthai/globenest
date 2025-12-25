@@ -36,7 +36,7 @@ export default function AppHome() {
               alt="GlobeNest"
               width={80}
               height={80}
-              className="w-16 h-16 drop-shadow-xl"
+              className="w-16 h-16 drop-shadow-xl logo-blend"
               priority
             />
           </motion.div>
