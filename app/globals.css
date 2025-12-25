@@ -69,32 +69,38 @@ html {
   background-color: rgba(255, 71, 65, 0.3);
 }
 
-/* Mobile app-like styles */
+/* App-like styles for all devices */
+/* Hide scrollbar for app-like feel */
+body::-webkit-scrollbar {
+  display: none;
+}
+
+body {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  overscroll-behavior-y: contain;
+}
+
+/* Safe area for notched phones */
+.safe-area-pb {
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+/* Hide desktop navbar for app mode */
+nav.fixed.top-0 {
+  display: none;
+}
+
+/* Fullscreen app mode */
+@media (display-mode: standalone) {
+  body {
+    /* App is installed - full app mode */
+  }
+}
+
+/* Mobile specific */
 @media (max-width: 768px) {
-  /* Hide scrollbar on mobile for app-like feel */
-  body::-webkit-scrollbar {
-    display: none;
-  }
-
-  body {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-  }
-
-  /* Safe area for notched phones */
-  .safe-area-pb {
-    padding-bottom: env(safe-area-inset-bottom);
-  }
-
-  /* Prevent pull-to-refresh on mobile */
-  body {
-    overscroll-behavior-y: contain;
-  }
-
-  /* Hide desktop navbar on mobile */
-  nav.fixed.top-0 {
-    display: none;
-  }
+  /* Mobile-specific styles */
 }
 
 /* App-like touch feedback */
