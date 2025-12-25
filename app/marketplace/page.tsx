@@ -41,25 +41,25 @@ export default function MarketplacePage() {
           <motion.div
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="mb-10"
+            className="mb-6 md:mb-10"
           >
-            <a href="/" className="flex items-center text-gray-600 hover:text-primary mb-4 transition-all hover:translate-x-1">
-              <ArrowLeft size={20} className="mr-2" />
+            <a href="/" className="flex items-center text-gray-600 hover:text-primary mb-3 md:mb-4 transition-all hover:translate-x-1 text-sm md:text-base">
+              <ArrowLeft size={18} className="mr-2 md:w-5 md:h-5" />
               Back to Home
             </a>
-            <div className="flex items-center gap-4 mb-3">
-              <h1 className="text-5xl md:text-6xl font-bold">
+            <div className="flex items-center gap-3 md:gap-4 mb-2 md:mb-3">
+              <h1 className="text-3xl sm:text-4xl md:text-6xl font-bold leading-tight">
                 <span className="bg-gradient-to-r from-secondary via-accent to-secondary bg-clip-text text-transparent">Marketplace</span>
               </h1>
               <motion.div
                 animate={{ rotate: [0, 360] }}
                 transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
               >
-                <Sparkles className="w-10 h-10 text-secondary" />
+                <Sparkles className="w-7 h-7 md:w-10 md:h-10 text-secondary flex-shrink-0" />
               </motion.div>
             </div>
-            <p className="text-gray-600 text-xl">
-              Buy and sell furniture, appliances, and essentials with fellow expats ✨
+            <p className="text-gray-600 text-base md:text-xl">
+              Buy and sell with fellow expats ✨
             </p>
           </motion.div>
 

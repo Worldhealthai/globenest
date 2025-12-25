@@ -54,26 +54,28 @@ export default function RoomsPage() {
           <motion.div
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="flex items-center justify-between mb-8"
+            className="mb-6 md:mb-8"
           >
-            <div>
-              <a href="/" className="flex items-center text-gray-600 hover:text-primary mb-4 transition-all hover:translate-x-1">
-                <ArrowLeft size={20} className="mr-2" />
-                Back to Home
-              </a>
-              <h1 className="text-5xl md:text-6xl font-bold mb-3">
-                Find Your <span className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">Perfect Room</span>
-              </h1>
-              <p className="text-gray-600 text-xl">
-                Swipe right to like, left to pass. It's that simple! ✨
-              </p>
+            <a href="/" className="flex items-center text-gray-600 hover:text-primary mb-3 md:mb-4 transition-all hover:translate-x-1 text-sm md:text-base">
+              <ArrowLeft size={18} className="mr-2 md:w-5 md:h-5" />
+              Back to Home
+            </a>
+            <div className="flex items-start justify-between gap-3">
+              <div className="flex-1 min-w-0">
+                <h1 className="text-3xl sm:text-4xl md:text-6xl font-bold mb-2 md:mb-3 leading-tight">
+                  Find Your <span className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">Perfect Room</span>
+                </h1>
+                <p className="text-gray-600 text-base md:text-xl">
+                  Swipe right to like, left to pass ✨
+                </p>
+              </div>
+              <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="flex-shrink-0">
+                <Button variant="outline" className="glass text-sm md:text-base" onClick={() => {}}>
+                  <Filter size={18} className="md:mr-2 md:w-5 md:h-5" />
+                  <span className="hidden md:inline">Filters</span>
+                </Button>
+              </motion.div>
             </div>
-            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-              <Button variant="outline" className="glass" onClick={() => {}}>
-                <Filter size={20} className="mr-2" />
-                Filters
-              </Button>
-            </motion.div>
           </motion.div>
 
           {/* Stats */}

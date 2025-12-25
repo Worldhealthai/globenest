@@ -87,10 +87,10 @@ export default function LandingPage() {
 
       {/* Hero Section */}
       <section className="pt-32 pb-20 px-4 sm:px-6 lg:px-8 relative">
-        {/* Floating orbs background */}
-        <div className="absolute top-20 left-10 w-72 h-72 bg-primary/20 rounded-full blur-3xl animate-pulse" />
-        <div className="absolute top-40 right-10 w-96 h-96 bg-secondary/20 rounded-full blur-3xl animate-pulse delay-700" />
-        <div className="absolute bottom-20 left-1/2 w-80 h-80 bg-accent/20 rounded-full blur-3xl animate-pulse delay-1000" />
+        {/* Floating orbs background - hidden on mobile, subtle on desktop */}
+        <div className="hidden md:block absolute top-20 left-10 w-72 h-72 bg-primary/10 rounded-full blur-3xl animate-pulse pointer-events-none" />
+        <div className="hidden md:block absolute top-40 right-10 w-96 h-96 bg-secondary/10 rounded-full blur-3xl animate-pulse delay-700 pointer-events-none" />
+        <div className="hidden md:block absolute bottom-20 left-1/2 w-80 h-80 bg-accent/10 rounded-full blur-3xl animate-pulse delay-1000 pointer-events-none" />
 
         <div className="max-w-7xl mx-auto relative z-10">
           <div className="text-center">
@@ -110,15 +110,15 @@ export default function LandingPage() {
                 </Badge>
               </motion.div>
 
-              <h1 className="text-6xl md:text-8xl font-bold mb-8 text-balance">
+              <h1 className="text-4xl sm:text-5xl md:text-8xl font-bold mb-6 sm:mb-8 text-balance leading-tight">
                 Your New Life in
                 <br />
-                <span className="bg-gradient-to-r from-primary via-secondary to-primary bg-clip-text text-transparent animated-gradient-fast">
+                <span className="bg-gradient-to-r from-primary via-secondary to-primary bg-clip-text text-transparent animated-gradient-fast inline-block">
                   London Starts Here
                 </span>
               </h1>
 
-              <p className="text-xl md:text-3xl text-gray-700 mb-12 max-w-4xl mx-auto text-balance font-light">
+              <p className="text-lg sm:text-xl md:text-3xl text-gray-700 mb-8 sm:mb-12 max-w-4xl mx-auto text-balance font-light px-4">
                 Connect with expats leaving as you arrive. Find housing, flatmates, and everything you need to set up home—all in one trusted platform.
               </p>
 
