@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { ArrowLeft, Send, Phone, Video, MoreVertical, Search, Shield, Smile, ChevronLeft } from 'lucide-react'
+import { ArrowLeft, Send, Phone, Video, MoreVertical, Search, Shield, Smile, ChevronLeft, User, Bell, Archive, Trash2 } from 'lucide-react'
 import Navbar from '@/components/layout/Navbar'
 import Card from '@/components/ui/Card'
 import Input from '@/components/ui/Input'
@@ -20,6 +20,7 @@ interface Message {
 export default function MessagesPage() {
   const [selectedConversation, setSelectedConversation] = useState<string | null>(null)
   const [messageInput, setMessageInput] = useState('')
+  const [showMenu, setShowMenu] = useState(false)
 
   // Mock conversations
   const conversations = [
@@ -219,7 +220,7 @@ export default function MessagesPage() {
                     <span className="text-xs text-gray-500 truncate block">Online</span>
                   </div>
                 </div>
-                <div className="flex items-center gap-1 flex-shrink-0">
+                <div className="flex items-center gap-1 flex-shrink-0 relative">
                   <motion.button
                     whileHover={{ scale: 1.1 }}
                     whileTap={{ scale: 0.9 }}
@@ -227,13 +228,69 @@ export default function MessagesPage() {
                   >
                     <Phone size={18} className="text-gray-600" />
                   </motion.button>
-                  <motion.button
-                    whileHover={{ scale: 1.1 }}
-                    whileTap={{ scale: 0.9 }}
-                    className="p-2 hover:bg-white/20 rounded-xl transition-all min-h-[44px] min-w-[44px] flex items-center justify-center"
-                  >
-                    <MoreVertical size={18} className="text-gray-600" />
-                  </motion.button>
+                  <div className="relative">
+                    <motion.button
+                      whileHover={{ scale: 1.1 }}
+                      whileTap={{ scale: 0.9 }}
+                      onClick={() => setShowMenu(!showMenu)}
+                      className="p-2 hover:bg-white/20 rounded-xl transition-all min-h-[44px] min-w-[44px] flex items-center justify-center"
+                    >
+                      <MoreVertical size={18} className="text-gray-600" />
+                    </motion.button>
+
+                    {/* Dropdown Menu */}
+                    <AnimatePresence>
+                      {showMenu && (
+                        <>
+                          {/* Backdrop */}
+                          <div
+                            className="fixed inset-0 z-40"
+                            onClick={() => setShowMenu(false)}
+                          />
+                          {/* Menu */}
+                          <motion.div
+                            initial={{ opacity: 0, scale: 0.95, y: -10 }}
+                            animate={{ opacity: 1, scale: 1, y: 0 }}
+                            exit={{ opacity: 0, scale: 0.95, y: -10 }}
+                            transition={{ duration: 0.15 }}
+                            className="absolute right-0 top-12 z-50 w-56 glass backdrop-blur-xl rounded-2xl shadow-hard border border-white/30 overflow-hidden"
+                          >
+                            <div className="py-2">
+                              <button
+                                onClick={() => setShowMenu(false)}
+                                className="w-full px-4 py-3 flex items-center gap-3 hover:bg-white/20 transition-colors text-left"
+                              >
+                                <User size={18} className="text-gray-600" />
+                                <span className="text-sm font-medium">View Profile</span>
+                              </button>
+                              <button
+                                onClick={() => setShowMenu(false)}
+                                className="w-full px-4 py-3 flex items-center gap-3 hover:bg-white/20 transition-colors text-left"
+                              >
+                                <Bell size={18} className="text-gray-600" />
+                                <span className="text-sm font-medium">Mute</span>
+                              </button>
+                              <button
+                                onClick={() => setShowMenu(false)}
+                                className="w-full px-4 py-3 flex items-center gap-3 hover:bg-white/20 transition-colors text-left"
+                              >
+                                <Archive size={18} className="text-gray-600" />
+                                <span className="text-sm font-medium">Archive</span>
+                              </button>
+                              <div className="border-t border-white/20 my-1" />
+                              <button
+                                onClick={() => setShowMenu(false)}
+                                className="w-full px-4 py-3 flex items-center gap-3 hover:bg-red-50 transition-colors text-left text-red-600"
+                              >
+                                <Trash2 size={18} />
+                                <span className="text-sm font-medium">Delete Chat</span>
+                              </button>
+                            </div>
+                          </motion.div>
+                        </>
+                      )}
+                    </AnimatePresence>
+                  </div>
                 </div>
               </div>
 
@@ -434,13 +491,67 @@ export default function MessagesPage() {
                       >
                         <Video size={20} className="text-gray-600" />
                       </motion.button>
-                      <motion.button
-                        whileHover={{ scale: 1.1 }}
-                        whileTap={{ scale: 0.9 }}
-                        className="p-3 hover:bg-white/20 rounded-xl transition-all duration-300"
-                      >
-                        <MoreVertical size={20} className="text-gray-600" />
-                      </motion.button>
+                      <div className="relative">
+                        <motion.button
+                          whileHover={{ scale: 1.1 }}
+                          whileTap={{ scale: 0.9 }}
+                          onClick={() => setShowMenu(!showMenu)}
+                          className="p-3 hover:bg-white/20 rounded-xl transition-all duration-300"
+                        >
+                          <MoreVertical size={20} className="text-gray-600" />
+                        </motion.button>
+
+                        {/* Dropdown Menu */}
+                        <AnimatePresence>
+                          {showMenu && (
+                            <>
+                              <div
+                                className="fixed inset-0 z-40"
+                                onClick={() => setShowMenu(false)}
+                              />
+                              <motion.div
+                                initial={{ opacity: 0, scale: 0.95, y: -10 }}
+                                animate={{ opacity: 1, scale: 1, y: 0 }}
+                                exit={{ opacity: 0, scale: 0.95, y: -10 }}
+                                transition={{ duration: 0.15 }}
+                                className="absolute right-0 top-14 z-50 w-56 glass backdrop-blur-xl rounded-2xl shadow-hard border border-white/30 overflow-hidden"
+                              >
+                                <div className="py-2">
+                                  <button
+                                    onClick={() => setShowMenu(false)}
+                                    className="w-full px-4 py-3 flex items-center gap-3 hover:bg-white/20 transition-colors text-left"
+                                  >
+                                    <User size={18} className="text-gray-600" />
+                                    <span className="text-sm font-medium">View Profile</span>
+                                  </button>
+                                  <button
+                                    onClick={() => setShowMenu(false)}
+                                    className="w-full px-4 py-3 flex items-center gap-3 hover:bg-white/20 transition-colors text-left"
+                                  >
+                                    <Bell size={18} className="text-gray-600" />
+                                    <span className="text-sm font-medium">Mute Notifications</span>
+                                  </button>
+                                  <button
+                                    onClick={() => setShowMenu(false)}
+                                    className="w-full px-4 py-3 flex items-center gap-3 hover:bg-white/20 transition-colors text-left"
+                                  >
+                                    <Archive size={18} className="text-gray-600" />
+                                    <span className="text-sm font-medium">Archive Chat</span>
+                                  </button>
+                                  <div className="border-t border-white/20 my-1" />
+                                  <button
+                                    onClick={() => setShowMenu(false)}
+                                    className="w-full px-4 py-3 flex items-center gap-3 hover:bg-red-50 transition-colors text-left text-red-600"
+                                  >
+                                    <Trash2 size={18} />
+                                    <span className="text-sm font-medium">Delete Chat</span>
+                                  </button>
+                                </div>
+                              </motion.div>
+                            </>
+                          )}
+                        </AnimatePresence>
+                      </div>
                     </div>
                   </div>
 
