@@ -167,8 +167,8 @@ export default function RoomCard({ room, onSwipe, style }: RoomCardProps) {
                   <Shield className="text-secondary" size={16} fill="currentColor" />
                 )}
               </div>
-              <p className="text-sm text-gray-600">
-                {room.user.isLeaving ? '🚀 Leaving London' : '✨ New to London'}
+              <p className="text-sm text-gray-500">
+                {room.user.isLeaving ? 'Leaving London' : 'New to London'}
               </p>
             </div>
           </div>
@@ -201,14 +201,14 @@ export default function RoomCard({ room, onSwipe, style }: RoomCardProps) {
           <p className="text-gray-600 line-clamp-2">{room.description}</p>
 
           {/* Key Details */}
-          <div className="flex flex-wrap gap-3 text-sm">
+          <div className="flex flex-wrap gap-3 text-sm text-gray-500">
             {room.billsIncluded && (
-              <span className="text-green-600 font-medium">✓ Bills Included</span>
+              <span className="text-green-600 font-medium">Bills Included</span>
             )}
-            <span className="text-gray-600">
+            <span>
               Min. stay: {room.minStay} months
             </span>
-            <span className="text-gray-600">
+            <span>
               Deposit: {formatPrice(room.deposit)}
             </span>
           </div>

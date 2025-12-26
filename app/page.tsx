@@ -144,15 +144,15 @@ function MarketingLanding() {
                 </Badge>
               </motion.div>
 
-              <h1 className="text-4xl sm:text-5xl md:text-8xl font-bold mb-6 sm:mb-8 text-balance leading-tight relative z-30">
+              <h1 className="text-4xl sm:text-5xl md:text-8xl font-bold mb-6 sm:mb-8 text-balance leading-tight relative z-30 text-gray-900">
                 <span className="block mb-2">Your New Life in</span>
-                <span className="block bg-gradient-to-r from-primary via-secondary to-primary bg-clip-text text-transparent">
+                <span className="block text-primary">
                   London Starts Here
                 </span>
               </h1>
 
-              <p className="text-lg sm:text-xl md:text-3xl text-gray-700 mb-8 sm:mb-12 max-w-4xl mx-auto text-balance font-light px-4">
-                Connect with expats leaving as you arrive. Find housing, flatmates, and everything you need to set up home—all in one trusted platform.
+              <p className="text-lg sm:text-xl md:text-2xl text-gray-600 mb-8 sm:mb-12 max-w-4xl mx-auto text-balance px-4">
+                Connect with expats leaving as you arrive. Find housing, flatmates, and everything you need to set up home.
               </p>
 
               <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
@@ -324,12 +324,12 @@ function MarketingLanding() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
             >
-              <Badge variant="primary" className="mb-6 text-lg px-6 py-2 glass">✨ Features</Badge>
-              <h2 className="text-5xl md:text-6xl font-bold mb-6">
-                Everything You Need to <span className="bg-gradient-to-r from-secondary to-accent bg-clip-text text-transparent">Relocate Smart</span>
+              <p className="text-sm text-gray-500 uppercase tracking-wider mb-6">Features</p>
+              <h2 className="text-5xl md:text-6xl font-bold mb-6 text-gray-900">
+                Everything You Need to Relocate Smart
               </h2>
-              <p className="text-2xl text-gray-600 max-w-3xl mx-auto">
-                We've built the ultimate toolkit for expats moving to London
+              <p className="text-xl text-gray-500 max-w-3xl mx-auto">
+                The ultimate toolkit for expats moving to London
               </p>
             </motion.div>
           </div>
@@ -363,7 +363,7 @@ function MarketingLanding() {
       <section className="py-24 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-20">
-            <Badge variant="secondary" className="mb-6 text-lg px-6 py-2 glass-secondary">🚀 How It Works</Badge>
+            <p className="text-sm text-gray-500 uppercase tracking-wider mb-6">How It Works</p>
             <h2 className="text-5xl md:text-6xl font-bold mb-6">
               From Landing to <span className="text-primary">Living</span> in 4 Steps
             </h2>
