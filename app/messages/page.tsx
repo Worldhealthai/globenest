@@ -376,29 +376,34 @@ export default function MessagesPage() {
                 )}
               </div>
 
-              {/* Message Input */}
-              <div className="p-3 border-t border-gray-200 frosted backdrop-blur-xl safe-area-pb bg-white/80">
-                <div className="flex gap-2 items-center">
-                  <Input
-                    placeholder="Type a message..."
+              {/* Message Input - FIXED AND VISIBLE */}
+              <div className="p-4 border-t-4 border-primary bg-white shadow-2xl">
+                <div className="flex gap-3 items-center">
+                  <textarea
+                    placeholder="Type your message here..."
                     value={messageInput}
                     onChange={(e) => setMessageInput(e.target.value)}
-                    onKeyPress={(e) => e.key === 'Enter' && !e.shiftKey && handleSendMessage()}
-                    className="flex-1 glass backdrop-blur-xl text-sm min-h-[44px] bg-white/50 border-2 border-primary/20 focus:border-primary/50"
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter' && !e.shiftKey) {
+                        e.preventDefault()
+                        handleSendMessage()
+                      }
+                    }}
+                    className="flex-1 px-4 py-3 border-2 border-primary/30 rounded-2xl focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 resize-none text-base bg-white"
+                    rows={1}
                     autoFocus
                   />
-                  <motion.div
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
+                  <button
+                    onClick={handleSendMessage}
+                    disabled={!messageInput.trim()}
+                    className={`px-6 py-3 rounded-2xl font-semibold text-white transition-all ${
+                      messageInput.trim()
+                        ? 'bg-gradient-to-r from-primary to-secondary shadow-lg hover:shadow-xl hover:scale-105'
+                        : 'bg-gray-300 cursor-not-allowed'
+                    }`}
                   >
-                    <Button
-                      onClick={handleSendMessage}
-                      disabled={!messageInput.trim()}
-                      className={`min-h-[44px] px-4 ${messageInput.trim() ? 'glow-pulse' : 'opacity-50'}`}
-                    >
-                      <Send size={18} className={messageInput.trim() ? 'text-white' : 'text-gray-400'} />
-                    </Button>
-                  </motion.div>
+                    <Send size={20} />
+                  </button>
                 </div>
               </div>
             </motion.div>
@@ -657,36 +662,34 @@ export default function MessagesPage() {
                     )}
                   </div>
 
-                  {/* Message Input */}
-                  <div className="p-6 border-t border-white/20 frosted bg-white/80">
+                  {/* Message Input - FIXED AND VISIBLE */}
+                  <div className="p-6 border-t-4 border-primary bg-white shadow-2xl">
                     <div className="flex gap-3 items-center">
-                      <motion.button
-                        whileHover={{ scale: 1.1, rotate: 5 }}
-                        whileTap={{ scale: 0.9 }}
-                        className="p-3 glass backdrop-blur-xl rounded-2xl hover:shadow-md transition-all duration-300"
-                      >
-                        <Smile size={24} className="text-gray-600" />
-                      </motion.button>
-                      <Input
-                        placeholder="Type a message..."
+                      <textarea
+                        placeholder="Type your message here..."
                         value={messageInput}
                         onChange={(e) => setMessageInput(e.target.value)}
-                        onKeyPress={(e) => e.key === 'Enter' && !e.shiftKey && handleSendMessage()}
-                        className="flex-1 glass backdrop-blur-xl bg-white/50 border-2 border-primary/20 focus:border-primary/50"
+                        onKeyDown={(e) => {
+                          if (e.key === 'Enter' && !e.shiftKey) {
+                            e.preventDefault()
+                            handleSendMessage()
+                          }
+                        }}
+                        className="flex-1 px-4 py-3 border-2 border-primary/30 rounded-2xl focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 resize-none text-base bg-white"
+                        rows={1}
                         autoFocus
                       />
-                      <motion.div
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.95 }}
+                      <button
+                        onClick={handleSendMessage}
+                        disabled={!messageInput.trim()}
+                        className={`px-6 py-3 rounded-2xl font-semibold text-white transition-all ${
+                          messageInput.trim()
+                            ? 'bg-gradient-to-r from-primary to-secondary shadow-lg hover:shadow-xl hover:scale-105'
+                            : 'bg-gray-300 cursor-not-allowed'
+                        }`}
                       >
-                        <Button
-                          onClick={handleSendMessage}
-                          disabled={!messageInput.trim()}
-                          className={`px-6 ${messageInput.trim() ? 'glow-pulse' : 'opacity-50'}`}
-                        >
-                          <Send size={20} className={messageInput.trim() ? 'text-white' : 'text-gray-400'} />
-                        </Button>
-                      </motion.div>
+                        <Send size={20} />
+                      </button>
                     </div>
                   </div>
                 </>
