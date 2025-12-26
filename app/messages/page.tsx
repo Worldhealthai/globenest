@@ -383,12 +383,12 @@ export default function MessagesPage() {
                 )}
               </div>
 
-              {/* Message Input - ALWAYS VISIBLE AND SUPER OBVIOUS */}
-              <div className="p-4 pb-20 border-t-4 border-primary bg-yellow-100 shadow-2xl">
-                <div className="bg-white p-2 rounded-2xl border-4 border-red-500">
-                  <div className="flex gap-3 items-center">
+              {/* Message Input - Instagram Style */}
+              <div className="p-3 pb-20 bg-white border-t border-gray-200">
+                <div className="flex gap-2 items-end">
+                  <div className="flex-1 relative">
                     <textarea
-                      placeholder="👉 CLICK HERE TO TYPE YOUR MESSAGE 👈"
+                      placeholder="Message..."
                       value={messageInput}
                       onChange={(e) => setMessageInput(e.target.value)}
                       onKeyDown={(e) => {
@@ -398,21 +398,22 @@ export default function MessagesPage() {
                         }
                       }}
                       disabled={!selectedConversation}
-                      className="flex-1 px-4 py-3 border-2 border-primary rounded-2xl focus:border-primary focus:outline-none focus:ring-4 focus:ring-primary/20 resize-none text-base bg-white font-bold disabled:bg-gray-100 disabled:cursor-not-allowed"
-                      rows={2}
+                      className="w-full px-4 py-2.5 border border-gray-300 rounded-full focus:border-gray-400 focus:outline-none resize-none text-sm bg-white disabled:bg-gray-50 disabled:cursor-not-allowed transition-colors"
+                      rows={1}
+                      style={{ maxHeight: '100px' }}
                     />
-                    <button
-                      onClick={handleSendMessage}
-                      disabled={!messageInput.trim() || !selectedConversation}
-                      className={`px-8 py-4 rounded-2xl font-bold text-white transition-all text-lg ${
-                        messageInput.trim() && selectedConversation
-                          ? 'bg-gradient-to-r from-primary to-secondary shadow-lg hover:shadow-xl hover:scale-110 animate-pulse'
-                          : 'bg-gray-400 cursor-not-allowed'
-                      }`}
-                    >
-                      SEND
-                    </button>
                   </div>
+                  <button
+                    onClick={handleSendMessage}
+                    disabled={!messageInput.trim() || !selectedConversation}
+                    className={`px-4 py-2.5 rounded-full font-semibold text-sm transition-all ${
+                      messageInput.trim() && selectedConversation
+                        ? 'text-primary hover:text-primary-600'
+                        : 'text-gray-300 cursor-not-allowed'
+                    }`}
+                  >
+                    Send
+                  </button>
                 </div>
               </div>
             </motion.div>
@@ -421,7 +422,7 @@ export default function MessagesPage() {
       </div>
 
       {/* Desktop: Original split-screen layout */}
-      <div className="hidden md:block pt-24 pb-12 px-4">
+      <div className="hidden md:block pt-20 pb-12 px-4">
         <div className="max-w-7xl mx-auto">
           {/* Header */}
           <motion.div
@@ -678,12 +679,12 @@ export default function MessagesPage() {
                     )}
                   </div>
 
-                  {/* Message Input - ALWAYS VISIBLE AND SUPER OBVIOUS */}
-                  <div className="p-6 border-t-4 border-primary bg-yellow-100 shadow-2xl">
-                    <div className="bg-white p-3 rounded-2xl border-4 border-red-500">
-                      <div className="flex gap-3 items-center">
+                  {/* Message Input - Instagram Style */}
+                  <div className="p-4 bg-white border-t border-gray-200">
+                    <div className="flex gap-3 items-end">
+                      <div className="flex-1 relative">
                         <textarea
-                          placeholder="👉 CLICK HERE TO TYPE YOUR MESSAGE 👈"
+                          placeholder="Message..."
                           value={messageInput}
                           onChange={(e) => setMessageInput(e.target.value)}
                           onKeyDown={(e) => {
@@ -693,21 +694,22 @@ export default function MessagesPage() {
                             }
                           }}
                           disabled={!selectedConversation}
-                          className="flex-1 px-4 py-3 border-2 border-primary rounded-2xl focus:border-primary focus:outline-none focus:ring-4 focus:ring-primary/20 resize-none text-base bg-white font-bold disabled:bg-gray-100 disabled:cursor-not-allowed"
-                          rows={2}
+                          className="w-full px-4 py-3 border border-gray-300 rounded-full focus:border-gray-400 focus:outline-none resize-none text-sm bg-white disabled:bg-gray-50 disabled:cursor-not-allowed transition-colors"
+                          rows={1}
+                          style={{ maxHeight: '100px' }}
                         />
-                        <button
-                          onClick={handleSendMessage}
-                          disabled={!messageInput.trim() || !selectedConversation}
-                          className={`px-8 py-4 rounded-2xl font-bold text-white transition-all text-lg ${
-                            messageInput.trim() && selectedConversation
-                              ? 'bg-gradient-to-r from-primary to-secondary shadow-lg hover:shadow-xl hover:scale-110 animate-pulse'
-                              : 'bg-gray-400 cursor-not-allowed'
-                          }`}
-                        >
-                          SEND
-                        </button>
                       </div>
+                      <button
+                        onClick={handleSendMessage}
+                        disabled={!messageInput.trim() || !selectedConversation}
+                        className={`px-5 py-3 rounded-full font-semibold text-sm transition-all ${
+                          messageInput.trim() && selectedConversation
+                            ? 'text-primary hover:text-primary-600'
+                            : 'text-gray-300 cursor-not-allowed'
+                        }`}
+                      >
+                        Send
+                      </button>
                     </div>
                   </div>
                 </>

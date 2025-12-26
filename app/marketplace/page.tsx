@@ -35,7 +35,7 @@ export default function MarketplacePage() {
     <div className="min-h-screen mesh-gradient overflow-hidden">
       <Navbar />
 
-      <div className="pt-24 pb-12 px-4">
+      <div className="pt-20 pb-12 px-4">
         <div className="max-w-7xl mx-auto">
           {/* Header */}
           <motion.div
