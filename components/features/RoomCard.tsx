@@ -16,13 +16,24 @@ interface RoomCardProps {
 
 export default function RoomCard({ room, onSwipe, style }: RoomCardProps) {
   const [currentImageIndex, setCurrentImageIndex] = useState(0)
+  const [exitX, setExitX] = useState(0)
   const x = useMotionValue(0)
-  const rotate = useTransform(x, [-300, 300], [-20, 20])
+
+  // Enhanced transforms for smoother, more dynamic swiping
+  const rotate = useTransform(x, [-250, 0, 250], [-25, 0, 25])
+  const scale = useTransform(x, [-150, 0, 150], [1.05, 1, 1.05])
   const opacity = useTransform(x, [-300, -150, 0, 150, 300], [0, 1, 1, 1, 0])
 
+  // Perspective tilt effect
+  const rotateY = useTransform(x, [-250, 0, 250], [-15, 0, 15])
+
   const handleDragEnd = (_: any, info: any) => {
-    if (Math.abs(info.offset.x) > 100) {
-      onSwipe(info.offset.x > 0 ? 'right' : 'left')
+    const swipeThreshold = 80 // Lower threshold for easier swiping
+    if (Math.abs(info.offset.x) > swipeThreshold) {
+      setExitX(info.offset.x > 0 ? 400 : -400)
+      setTimeout(() => {
+        onSwipe(info.offset.x > 0 ? 'right' : 'left')
+      }, 150)
     }
   }
 
@@ -31,16 +42,33 @@ export default function RoomCard({ room, onSwipe, style }: RoomCardProps) {
       style={{
         x,
         rotate,
+        scale,
         opacity,
+        rotateY,
         ...style,
       }}
       drag="x"
       dragConstraints={{ left: 0, right: 0 }}
-      dragElastic={0.7}
-      dragTransition={{ bounceStiffness: 300, bounceDamping: 20 }}
+      dragElastic={1}
+      dragTransition={{ bounceStiffness: 600, bounceDamping: 40 }}
       onDragEnd={handleDragEnd}
-      whileTap={{ cursor: 'grabbing' }}
-      transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+      whileTap={{ cursor: 'grabbing', scale: 1.02 }}
+      animate={exitX !== 0 ? {
+        x: exitX,
+        opacity: 0,
+        scale: 0.8,
+        rotate: exitX > 0 ? 30 : -30,
+        transition: {
+          duration: 0.3,
+          ease: [0.32, 0.72, 0, 1]
+        }
+      } : {}}
+      transition={{
+        type: 'spring',
+        stiffness: 400,
+        damping: 35,
+        mass: 0.8
+      }}
       className="absolute w-full max-w-sm cursor-grab active:cursor-grabbing"
     >
       <div className="bg-white rounded-3xl shadow-hard overflow-hidden">
@@ -79,26 +107,38 @@ export default function RoomCard({ room, onSwipe, style }: RoomCardProps) {
             </div>
           </div>
 
-          {/* Swipe Indicators */}
+          {/* Swipe Indicators - Enhanced with smooth fade and scale */}
           <motion.div
-            className="absolute inset-0 border-8 border-red-500 rounded-3xl flex items-center justify-center bg-red-500/10"
+            className="absolute inset-0 border-8 border-red-500 rounded-3xl flex items-center justify-center bg-red-500/10 backdrop-blur-sm"
             style={{
-              opacity: useTransform(x, [-200, -50], [1, 0]),
+              opacity: useTransform(x, [-150, -40], [1, 0]),
+              scale: useTransform(x, [-150, -40], [1.1, 0.8]),
             }}
           >
-            <div className="bg-white px-6 py-3 rounded-full shadow-xl">
+            <motion.div
+              className="bg-white px-6 py-3 rounded-full shadow-2xl"
+              style={{
+                rotate: useTransform(x, [-150, 0], [-20, 0]),
+              }}
+            >
               <X className="text-red-500" size={48} strokeWidth={3} />
-            </div>
+            </motion.div>
           </motion.div>
           <motion.div
-            className="absolute inset-0 border-8 border-green-500 rounded-3xl flex items-center justify-center bg-green-500/10"
+            className="absolute inset-0 border-8 border-green-500 rounded-3xl flex items-center justify-center bg-green-500/10 backdrop-blur-sm"
             style={{
-              opacity: useTransform(x, [50, 200], [0, 1]),
+              opacity: useTransform(x, [40, 150], [0, 1]),
+              scale: useTransform(x, [40, 150], [0.8, 1.1]),
             }}
           >
-            <div className="bg-white px-6 py-3 rounded-full shadow-xl">
+            <motion.div
+              className="bg-white px-6 py-3 rounded-full shadow-2xl"
+              style={{
+                rotate: useTransform(x, [0, 150], [0, 20]),
+              }}
+            >
               <Heart className="text-green-500 fill-green-500" size={48} strokeWidth={3} />
-            </div>
+            </motion.div>
           </motion.div>
         </div>
 
@@ -127,8 +167,8 @@ export default function RoomCard({ room, onSwipe, style }: RoomCardProps) {
                   <Shield className="text-secondary" size={16} fill="currentColor" />
                 )}
               </div>
-              <p className="text-sm text-gray-600">
-                {room.user.isLeaving ? '🚀 Leaving London' : '✨ New to London'}
+              <p className="text-sm text-gray-500">
+                {room.user.isLeaving ? 'Leaving London' : 'New to London'}
               </p>
             </div>
           </div>
@@ -161,14 +201,14 @@ export default function RoomCard({ room, onSwipe, style }: RoomCardProps) {
           <p className="text-gray-600 line-clamp-2">{room.description}</p>
 
           {/* Key Details */}
-          <div className="flex flex-wrap gap-3 text-sm">
+          <div className="flex flex-wrap gap-3 text-sm text-gray-500">
             {room.billsIncluded && (
-              <span className="text-green-600 font-medium">✓ Bills Included</span>
+              <span className="text-green-600 font-medium">Bills Included</span>
             )}
-            <span className="text-gray-600">
+            <span>
               Min. stay: {room.minStay} months
             </span>
-            <span className="text-gray-600">
+            <span>
               Deposit: {formatPrice(room.deposit)}
             </span>
           </div>

@@ -35,7 +35,7 @@ export default function MarketplacePage() {
     <div className="min-h-screen mesh-gradient overflow-hidden">
       <Navbar />
 
-      <div className="pt-24 pb-12 px-4">
+      <div className="pt-16 pb-12 px-4">
         <div className="max-w-7xl mx-auto">
           {/* Header */}
           <motion.div
@@ -43,23 +43,15 @@ export default function MarketplacePage() {
             animate={{ opacity: 1, y: 0 }}
             className="mb-6 md:mb-10"
           >
-            <a href="/" className="flex items-center text-gray-600 hover:text-primary mb-3 md:mb-4 transition-all hover:translate-x-1 text-sm md:text-base">
+            <a href="/" className="flex items-center text-gray-600 hover:text-gray-900 mb-3 md:mb-4 transition-all text-sm md:text-base">
               <ArrowLeft size={18} className="mr-2 md:w-5 md:h-5" />
               Back to Home
             </a>
-            <div className="flex items-center gap-3 md:gap-4 mb-2 md:mb-3">
-              <h1 className="text-3xl sm:text-4xl md:text-6xl font-bold leading-tight">
-                <span className="bg-gradient-to-r from-secondary via-accent to-secondary bg-clip-text text-transparent">Marketplace</span>
-              </h1>
-              <motion.div
-                animate={{ rotate: [0, 360] }}
-                transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
-              >
-                <Sparkles className="w-7 h-7 md:w-10 md:h-10 text-secondary flex-shrink-0" />
-              </motion.div>
-            </div>
-            <p className="text-gray-600 text-base md:text-xl">
-              Buy and sell with fellow expats ✨
+            <h1 className="text-3xl sm:text-4xl md:text-6xl font-bold leading-tight text-gray-900 mb-2 md:mb-3">
+              Marketplace
+            </h1>
+            <p className="text-gray-500 text-base md:text-xl">
+              Buy and sell with fellow expats
             </p>
           </motion.div>
 
@@ -121,8 +113,8 @@ export default function MarketplacePage() {
             transition={{ delay: 0.3 }}
             className="mb-8"
           >
-            <p className="text-gray-600 text-lg">
-              Showing <span className="font-bold text-2xl bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">{filteredItems.length}</span> items
+            <p className="text-gray-500 text-sm">
+              {filteredItems.length} {filteredItems.length === 1 ? 'item' : 'items'}
             </p>
           </motion.div>
 
@@ -222,19 +214,16 @@ export default function MarketplacePage() {
               className="text-center py-20"
             >
               <div className="glass rounded-3xl p-16 backdrop-blur-xl inline-block">
-                <div className="text-8xl mb-6">🔍</div>
-                <h3 className="text-3xl font-bold mb-4">No items found</h3>
-                <p className="text-gray-600 mb-8 text-lg">
+                <h3 className="text-3xl font-bold mb-4 text-gray-900">No items found</h3>
+                <p className="text-gray-500 mb-8 text-base">
                   Try adjusting your search or filters
                 </p>
-                <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                  <Button onClick={() => {
-                    setSearchQuery('')
-                    setSelectedCategory('all')
-                  }} size="lg">
-                    Clear Filters
-                  </Button>
-                </motion.div>
+                <Button onClick={() => {
+                  setSearchQuery('')
+                  setSelectedCategory('all')
+                }} size="lg">
+                  Clear Filters
+                </Button>
               </div>
             </motion.div>
           )}
@@ -253,9 +242,9 @@ export default function MarketplacePage() {
               <Button
                 size="lg"
                 onClick={() => {}}
-                className="rounded-full shadow-2xl px-8 py-6 text-lg glow-pulse backdrop-blur-xl"
+                className="rounded-full shadow-xl px-8 py-6 text-base backdrop-blur-xl"
               >
-                <Plus size={24} className="mr-2" strokeWidth={3} />
+                <Plus size={20} className="mr-2" />
                 List an Item
               </Button>
             </motion.div>

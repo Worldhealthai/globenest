@@ -48,7 +48,7 @@ export default function RoomsPage() {
     <div className="min-h-screen mesh-gradient overflow-hidden">
       <Navbar />
 
-      <div className="pt-24 pb-12 px-4">
+      <div className="pt-16 pb-12 px-4">
         <div className="max-w-7xl mx-auto">
           {/* Header */}
           <motion.div
@@ -56,17 +56,17 @@ export default function RoomsPage() {
             animate={{ opacity: 1, y: 0 }}
             className="mb-6 md:mb-8"
           >
-            <a href="/" className="flex items-center text-gray-600 hover:text-primary mb-3 md:mb-4 transition-all hover:translate-x-1 text-sm md:text-base">
+            <a href="/" className="flex items-center text-gray-600 hover:text-gray-900 mb-3 md:mb-4 transition-all text-sm md:text-base">
               <ArrowLeft size={18} className="mr-2 md:w-5 md:h-5" />
               Back to Home
             </a>
             <div className="flex items-start justify-between gap-3">
               <div className="flex-1 min-w-0">
-                <h1 className="text-3xl sm:text-4xl md:text-6xl font-bold mb-2 md:mb-3 leading-tight">
-                  Find Your <span className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">Perfect Room</span>
+                <h1 className="text-3xl sm:text-4xl md:text-6xl font-bold mb-2 md:mb-3 leading-tight text-gray-900">
+                  Find Your Perfect Room
                 </h1>
-                <p className="text-gray-600 text-base md:text-xl">
-                  Swipe right to like, left to pass ✨
+                <p className="text-gray-500 text-base md:text-xl">
+                  Swipe right to like, left to pass
                 </p>
               </div>
               <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="flex-shrink-0">
@@ -116,44 +116,57 @@ export default function RoomsPage() {
                 <AnimatePresence mode="popLayout">
                   {currentIndex < rooms.length ? (
                     <>
-                      {/* Stack preview cards - Hidden on mobile for performance */}
+                      {/* Stack preview cards with smooth animations */}
                       {currentIndex + 2 < rooms.length && (
-                        <div className="hidden md:block">
+                        <motion.div
+                          key={`${rooms[currentIndex + 2].id}-stack`}
+                          initial={{ scale: 0.85, y: 30, opacity: 0.3 }}
+                          animate={{ scale: 0.9, y: 20, opacity: 0.5 }}
+                          transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+                          className="hidden md:block"
+                        >
                           <RoomCard
                             key={rooms[currentIndex + 2].id}
                             room={rooms[currentIndex + 2]}
                             onSwipe={() => {}}
                             style={{
-                              scale: 0.9,
-                              y: 20,
                               zIndex: 1,
-                              opacity: 0.5,
                             }}
                           />
-                        </div>
+                        </motion.div>
                       )}
                       {currentIndex + 1 < rooms.length && (
-                        <div className="hidden md:block">
+                        <motion.div
+                          key={`${rooms[currentIndex + 1].id}-stack`}
+                          initial={{ scale: 0.9, y: 20, opacity: 0.5 }}
+                          animate={{ scale: 0.95, y: 10, opacity: 0.7 }}
+                          transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+                          className="hidden md:block"
+                        >
                           <RoomCard
                             key={rooms[currentIndex + 1].id}
                             room={rooms[currentIndex + 1]}
                             onSwipe={() => {}}
                             style={{
-                              scale: 0.95,
-                              y: 10,
                               zIndex: 2,
-                              opacity: 0.7,
                             }}
                           />
-                        </div>
+                        </motion.div>
                       )}
                       {/* Active card */}
-                      <RoomCard
-                        key={currentRoom.id}
-                        room={currentRoom}
-                        onSwipe={handleSwipe}
-                        style={{ zIndex: 3 }}
-                      />
+                      <motion.div
+                        key={`${currentRoom.id}-active`}
+                        initial={{ scale: 0.95, y: 10, opacity: 0.7 }}
+                        animate={{ scale: 1, y: 0, opacity: 1 }}
+                        transition={{ type: 'spring', stiffness: 350, damping: 30 }}
+                      >
+                        <RoomCard
+                          key={currentRoom.id}
+                          room={currentRoom}
+                          onSwipe={handleSwipe}
+                          style={{ zIndex: 3 }}
+                        />
+                      </motion.div>
                     </>
                   ) : (
                     <motion.div
@@ -162,25 +175,16 @@ export default function RoomsPage() {
                       className="absolute inset-0 flex items-center justify-center p-4"
                     >
                       <div className="text-center glass backdrop-blur-2xl p-8 md:p-16 rounded-3xl shadow-hard w-full">
-                        <motion.div
-                          animate={{ rotate: [0, 360] }}
-                          transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-                          className="inline-block mb-6"
-                        >
-                          <Sparkles className="w-16 h-16 md:w-20 md:h-20 text-primary" />
-                        </motion.div>
-                        <h2 className="text-2xl md:text-4xl font-bold mb-4">
-                          That's all for now! 🎉
+                        <h2 className="text-2xl md:text-4xl font-bold mb-4 text-gray-900">
+                          That's all for now
                         </h2>
-                        <p className="text-gray-600 mb-6 md:mb-8 text-sm md:text-lg">
-                          You've viewed all available rooms. Check back soon for more matches!
+                        <p className="text-gray-500 mb-6 md:mb-8 text-sm md:text-lg">
+                          You've viewed all available rooms
                         </p>
-                        <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                          <Button onClick={() => setCurrentIndex(0)} size="lg" className="glow-pulse">
-                            <RotateCcw size={20} className="mr-2" />
-                            Start Over
-                          </Button>
-                        </motion.div>
+                        <Button onClick={() => setCurrentIndex(0)} size="lg">
+                          <RotateCcw size={20} className="mr-2" />
+                          Start Over
+                        </Button>
                       </div>
                     </motion.div>
                   )}
@@ -192,24 +196,15 @@ export default function RoomsPage() {
             <div className="lg:w-96">
               <div className="glass rounded-3xl p-8 sticky top-24 backdrop-blur-xl">
                 <div className="flex items-center gap-3 mb-6">
-                  <div className="p-3 rounded-2xl bg-gradient-to-br from-green-500/20 to-green-600/20">
-                    <Heart className="w-7 h-7 text-green-600 fill-green-600" />
-                  </div>
-                  <h3 className="text-2xl font-bold">
-                    Liked Rooms ({likedRooms.length})
+                  <h3 className="text-2xl font-bold text-gray-900">
+                    Liked Rooms <span className="text-gray-400">({likedRooms.length})</span>
                   </h3>
                 </div>
                 {likedRooms.length === 0 ? (
                   <div className="text-center py-12">
-                    <motion.div
-                      animate={{ scale: [1, 1.1, 1] }}
-                      transition={{ duration: 2, repeat: Infinity }}
-                      className="mb-4"
-                    >
-                      <Heart className="w-16 h-16 mx-auto text-gray-300" />
-                    </motion.div>
-                    <p className="text-gray-500 text-lg">
-                      Start swiping to see your matches here!
+                    <Heart className="w-16 h-16 mx-auto text-gray-200 mb-4" />
+                    <p className="text-gray-400 text-sm">
+                      No liked rooms yet
                     </p>
                   </div>
                 ) : (

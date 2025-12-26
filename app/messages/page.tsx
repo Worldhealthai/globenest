@@ -383,36 +383,34 @@ export default function MessagesPage() {
                 )}
               </div>
 
-              {/* Message Input - ALWAYS VISIBLE AND SUPER OBVIOUS */}
-              <div className="p-4 pb-20 border-t-4 border-primary bg-yellow-100 shadow-2xl">
-                <div className="bg-white p-2 rounded-2xl border-4 border-red-500">
-                  <div className="flex gap-3 items-center">
-                    <textarea
-                      placeholder="👉 CLICK HERE TO TYPE YOUR MESSAGE 👈"
-                      value={messageInput}
-                      onChange={(e) => setMessageInput(e.target.value)}
-                      onKeyDown={(e) => {
-                        if (e.key === 'Enter' && !e.shiftKey) {
-                          e.preventDefault()
-                          handleSendMessage()
-                        }
-                      }}
-                      disabled={!selectedConversation}
-                      className="flex-1 px-4 py-3 border-2 border-primary rounded-2xl focus:border-primary focus:outline-none focus:ring-4 focus:ring-primary/20 resize-none text-base bg-white font-bold disabled:bg-gray-100 disabled:cursor-not-allowed"
-                      rows={2}
-                    />
-                    <button
-                      onClick={handleSendMessage}
-                      disabled={!messageInput.trim() || !selectedConversation}
-                      className={`px-8 py-4 rounded-2xl font-bold text-white transition-all text-lg ${
-                        messageInput.trim() && selectedConversation
-                          ? 'bg-gradient-to-r from-primary to-secondary shadow-lg hover:shadow-xl hover:scale-110 animate-pulse'
-                          : 'bg-gray-400 cursor-not-allowed'
-                      }`}
-                    >
-                      SEND
-                    </button>
-                  </div>
+              {/* Message Input - Minimalist */}
+              <div className="p-3 pb-20 bg-white border-t border-gray-100">
+                <div className="flex gap-2 items-center">
+                  <textarea
+                    value={messageInput}
+                    onChange={(e) => setMessageInput(e.target.value)}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter' && !e.shiftKey) {
+                        e.preventDefault()
+                        handleSendMessage()
+                      }
+                    }}
+                    disabled={!selectedConversation}
+                    className="flex-1 px-4 py-2.5 border border-gray-200 rounded-full focus:border-gray-300 focus:outline-none resize-none text-sm bg-white disabled:bg-gray-50 disabled:cursor-not-allowed transition-all"
+                    rows={1}
+                    style={{ maxHeight: '100px' }}
+                  />
+                  <button
+                    onClick={handleSendMessage}
+                    disabled={!messageInput.trim() || !selectedConversation}
+                    className={`w-9 h-9 rounded-full flex items-center justify-center transition-all ${
+                      messageInput.trim() && selectedConversation
+                        ? 'bg-primary text-white hover:bg-primary/90'
+                        : 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                    }`}
+                  >
+                    <Send size={16} />
+                  </button>
                 </div>
               </div>
             </motion.div>
@@ -421,7 +419,7 @@ export default function MessagesPage() {
       </div>
 
       {/* Desktop: Original split-screen layout */}
-      <div className="hidden md:block pt-24 pb-12 px-4">
+      <div className="hidden md:block pt-16 pb-12 px-4">
         <div className="max-w-7xl mx-auto">
           {/* Header */}
           <motion.div
@@ -433,11 +431,11 @@ export default function MessagesPage() {
               <ArrowLeft size={20} className="mr-2" />
               Back to Home
             </a>
-            <h1 className="text-6xl font-bold mb-3 leading-tight">
-              <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">Messages</span> 💬
+            <h1 className="text-6xl font-bold mb-3 leading-tight text-gray-900">
+              Messages
             </h1>
-            <p className="text-gray-600 text-xl">
-              Chat with matches and coordinate your move ✨
+            <p className="text-gray-500 text-xl">
+              Chat with matches and coordinate your move
             </p>
           </motion.div>
 
@@ -678,36 +676,34 @@ export default function MessagesPage() {
                     )}
                   </div>
 
-                  {/* Message Input - ALWAYS VISIBLE AND SUPER OBVIOUS */}
-                  <div className="p-6 border-t-4 border-primary bg-yellow-100 shadow-2xl">
-                    <div className="bg-white p-3 rounded-2xl border-4 border-red-500">
-                      <div className="flex gap-3 items-center">
-                        <textarea
-                          placeholder="👉 CLICK HERE TO TYPE YOUR MESSAGE 👈"
-                          value={messageInput}
-                          onChange={(e) => setMessageInput(e.target.value)}
-                          onKeyDown={(e) => {
-                            if (e.key === 'Enter' && !e.shiftKey) {
-                              e.preventDefault()
-                              handleSendMessage()
-                            }
-                          }}
-                          disabled={!selectedConversation}
-                          className="flex-1 px-4 py-3 border-2 border-primary rounded-2xl focus:border-primary focus:outline-none focus:ring-4 focus:ring-primary/20 resize-none text-base bg-white font-bold disabled:bg-gray-100 disabled:cursor-not-allowed"
-                          rows={2}
-                        />
-                        <button
-                          onClick={handleSendMessage}
-                          disabled={!messageInput.trim() || !selectedConversation}
-                          className={`px-8 py-4 rounded-2xl font-bold text-white transition-all text-lg ${
-                            messageInput.trim() && selectedConversation
-                              ? 'bg-gradient-to-r from-primary to-secondary shadow-lg hover:shadow-xl hover:scale-110 animate-pulse'
-                              : 'bg-gray-400 cursor-not-allowed'
-                          }`}
-                        >
-                          SEND
-                        </button>
-                      </div>
+                  {/* Message Input - Minimalist */}
+                  <div className="p-4 bg-white border-t border-gray-100">
+                    <div className="flex gap-3 items-center">
+                      <textarea
+                        value={messageInput}
+                        onChange={(e) => setMessageInput(e.target.value)}
+                        onKeyDown={(e) => {
+                          if (e.key === 'Enter' && !e.shiftKey) {
+                            e.preventDefault()
+                            handleSendMessage()
+                          }
+                        }}
+                        disabled={!selectedConversation}
+                        className="flex-1 px-4 py-3 border border-gray-200 rounded-full focus:border-gray-300 focus:outline-none resize-none text-sm bg-white disabled:bg-gray-50 disabled:cursor-not-allowed transition-all"
+                        rows={1}
+                        style={{ maxHeight: '100px' }}
+                      />
+                      <button
+                        onClick={handleSendMessage}
+                        disabled={!messageInput.trim() || !selectedConversation}
+                        className={`w-10 h-10 rounded-full flex items-center justify-center transition-all ${
+                          messageInput.trim() && selectedConversation
+                            ? 'bg-primary text-white hover:bg-primary/90'
+                            : 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                        }`}
+                      >
+                        <Send size={18} />
+                      </button>
                     </div>
                   </div>
                 </>
