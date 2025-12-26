@@ -335,11 +335,18 @@ export default function MessagesPage() {
 
               {/* Messages */}
               <div className="flex-1 overflow-y-auto overflow-x-hidden p-4 space-y-3 bg-gradient-to-b from-white/5 to-white/10 overscroll-contain">
-                {messages.length === 0 ? (
+                {!selectedConversation ? (
+                  <div className="flex items-center justify-center h-full">
+                    <div className="text-center glass backdrop-blur-xl p-8 rounded-3xl">
+                      <div className="text-6xl mb-4">👈</div>
+                      <p className="text-gray-600 font-semibold">Select a conversation to start chatting</p>
+                    </div>
+                  </div>
+                ) : messages.length === 0 ? (
                   <div className="flex items-center justify-center h-full">
                     <div className="text-center glass backdrop-blur-xl p-8 rounded-3xl">
                       <div className="text-6xl mb-4">💬</div>
-                      <p className="text-gray-600">Start chatting!</p>
+                      <p className="text-gray-600">Loading messages...</p>
                     </div>
                   </div>
                 ) : (
@@ -376,34 +383,36 @@ export default function MessagesPage() {
                 )}
               </div>
 
-              {/* Message Input - FIXED AND VISIBLE */}
-              <div className="p-4 border-t-4 border-primary bg-white shadow-2xl">
-                <div className="flex gap-3 items-center">
-                  <textarea
-                    placeholder="Type your message here..."
-                    value={messageInput}
-                    onChange={(e) => setMessageInput(e.target.value)}
-                    onKeyDown={(e) => {
-                      if (e.key === 'Enter' && !e.shiftKey) {
-                        e.preventDefault()
-                        handleSendMessage()
-                      }
-                    }}
-                    className="flex-1 px-4 py-3 border-2 border-primary/30 rounded-2xl focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 resize-none text-base bg-white"
-                    rows={1}
-                    autoFocus
-                  />
-                  <button
-                    onClick={handleSendMessage}
-                    disabled={!messageInput.trim()}
-                    className={`px-6 py-3 rounded-2xl font-semibold text-white transition-all ${
-                      messageInput.trim()
-                        ? 'bg-gradient-to-r from-primary to-secondary shadow-lg hover:shadow-xl hover:scale-105'
-                        : 'bg-gray-300 cursor-not-allowed'
-                    }`}
-                  >
-                    <Send size={20} />
-                  </button>
+              {/* Message Input - ALWAYS VISIBLE AND SUPER OBVIOUS */}
+              <div className="p-4 border-t-4 border-primary bg-yellow-100 shadow-2xl">
+                <div className="bg-white p-2 rounded-2xl border-4 border-red-500">
+                  <div className="flex gap-3 items-center">
+                    <textarea
+                      placeholder="👉 CLICK HERE TO TYPE YOUR MESSAGE 👈"
+                      value={messageInput}
+                      onChange={(e) => setMessageInput(e.target.value)}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter' && !e.shiftKey) {
+                          e.preventDefault()
+                          handleSendMessage()
+                        }
+                      }}
+                      disabled={!selectedConversation}
+                      className="flex-1 px-4 py-3 border-2 border-primary rounded-2xl focus:border-primary focus:outline-none focus:ring-4 focus:ring-primary/20 resize-none text-base bg-white font-bold disabled:bg-gray-100 disabled:cursor-not-allowed"
+                      rows={2}
+                    />
+                    <button
+                      onClick={handleSendMessage}
+                      disabled={!messageInput.trim() || !selectedConversation}
+                      className={`px-8 py-4 rounded-2xl font-bold text-white transition-all text-lg ${
+                        messageInput.trim() && selectedConversation
+                          ? 'bg-gradient-to-r from-primary to-secondary shadow-lg hover:shadow-xl hover:scale-110 animate-pulse'
+                          : 'bg-gray-400 cursor-not-allowed'
+                      }`}
+                    >
+                      SEND
+                    </button>
+                  </div>
                 </div>
               </div>
             </motion.div>
@@ -621,11 +630,18 @@ export default function MessagesPage() {
 
                   {/* Messages */}
                   <div className="flex-1 overflow-y-auto overflow-x-hidden p-6 space-y-4 bg-gradient-to-b from-white/5 to-white/10 overscroll-contain">
-                    {messages.length === 0 ? (
+                    {!selectedConversation ? (
+                      <div className="flex items-center justify-center h-full">
+                        <div className="text-center glass backdrop-blur-xl p-12 rounded-3xl">
+                          <div className="text-8xl mb-6">👈</div>
+                          <p className="text-gray-600 text-xl font-semibold">Select a conversation to start chatting</p>
+                        </div>
+                      </div>
+                    ) : messages.length === 0 ? (
                       <div className="flex items-center justify-center h-full">
                         <div className="text-center glass backdrop-blur-xl p-12 rounded-3xl">
                           <div className="text-8xl mb-6">💬</div>
-                          <p className="text-gray-600 text-xl">Start chatting!</p>
+                          <p className="text-gray-600 text-xl">Loading messages...</p>
                         </div>
                       </div>
                     ) : (
@@ -662,34 +678,36 @@ export default function MessagesPage() {
                     )}
                   </div>
 
-                  {/* Message Input - FIXED AND VISIBLE */}
-                  <div className="p-6 border-t-4 border-primary bg-white shadow-2xl">
-                    <div className="flex gap-3 items-center">
-                      <textarea
-                        placeholder="Type your message here..."
-                        value={messageInput}
-                        onChange={(e) => setMessageInput(e.target.value)}
-                        onKeyDown={(e) => {
-                          if (e.key === 'Enter' && !e.shiftKey) {
-                            e.preventDefault()
-                            handleSendMessage()
-                          }
-                        }}
-                        className="flex-1 px-4 py-3 border-2 border-primary/30 rounded-2xl focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 resize-none text-base bg-white"
-                        rows={1}
-                        autoFocus
-                      />
-                      <button
-                        onClick={handleSendMessage}
-                        disabled={!messageInput.trim()}
-                        className={`px-6 py-3 rounded-2xl font-semibold text-white transition-all ${
-                          messageInput.trim()
-                            ? 'bg-gradient-to-r from-primary to-secondary shadow-lg hover:shadow-xl hover:scale-105'
-                            : 'bg-gray-300 cursor-not-allowed'
-                        }`}
-                      >
-                        <Send size={20} />
-                      </button>
+                  {/* Message Input - ALWAYS VISIBLE AND SUPER OBVIOUS */}
+                  <div className="p-6 border-t-4 border-primary bg-yellow-100 shadow-2xl">
+                    <div className="bg-white p-3 rounded-2xl border-4 border-red-500">
+                      <div className="flex gap-3 items-center">
+                        <textarea
+                          placeholder="👉 CLICK HERE TO TYPE YOUR MESSAGE 👈"
+                          value={messageInput}
+                          onChange={(e) => setMessageInput(e.target.value)}
+                          onKeyDown={(e) => {
+                            if (e.key === 'Enter' && !e.shiftKey) {
+                              e.preventDefault()
+                              handleSendMessage()
+                            }
+                          }}
+                          disabled={!selectedConversation}
+                          className="flex-1 px-4 py-3 border-2 border-primary rounded-2xl focus:border-primary focus:outline-none focus:ring-4 focus:ring-primary/20 resize-none text-base bg-white font-bold disabled:bg-gray-100 disabled:cursor-not-allowed"
+                          rows={2}
+                        />
+                        <button
+                          onClick={handleSendMessage}
+                          disabled={!messageInput.trim() || !selectedConversation}
+                          className={`px-8 py-4 rounded-2xl font-bold text-white transition-all text-lg ${
+                            messageInput.trim() && selectedConversation
+                              ? 'bg-gradient-to-r from-primary to-secondary shadow-lg hover:shadow-xl hover:scale-110 animate-pulse'
+                              : 'bg-gray-400 cursor-not-allowed'
+                          }`}
+                        >
+                          SEND
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </>
