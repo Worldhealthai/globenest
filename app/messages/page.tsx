@@ -135,7 +135,7 @@ export default function MessagesPage() {
               animate={{ x: 0, opacity: 1 }}
               exit={{ x: -20, opacity: 0 }}
               transition={{ duration: 0.2 }}
-              className="pt-20 pb-24 px-2"
+              className="pt-16 pb-20 px-2"
             >
               <div className="max-w-2xl mx-auto">
                 {/* Mobile Header */}
@@ -232,7 +232,7 @@ export default function MessagesPage() {
               className="fixed inset-0 bg-background z-50 flex flex-col"
             >
               {/* Chat Header */}
-              <div className="pt-20 pb-3 px-4 border-b border-gray-200 frosted backdrop-blur-xl flex items-center justify-between">
+              <div className="pt-16 pb-3 px-4 border-b border-gray-200 frosted backdrop-blur-xl flex items-center justify-between">
                 <div className="flex items-center gap-3 flex-1 min-w-0">
                   <motion.button
                     whileTap={{ scale: 0.9 }}
@@ -384,7 +384,7 @@ export default function MessagesPage() {
               </div>
 
               {/* Message Input - ALWAYS VISIBLE AND SUPER OBVIOUS */}
-              <div className="p-4 border-t-4 border-primary bg-yellow-100 shadow-2xl">
+              <div className="p-4 pb-20 border-t-4 border-primary bg-yellow-100 shadow-2xl">
                 <div className="bg-white p-2 rounded-2xl border-4 border-red-500">
                   <div className="flex gap-3 items-center">
                     <textarea
