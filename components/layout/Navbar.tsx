@@ -20,28 +20,20 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
-          <a href="/" className="flex items-center gap-2 md:gap-3">
-            <motion.div
-              whileHover={{ scale: 1.05, rotate: 5 }}
-              whileTap={{ scale: 0.95 }}
-              className="relative"
-            >
+          <a href="/" className="flex items-center gap-3 group">
+            <div className="relative w-10 h-10 flex-shrink-0">
               <Image
                 src="/logo.png"
-                alt="GlobeNest Logo"
+                alt="GlobeNest"
                 width={40}
                 height={40}
-                className="w-8 h-8 md:w-10 md:h-10 logo-blend"
+                className="w-full h-full object-contain"
                 priority
               />
-            </motion.div>
-            <motion.div
-              whileHover={{ scale: 1.02 }}
-              className="text-xl md:text-2xl font-bold"
-            >
-              <span className="text-primary">Globe</span>
-              <span className="text-secondary">Nest</span>
-            </motion.div>
+            </div>
+            <span className="text-xl md:text-2xl font-bold text-gray-900 tracking-tight">
+              GlobeNest
+            </span>
           </a>
 
           {/* Desktop Navigation */}
