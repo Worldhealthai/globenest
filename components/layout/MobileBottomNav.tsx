@@ -19,9 +19,9 @@ export default function MobileBottomNav() {
   ]
 
   return (
-    <nav className="md:hidden fixed bottom-0 left-0 right-0 z-50 safe-area-pb">
-      <div className="frosted border-t border-white/20 backdrop-blur-2xl shadow-2xl">
-        <div className="flex justify-around items-center h-20 px-2">
+    <nav className="md:hidden fixed bottom-0 left-0 right-0 z-50">
+      <div className="bg-white/95 backdrop-blur-xl border-t border-gray-200/50 shadow-[0_-4px_20px_rgba(0,0,0,0.08)]">
+        <div className="flex justify-around items-center h-16 px-1">
           {navItems.map((item) => {
             const isActive = pathname === item.href
             const Icon = item.icon
@@ -30,37 +30,40 @@ export default function MobileBottomNav() {
               <Link
                 key={item.href}
                 href={item.href}
-                className="flex flex-col items-center justify-center flex-1 h-full relative"
+                className="flex flex-col items-center justify-center flex-1 h-full relative group"
               >
-                {isActive && (
-                  <motion.div
-                    layoutId="activeTab"
-                    className="absolute inset-2 bg-gradient-to-br from-primary/10 to-secondary/10 rounded-2xl backdrop-blur-xl"
-                    transition={{ type: "spring", bounce: 0.3, duration: 0.6 }}
-                  />
-                )}
-
                 <motion.div
-                  className="relative z-10"
-                  whileHover={{ scale: 1.1 }}
-                  whileTap={{ scale: 0.9 }}
+                  className="flex flex-col items-center justify-center gap-1"
+                  whileTap={{ scale: 0.92 }}
+                  transition={{ type: "spring", stiffness: 400, damping: 17 }}
                 >
-                  <div className={`p-3 rounded-2xl transition-all duration-300 ${
-                    isActive
-                      ? 'bg-gradient-to-br from-primary to-secondary shadow-lg'
-                      : 'bg-white/40'
-                  }`}>
+                  {/* Icon with subtle indicator */}
+                  <div className="relative">
                     <Icon
-                      size={24}
-                      className={`${isActive ? 'text-white' : 'text-gray-600'}`}
+                      size={22}
+                      className={`transition-all duration-200 ${
+                        isActive
+                          ? 'text-primary'
+                          : 'text-gray-400 group-active:text-gray-600'
+                      }`}
                       strokeWidth={isActive ? 2.5 : 2}
                     />
+
+                    {/* Active indicator dot */}
+                    {isActive && (
+                      <motion.div
+                        layoutId="activeIndicator"
+                        className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 bg-primary rounded-full"
+                        transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                      />
+                    )}
                   </div>
 
-                  <span className={`text-xs mt-2 font-semibold block text-center transition-all duration-300 ${
+                  {/* Label */}
+                  <span className={`text-[10px] font-medium transition-all duration-200 ${
                     isActive
-                      ? 'bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent'
-                      : 'text-gray-600'
+                      ? 'text-primary'
+                      : 'text-gray-400'
                   }`}>
                     {item.label}
                   </span>

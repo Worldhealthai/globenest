@@ -45,7 +45,7 @@ export default function RoomCard({ room, onSwipe, style }: RoomCardProps) {
     >
       <div className="bg-white rounded-3xl shadow-hard overflow-hidden">
         {/* Image Section */}
-        <div className="relative h-96 bg-gray-200">
+        <div className="relative h-72 md:h-96 bg-gray-200">
           {room.images[currentImageIndex] && (
             <img
               src={room.images[currentImageIndex]}
@@ -81,23 +81,23 @@ export default function RoomCard({ room, onSwipe, style }: RoomCardProps) {
 
           {/* Swipe Indicators */}
           <motion.div
-            className="absolute inset-0 border-8 border-red-500 rounded-3xl flex items-center justify-center"
+            className="absolute inset-0 border-8 border-red-500 rounded-3xl flex items-center justify-center bg-red-500/10"
             style={{
               opacity: useTransform(x, [-200, -50], [1, 0]),
             }}
           >
-            <div className="bg-white/95 px-6 py-3 rounded-full">
-              <X className="text-red-500" size={48} />
+            <div className="bg-white px-6 py-3 rounded-full shadow-xl">
+              <X className="text-red-500" size={48} strokeWidth={3} />
             </div>
           </motion.div>
           <motion.div
-            className="absolute inset-0 border-8 border-green-500 rounded-3xl flex items-center justify-center"
+            className="absolute inset-0 border-8 border-green-500 rounded-3xl flex items-center justify-center bg-green-500/10"
             style={{
               opacity: useTransform(x, [50, 200], [0, 1]),
             }}
           >
-            <div className="bg-white/95 px-6 py-3 rounded-full">
-              <Heart className="text-green-500 fill-green-500" size={48} />
+            <div className="bg-white px-6 py-3 rounded-full shadow-xl">
+              <Heart className="text-green-500 fill-green-500" size={48} strokeWidth={3} />
             </div>
           </motion.div>
         </div>

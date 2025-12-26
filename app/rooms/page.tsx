@@ -112,7 +112,7 @@ export default function RoomsPage() {
           <div className="flex flex-col lg:flex-row gap-6 md:gap-8">
             {/* Card Stack */}
             <div className="flex-1 flex justify-center items-start">
-              <div className="relative w-full max-w-sm h-[550px] md:h-[600px]">
+              <div className="relative w-full max-w-sm h-[500px] md:h-[600px]">
                 <AnimatePresence mode="popLayout">
                   {currentIndex < rooms.length ? (
                     <>
