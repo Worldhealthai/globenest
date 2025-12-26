@@ -422,7 +422,7 @@ export default function MessagesPage() {
       </div>
 
       {/* Desktop: Original split-screen layout */}
-      <div className="hidden md:block pt-20 pb-12 px-4">
+      <div className="hidden md:block pt-16 pb-12 px-4">
         <div className="max-w-7xl mx-auto">
           {/* Header */}
           <motion.div

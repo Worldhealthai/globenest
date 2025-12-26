@@ -48,7 +48,7 @@ export default function RoomsPage() {
     <div className="min-h-screen mesh-gradient overflow-hidden">
       <Navbar />
 
-      <div className="pt-20 pb-12 px-4">
+      <div className="pt-16 pb-12 px-4">
         <div className="max-w-7xl mx-auto">
           {/* Header */}
           <motion.div
@@ -116,44 +116,57 @@ export default function RoomsPage() {
                 <AnimatePresence mode="popLayout">
                   {currentIndex < rooms.length ? (
                     <>
-                      {/* Stack preview cards - Hidden on mobile for performance */}
+                      {/* Stack preview cards with smooth animations */}
                       {currentIndex + 2 < rooms.length && (
-                        <div className="hidden md:block">
+                        <motion.div
+                          key={`${rooms[currentIndex + 2].id}-stack`}
+                          initial={{ scale: 0.85, y: 30, opacity: 0.3 }}
+                          animate={{ scale: 0.9, y: 20, opacity: 0.5 }}
+                          transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+                          className="hidden md:block"
+                        >
                           <RoomCard
                             key={rooms[currentIndex + 2].id}
                             room={rooms[currentIndex + 2]}
                             onSwipe={() => {}}
                             style={{
-                              scale: 0.9,
-                              y: 20,
                               zIndex: 1,
-                              opacity: 0.5,
                             }}
                           />
-                        </div>
+                        </motion.div>
                       )}
                       {currentIndex + 1 < rooms.length && (
-                        <div className="hidden md:block">
+                        <motion.div
+                          key={`${rooms[currentIndex + 1].id}-stack`}
+                          initial={{ scale: 0.9, y: 20, opacity: 0.5 }}
+                          animate={{ scale: 0.95, y: 10, opacity: 0.7 }}
+                          transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+                          className="hidden md:block"
+                        >
                           <RoomCard
                             key={rooms[currentIndex + 1].id}
                             room={rooms[currentIndex + 1]}
                             onSwipe={() => {}}
                             style={{
-                              scale: 0.95,
-                              y: 10,
                               zIndex: 2,
-                              opacity: 0.7,
                             }}
                           />
-                        </div>
+                        </motion.div>
                       )}
                       {/* Active card */}
-                      <RoomCard
-                        key={currentRoom.id}
-                        room={currentRoom}
-                        onSwipe={handleSwipe}
-                        style={{ zIndex: 3 }}
-                      />
+                      <motion.div
+                        key={`${currentRoom.id}-active`}
+                        initial={{ scale: 0.95, y: 10, opacity: 0.7 }}
+                        animate={{ scale: 1, y: 0, opacity: 1 }}
+                        transition={{ type: 'spring', stiffness: 350, damping: 30 }}
+                      >
+                        <RoomCard
+                          key={currentRoom.id}
+                          room={currentRoom}
+                          onSwipe={handleSwipe}
+                          style={{ zIndex: 3 }}
+                        />
+                      </motion.div>
                     </>
                   ) : (
                     <motion.div
