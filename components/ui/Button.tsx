@@ -25,25 +25,32 @@ export default function Button({
   type = 'button',
   fullWidth = false,
 }: ButtonProps) {
-  const baseStyles = 'inline-flex items-center justify-center font-semibold rounded-xl transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed'
+  const baseStyles = 'inline-flex items-center justify-center font-bold rounded-xl transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-transparent disabled:opacity-40 disabled:cursor-not-allowed'
 
   const variants = {
-    primary: 'bg-primary text-white hover:bg-primary-600 focus:ring-primary shadow-md hover:shadow-lg',
-    secondary: 'bg-secondary text-white hover:bg-secondary-600 focus:ring-secondary shadow-md hover:shadow-lg',
-    outline: 'border-2 border-primary text-primary hover:bg-primary hover:text-white focus:ring-primary',
-    ghost: 'text-primary hover:bg-primary/10 focus:ring-primary',
+    primary: 'text-white focus:ring-primary-500',
+    secondary: 'text-white focus:ring-secondary-500',
+    outline: 'border border-white/20 text-white/80 hover:text-white hover:border-white/40 focus:ring-primary-500',
+    ghost: 'text-primary-400 hover:bg-primary/10 focus:ring-primary-500',
+  }
+
+  const variantStyles: Record<string, React.CSSProperties> = {
+    primary: { background: 'linear-gradient(135deg, #7C3AED 0%, #8B5CF6 60%, #06B6D4 100%)', boxShadow: '0 4px 24px rgba(139,92,246,0.4)' },
+    secondary: { background: 'linear-gradient(135deg, #0891B2 0%, #22D3EE 100%)', boxShadow: '0 4px 24px rgba(34,211,238,0.35)' },
+    outline: { background: 'rgba(255,255,255,0.05)', backdropFilter: 'blur(12px)' },
+    ghost: { background: 'transparent' },
   }
 
   const sizes = {
     sm: 'px-4 py-2 text-sm',
-    md: 'px-6 py-3 text-base',
-    lg: 'px-8 py-4 text-lg',
+    md: 'px-6 py-3 text-sm',
+    lg: 'px-8 py-4 text-base',
   }
 
   return (
     <motion.button
-      whileHover={{ scale: disabled ? 1 : 1.02 }}
-      whileTap={{ scale: disabled ? 1 : 0.98 }}
+      whileHover={{ scale: disabled ? 1 : 1.03 }}
+      whileTap={{ scale: disabled ? 1 : 0.97 }}
       className={cn(
         baseStyles,
         variants[variant],
@@ -51,6 +58,7 @@ export default function Button({
         fullWidth && 'w-full',
         className
       )}
+      style={variantStyles[variant]}
       onClick={onClick}
       disabled={disabled}
       type={type}

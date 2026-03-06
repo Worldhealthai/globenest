@@ -19,59 +19,49 @@ export default function RoomsPage() {
 
   const handleSwipe = (direction: 'left' | 'right') => {
     if (!currentRoom) return
-
     if (direction === 'right') {
       setLikedRooms([...likedRooms, currentRoom])
     } else {
       setPassedRooms([...passedRooms, currentRoom])
     }
-
     setCurrentIndex(currentIndex + 1)
   }
 
   const handleUndo = () => {
     if (currentIndex === 0) return
-
-    const previousIndex = currentIndex - 1
-    setCurrentIndex(previousIndex)
-
-    // Remove from liked or passed
+    setCurrentIndex(currentIndex - 1)
     setLikedRooms(likedRooms.filter((_, i) => i !== likedRooms.length - 1))
     setPassedRooms(passedRooms.filter((_, i) => i !== passedRooms.length - 1))
-  }
-
-  const handleButtonSwipe = (direction: 'left' | 'right') => {
-    handleSwipe(direction)
   }
 
   return (
     <div className="min-h-screen mesh-gradient overflow-hidden">
       <Navbar />
 
-      <div className="pt-16 pb-12 px-4">
+      <div className="pt-20 pb-12 px-4">
         <div className="max-w-7xl mx-auto">
+
           {/* Header */}
           <motion.div
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             className="mb-6 md:mb-8"
           >
-            <a href="/" className="flex items-center text-gray-600 hover:text-gray-900 mb-3 md:mb-4 transition-all text-sm md:text-base">
-              <ArrowLeft size={18} className="mr-2 md:w-5 md:h-5" />
+            <a href="/" className="inline-flex items-center text-white/40 hover:text-white/70 mb-4 transition-all text-sm gap-2">
+              <ArrowLeft size={16} />
               Back to Home
             </a>
             <div className="flex items-start justify-between gap-3">
               <div className="flex-1 min-w-0">
-                <h1 className="text-3xl sm:text-4xl md:text-6xl font-bold mb-2 md:mb-3 leading-tight text-gray-900">
-                  Find Your Perfect Room
+                <h1 className="text-3xl sm:text-4xl md:text-6xl font-bold mb-2 leading-tight text-white">
+                  Find Your{' '}
+                  <span className="gradient-text">Perfect Room</span>
                 </h1>
-                <p className="text-gray-500 text-base md:text-xl">
-                  Swipe right to like, left to pass
-                </p>
+                <p className="text-white/40 text-sm md:text-base">Swipe right to like, left to pass</p>
               </div>
               <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="flex-shrink-0">
-                <Button variant="outline" className="glass text-sm md:text-base" onClick={() => {}}>
-                  <Filter size={18} className="md:mr-2 md:w-5 md:h-5" />
+                <Button variant="outline" className="text-sm" onClick={() => {}}>
+                  <Filter size={16} className="md:mr-2" />
                   <span className="hidden md:inline">Filters</span>
                 </Button>
               </motion.div>
@@ -82,30 +72,23 @@ export default function RoomsPage() {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
-            className="grid grid-cols-3 gap-3 md:gap-4 mb-6 md:mb-10"
+            transition={{ delay: 0.15 }}
+            className="grid grid-cols-3 gap-3 md:gap-4 mb-8"
           >
-            <div className="glass px-3 py-3 md:px-8 md:py-4 rounded-2xl backdrop-blur-xl card-hover-effect">
-              <span className="text-xs md:text-sm text-gray-600 block mb-1">Liked</span>
-              <div className="flex items-center gap-1 md:gap-2 justify-center md:justify-start">
-                <Heart size={16} className="md:w-5 md:h-5 text-green-600 fill-green-600" />
-                <span className="font-bold text-lg md:text-2xl text-green-600">{likedRooms.length}</span>
+            {[
+              { label: 'Liked', value: likedRooms.length, icon: Heart, color: '#34D399', bg: 'rgba(16,185,129,0.1)', border: 'rgba(16,185,129,0.2)' },
+              { label: 'Passed', value: passedRooms.length, icon: X, color: '#F87171', bg: 'rgba(239,68,68,0.1)', border: 'rgba(239,68,68,0.2)' },
+              { label: 'Remaining', value: rooms.length - currentIndex, icon: Sparkles, color: '#A78BFA', bg: 'rgba(139,92,246,0.1)', border: 'rgba(139,92,246,0.2)' },
+            ].map(({ label, value, icon: Icon, color, bg, border }) => (
+              <div key={label} className="glass rounded-2xl px-4 py-4 text-center card-hover-effect"
+                style={{ background: bg, borderColor: border }}>
+                <span className="text-xs text-white/40 block mb-1">{label}</span>
+                <div className="flex items-center gap-1.5 justify-center">
+                  <Icon size={16} style={{ color }} strokeWidth={2.5} />
+                  <span className="font-bold text-xl" style={{ color }}>{value}</span>
+                </div>
               </div>
-            </div>
-            <div className="glass px-3 py-3 md:px-8 md:py-4 rounded-2xl backdrop-blur-xl card-hover-effect">
-              <span className="text-xs md:text-sm text-gray-600 block mb-1">Passed</span>
-              <div className="flex items-center gap-1 md:gap-2 justify-center md:justify-start">
-                <X size={16} className="md:w-5 md:h-5 text-red-600" />
-                <span className="font-bold text-lg md:text-2xl text-red-600">{passedRooms.length}</span>
-              </div>
-            </div>
-            <div className="glass px-3 py-3 md:px-8 md:py-4 rounded-2xl backdrop-blur-xl card-hover-effect">
-              <span className="text-xs md:text-sm text-gray-600 block mb-1">Left</span>
-              <div className="flex items-center gap-1 md:gap-2 justify-center md:justify-start">
-                <Sparkles size={16} className="md:w-5 md:h-5 text-primary" />
-                <span className="font-bold text-lg md:text-2xl text-primary">{rooms.length - currentIndex}</span>
-              </div>
-            </div>
+            ))}
           </motion.div>
 
           {/* Main Content */}
@@ -116,56 +99,35 @@ export default function RoomsPage() {
                 <AnimatePresence mode="popLayout">
                   {currentIndex < rooms.length ? (
                     <>
-                      {/* Stack preview cards with smooth animations */}
                       {currentIndex + 2 < rooms.length && (
                         <motion.div
                           key={`${rooms[currentIndex + 2].id}-stack`}
                           initial={{ scale: 0.85, y: 30, opacity: 0.3 }}
-                          animate={{ scale: 0.9, y: 20, opacity: 0.5 }}
+                          animate={{ scale: 0.9, y: 20, opacity: 0.4 }}
                           transition={{ type: 'spring', stiffness: 300, damping: 30 }}
                           className="hidden md:block"
                         >
-                          <RoomCard
-                            key={rooms[currentIndex + 2].id}
-                            room={rooms[currentIndex + 2]}
-                            onSwipe={() => {}}
-                            style={{
-                              zIndex: 1,
-                            }}
-                          />
+                          <RoomCard key={rooms[currentIndex + 2].id} room={rooms[currentIndex + 2]} onSwipe={() => {}} style={{ zIndex: 1 }} />
                         </motion.div>
                       )}
                       {currentIndex + 1 < rooms.length && (
                         <motion.div
                           key={`${rooms[currentIndex + 1].id}-stack`}
                           initial={{ scale: 0.9, y: 20, opacity: 0.5 }}
-                          animate={{ scale: 0.95, y: 10, opacity: 0.7 }}
+                          animate={{ scale: 0.95, y: 10, opacity: 0.65 }}
                           transition={{ type: 'spring', stiffness: 300, damping: 30 }}
                           className="hidden md:block"
                         >
-                          <RoomCard
-                            key={rooms[currentIndex + 1].id}
-                            room={rooms[currentIndex + 1]}
-                            onSwipe={() => {}}
-                            style={{
-                              zIndex: 2,
-                            }}
-                          />
+                          <RoomCard key={rooms[currentIndex + 1].id} room={rooms[currentIndex + 1]} onSwipe={() => {}} style={{ zIndex: 2 }} />
                         </motion.div>
                       )}
-                      {/* Active card */}
                       <motion.div
                         key={`${currentRoom.id}-active`}
                         initial={{ scale: 0.95, y: 10, opacity: 0.7 }}
                         animate={{ scale: 1, y: 0, opacity: 1 }}
                         transition={{ type: 'spring', stiffness: 350, damping: 30 }}
                       >
-                        <RoomCard
-                          key={currentRoom.id}
-                          room={currentRoom}
-                          onSwipe={handleSwipe}
-                          style={{ zIndex: 3 }}
-                        />
+                        <RoomCard key={currentRoom.id} room={currentRoom} onSwipe={handleSwipe} style={{ zIndex: 3 }} />
                       </motion.div>
                     </>
                   ) : (
@@ -174,15 +136,11 @@ export default function RoomsPage() {
                       animate={{ opacity: 1, scale: 1 }}
                       className="absolute inset-0 flex items-center justify-center p-4"
                     >
-                      <div className="text-center glass backdrop-blur-2xl p-8 md:p-16 rounded-3xl shadow-hard w-full">
-                        <h2 className="text-2xl md:text-4xl font-bold mb-4 text-gray-900">
-                          That's all for now
-                        </h2>
-                        <p className="text-gray-500 mb-6 md:mb-8 text-sm md:text-lg">
-                          You've viewed all available rooms
-                        </p>
+                      <div className="text-center glass p-8 md:p-12 rounded-3xl w-full">
+                        <h2 className="text-2xl md:text-3xl font-bold mb-3 text-white">That&apos;s all for now</h2>
+                        <p className="text-white/40 mb-6 text-sm">You&apos;ve viewed all available rooms</p>
                         <Button onClick={() => setCurrentIndex(0)} size="lg">
-                          <RotateCcw size={20} className="mr-2" />
+                          <RotateCcw size={18} className="mr-2" />
                           Start Over
                         </Button>
                       </div>
@@ -192,44 +150,34 @@ export default function RoomsPage() {
               </div>
             </div>
 
-            {/* Sidebar - Liked Rooms */}
-            <div className="lg:w-96">
-              <div className="glass rounded-3xl p-8 sticky top-24 backdrop-blur-xl">
-                <div className="flex items-center gap-3 mb-6">
-                  <h3 className="text-2xl font-bold text-gray-900">
-                    Liked Rooms <span className="text-gray-400">({likedRooms.length})</span>
-                  </h3>
-                </div>
+            {/* Liked Rooms Sidebar */}
+            <div className="lg:w-80">
+              <div className="glass rounded-3xl p-6 sticky top-24">
+                <h3 className="text-lg font-bold text-white mb-4">
+                  Liked{' '}
+                  <span className="text-white/30 font-normal">({likedRooms.length})</span>
+                </h3>
                 {likedRooms.length === 0 ? (
-                  <div className="text-center py-12">
-                    <Heart className="w-16 h-16 mx-auto text-gray-200 mb-4" />
-                    <p className="text-gray-400 text-sm">
-                      No liked rooms yet
-                    </p>
+                  <div className="text-center py-10">
+                    <Heart className="w-12 h-12 mx-auto mb-3" style={{ color: 'rgba(255,255,255,0.1)' }} />
+                    <p className="text-white/30 text-sm">No liked rooms yet</p>
                   </div>
                 ) : (
-                  <div className="space-y-4 max-h-96 overflow-y-auto pr-2">
+                  <div className="space-y-3 max-h-96 overflow-y-auto pr-1 scrollbar-hide">
                     {likedRooms.map((room, index) => (
                       <motion.div
                         key={room.id}
                         initial={{ opacity: 0, x: 20 }}
                         animate={{ opacity: 1, x: 0 }}
-                        transition={{ delay: index * 0.1 }}
-                        className="frosted flex gap-4 p-4 rounded-2xl hover:scale-[1.02] cursor-pointer transition-all duration-300 border border-white/20"
+                        transition={{ delay: index * 0.05 }}
+                        className="frosted flex gap-3 p-3 rounded-2xl hover:scale-[1.02] cursor-pointer transition-all duration-300"
+                        style={{ border: '1px solid rgba(255,255,255,0.08)' }}
                       >
-                        <img
-                          src={room.images[0]}
-                          alt={room.title}
-                          className="w-20 h-20 rounded-xl object-cover shadow-md"
-                        />
+                        <img src={room.images[0]} alt={room.title} className="w-16 h-16 rounded-xl object-cover" />
                         <div className="flex-1 min-w-0">
-                          <h4 className="font-semibold text-base truncate mb-1">
-                            {room.title}
-                          </h4>
-                          <p className="text-sm text-gray-600 mb-2">{room.location}</p>
-                          <p className="text-lg font-bold text-primary">
-                            £{room.price}/mo
-                          </p>
+                          <h4 className="font-semibold text-sm text-white truncate mb-1">{room.title}</h4>
+                          <p className="text-xs text-white/40 mb-1">{room.location}</p>
+                          <p className="text-sm font-bold gradient-text-violet">£{room.price}/mo</p>
                         </div>
                       </motion.div>
                     ))}
@@ -245,15 +193,22 @@ export default function RoomsPage() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4 }}
-              className="flex justify-center gap-8 mt-12"
+              className="flex justify-center gap-8 mt-10"
             >
               <motion.button
                 whileHover={{ scale: 1.15, rotate: -5 }}
                 whileTap={{ scale: 0.9 }}
-                onClick={() => handleButtonSwipe('left')}
-                className="w-20 h-20 glass backdrop-blur-xl rounded-full shadow-medium flex items-center justify-center text-red-500 hover:shadow-lg transition-all duration-300 border-2 border-red-500/20 hover:border-red-500/40"
+                onClick={() => handleSwipe('left')}
+                className="w-18 h-18 rounded-full flex items-center justify-center"
+                style={{
+                  width: 72, height: 72,
+                  background: 'rgba(239,68,68,0.1)',
+                  border: '1px solid rgba(239,68,68,0.3)',
+                  color: '#F87171',
+                  boxShadow: '0 8px 24px rgba(239,68,68,0.2)',
+                }}
               >
-                <X size={36} strokeWidth={2.5} />
+                <X size={32} strokeWidth={2.5} />
               </motion.button>
 
               <motion.button
@@ -261,18 +216,31 @@ export default function RoomsPage() {
                 whileTap={{ scale: 0.9 }}
                 onClick={handleUndo}
                 disabled={currentIndex === 0}
-                className="w-20 h-20 glass backdrop-blur-xl rounded-full shadow-medium flex items-center justify-center text-gray-400 hover:text-primary transition-all duration-300 disabled:opacity-40 disabled:cursor-not-allowed border-2 border-gray-300/20 hover:border-primary/40"
+                className="rounded-full flex items-center justify-center disabled:opacity-30 disabled:cursor-not-allowed"
+                style={{
+                  width: 56, height: 56,
+                  background: 'rgba(255,255,255,0.05)',
+                  border: '1px solid rgba(255,255,255,0.1)',
+                  color: 'rgba(255,255,255,0.4)',
+                }}
               >
-                <RotateCcw size={28} strokeWidth={2.5} />
+                <RotateCcw size={22} strokeWidth={2.5} />
               </motion.button>
 
               <motion.button
                 whileHover={{ scale: 1.15, rotate: 5 }}
                 whileTap={{ scale: 0.9 }}
-                onClick={() => handleButtonSwipe('right')}
-                className="w-20 h-20 glass backdrop-blur-xl rounded-full shadow-medium flex items-center justify-center text-green-500 hover:shadow-lg transition-all duration-300 border-2 border-green-500/20 hover:border-green-500/40 glow-pulse"
+                onClick={() => handleSwipe('right')}
+                className="rounded-full flex items-center justify-center glow-pulse"
+                style={{
+                  width: 72, height: 72,
+                  background: 'linear-gradient(135deg, rgba(16,185,129,0.2), rgba(16,185,129,0.1))',
+                  border: '1px solid rgba(16,185,129,0.4)',
+                  color: '#34D399',
+                  boxShadow: '0 8px 24px rgba(16,185,129,0.25)',
+                }}
               >
-                <Heart size={36} strokeWidth={2.5} />
+                <Heart size={32} strokeWidth={2.5} />
               </motion.button>
             </motion.div>
           )}

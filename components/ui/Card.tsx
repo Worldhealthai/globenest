@@ -29,15 +29,15 @@ export default function Card({
   const CardWrapper = hover ? motion.div : 'div'
   const hoverProps = hover ? {
     whileHover: { y: -4, scale: 1.01 },
-    transition: { duration: 0.2 }
+    transition: { duration: 0.2 },
   } : {}
 
   return (
     <CardWrapper
       className={cn(
-        'bg-white rounded-2xl shadow-soft border border-gray-100',
+        'glass rounded-2xl',
         paddingStyles[padding],
-        hover && 'cursor-pointer hover:shadow-medium',
+        hover && 'cursor-pointer card-hover-effect',
         onClick && 'cursor-pointer',
         className
       )}

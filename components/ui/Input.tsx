@@ -14,29 +14,34 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
     return (
       <div className="w-full">
         {label && (
-          <label className="block text-sm font-medium text-gray-700 mb-2">
+          <label className="block text-sm font-semibold text-white/70 mb-2">
             {label}
           </label>
         )}
         <div className="relative">
           {icon && (
-            <div className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
+            <div className="absolute left-3 top-1/2 -translate-y-1/2 text-white/30">
               {icon}
             </div>
           )}
           <input
             ref={ref}
             className={cn(
-              'w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all duration-200',
+              'w-full px-4 py-3 rounded-xl text-white placeholder:text-white/30 outline-none transition-all duration-200 focus:ring-2',
+              'focus:ring-primary-500/40 focus:border-primary-500/50',
               icon && 'pl-10',
-              error && 'border-red-500 focus:border-red-500 focus:ring-red-500/20',
+              error && 'border-red-500/50 focus:ring-red-500/30',
               className
             )}
+            style={{
+              background: 'rgba(255,255,255,0.06)',
+              border: '1px solid rgba(255,255,255,0.1)',
+            }}
             {...props}
           />
         </div>
         {error && (
-          <p className="mt-1 text-sm text-red-500">{error}</p>
+          <p className="mt-1 text-sm text-red-400">{error}</p>
         )}
       </div>
     )
