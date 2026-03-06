@@ -62,8 +62,8 @@ export default function MarketplacePage() {
             <div className="relative">
               <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-white/30" size={18} />
               <input
-                className="w-full pl-11 pr-4 py-3.5 rounded-xl text-white placeholder:text-white/30 outline-none focus:ring-2 focus:ring-primary-500/40 transition-all text-sm"
-                style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)' }}
+                className="w-full pl-11 pr-4 py-3.5 rounded-xl text-white placeholder:text-white/30 outline-none transition-all text-sm"
+                style={{ background: 'rgba(255,248,240,0.05)', border: '1px solid rgba(255,200,160,0.08)' }}
                 placeholder="Search for items..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
@@ -80,7 +80,7 @@ export default function MarketplacePage() {
           >
             <div className="flex items-center gap-3 mb-3 px-1">
               <h3 className="text-xs font-bold uppercase tracking-wider text-white/30">Categories</h3>
-              <div className="flex-1 h-px" style={{ background: 'linear-gradient(to right, rgba(255,255,255,0.1), transparent)' }} />
+              <div className="flex-1 h-px" style={{ background: 'linear-gradient(to right, rgba(255,200,160,0.15), transparent)' }} />
             </div>
             <div className="flex flex-wrap gap-2">
               {categories.map((category, index) => (
@@ -94,14 +94,14 @@ export default function MarketplacePage() {
                   whileTap={{ scale: 0.96 }}
                   className="px-5 py-2.5 rounded-2xl font-semibold text-sm transition-all duration-300 min-h-[40px]"
                   style={selectedCategory === category ? {
-                    background: 'linear-gradient(135deg, rgba(34,211,238,0.3), rgba(139,92,246,0.3))',
-                    border: '1px solid rgba(34,211,238,0.4)',
-                    color: '#67E8F9',
-                    boxShadow: '0 4px 16px rgba(34,211,238,0.15)',
+                    background: 'linear-gradient(135deg, rgba(255,83,64,0.25), rgba(92,225,230,0.2))',
+                    border: '1px solid rgba(255,83,64,0.4)',
+                    color: '#FF7A67',
+                    boxShadow: '0 4px 16px rgba(255,83,64,0.15)',
                   } : {
-                    background: 'rgba(255,255,255,0.04)',
-                    border: '1px solid rgba(255,255,255,0.08)',
-                    color: 'rgba(255,255,255,0.5)',
+                    background: 'rgba(255,248,240,0.04)',
+                    border: '1px solid rgba(255,200,160,0.08)',
+                    color: 'rgba(255,255,255,0.45)',
                   }}
                 >
                   {category.charAt(0).toUpperCase() + category.slice(1)}
@@ -131,35 +131,32 @@ export default function MarketplacePage() {
                 whileHover={{ y: -6 }}
               >
                 <div className="glass rounded-3xl overflow-hidden h-full flex flex-col card-hover-effect">
-                  {/* Image */}
                   <div className="relative h-56">
                     <img src={item.images[0]} alt={item.title} className="w-full h-full object-cover" />
                     <div className="absolute inset-0"
-                      style={{ background: 'linear-gradient(to top, rgba(6,4,15,0.7) 0%, transparent 50%)' }} />
+                      style={{ background: 'linear-gradient(to top, rgba(8,6,4,0.7) 0%, transparent 50%)' }} />
                     <div className="absolute top-3 right-3">
                       <Badge variant={conditionColors[item.condition]}>{item.condition}</Badge>
                     </div>
                     <div className="absolute bottom-3 left-3">
                       <div className="px-4 py-1.5 rounded-full font-bold text-white text-lg"
-                        style={{ background: 'rgba(6,4,15,0.7)', backdropFilter: 'blur(12px)', border: '1px solid rgba(255,255,255,0.15)' }}>
+                        style={{ background: 'rgba(8,6,4,0.75)', backdropFilter: 'blur(12px)', border: '1px solid rgba(255,200,160,0.15)' }}>
                         {formatPrice(item.price)}
                       </div>
                     </div>
                     <div className="absolute inset-0 shimmer opacity-0 hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
                   </div>
 
-                  {/* Content */}
                   <div className="p-5 flex-1 flex flex-col">
                     <div className="flex-1">
                       <h3 className="font-bold text-white text-base line-clamp-2 mb-2">{item.title}</h3>
                       <p className="text-white/40 text-sm mb-3 line-clamp-2">{item.description}</p>
                       <div className="flex items-center gap-1.5 text-xs text-white/30 mb-4">
-                        <MapPin size={13} className="text-secondary-500" />
+                        <MapPin size={13} style={{ color: '#6AE3E8' }} />
                         <span>{item.location}</span>
                       </div>
                     </div>
 
-                    {/* Seller */}
                     <div className="pt-4 border-t border-white/5">
                       <div className="flex items-center justify-between">
                         <div className="flex items-center gap-2.5">
@@ -168,12 +165,12 @@ export default function MarketplacePage() {
                               src={item.user.avatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${item.user.name}`}
                               alt={item.user.name}
                               className="w-9 h-9 rounded-full"
-                              style={{ border: '1.5px solid rgba(255,255,255,0.15)' }}
+                              style={{ border: '1.5px solid rgba(255,200,160,0.15)' }}
                             />
                             {item.user.verified && (
                               <div className="absolute -bottom-0.5 -right-0.5 rounded-full p-0.5"
-                                style={{ background: 'rgba(6,4,15,0.9)' }}>
-                                <Shield className="w-3.5 h-3.5 text-secondary-400" fill="currentColor" />
+                                style={{ background: 'rgba(8,6,4,0.9)' }}>
+                                <Shield className="w-3.5 h-3.5" style={{ color: '#6AE3E8' }} fill="currentColor" />
                               </div>
                             )}
                           </div>
@@ -225,7 +222,7 @@ export default function MarketplacePage() {
               whileTap={{ scale: 0.92 }}
               onClick={() => {}}
               className="flex items-center gap-2 px-6 py-4 rounded-2xl font-bold text-white text-sm glow-pulse"
-              style={{ background: 'linear-gradient(135deg, #7C3AED, #22D3EE)', boxShadow: '0 8px 32px rgba(139,92,246,0.4)' }}
+              style={{ background: 'linear-gradient(135deg, #E83D2A, #FF5340)', boxShadow: '0 8px 32px rgba(255,83,64,0.4)' }}
             >
               <Plus size={18} />
               List an Item

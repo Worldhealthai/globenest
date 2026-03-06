@@ -17,10 +17,10 @@ export default function Navbar() {
   return (
     <nav className="fixed top-0 left-0 right-0 z-50"
       style={{
-        background: 'rgba(6, 4, 15, 0.7)',
+        background: 'rgba(8, 6, 4, 0.7)',
         backdropFilter: 'blur(24px) saturate(180%)',
         WebkitBackdropFilter: 'blur(24px) saturate(180%)',
-        borderBottom: '1px solid rgba(255, 255, 255, 0.06)',
+        borderBottom: '1px solid rgba(255, 200, 160, 0.08)',
       }}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
@@ -33,7 +33,7 @@ export default function Navbar() {
               className="relative"
             >
               <div className="absolute inset-0 blur-lg rounded-full"
-                style={{ background: 'rgba(139, 92, 246, 0.5)' }} />
+                style={{ background: 'rgba(255, 83, 64, 0.5)' }} />
               <Image
                 src="/logo.png"
                 alt="GlobeNest Logo"
@@ -57,7 +57,7 @@ export default function Navbar() {
               <a
                 key={item.name}
                 href={item.href}
-                className="text-white/60 hover:text-white transition-colors duration-200 font-medium text-sm"
+                className="text-white/55 hover:text-white transition-colors duration-200 font-medium text-sm"
               >
                 {item.name}
               </a>
@@ -67,7 +67,7 @@ export default function Navbar() {
           {/* Desktop Actions */}
           <div className="hidden md:flex items-center gap-3">
             <a href="/auth/login">
-              <button className="px-5 py-2 text-sm font-semibold text-white/70 hover:text-white rounded-xl transition-all hover:bg-white/5">
+              <button className="px-5 py-2 text-sm font-semibold text-white/60 hover:text-white rounded-xl transition-all hover:bg-white/5">
                 Log In
               </button>
             </a>
@@ -76,7 +76,7 @@ export default function Navbar() {
                 whileHover={{ scale: 1.04 }}
                 whileTap={{ scale: 0.96 }}
                 className="px-5 py-2 text-sm font-bold text-white rounded-xl"
-                style={{ background: 'linear-gradient(135deg, #7C3AED, #22D3EE)' }}
+                style={{ background: 'linear-gradient(135deg, #E83D2A, #FF5340, #5CE1E6)' }}
               >
                 Sign Up
               </motion.button>
@@ -100,29 +100,29 @@ export default function Navbar() {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            style={{ borderTop: '1px solid rgba(255,255,255,0.06)' }}
+            style={{ borderTop: '1px solid rgba(255, 200, 160, 0.07)' }}
           >
             <div className="px-4 py-4 space-y-1"
-              style={{ background: 'rgba(6, 4, 15, 0.9)', backdropFilter: 'blur(24px)' }}>
+              style={{ background: 'rgba(8, 6, 4, 0.92)', backdropFilter: 'blur(24px)' }}>
               {navItems.map((item) => (
                 <a
                   key={item.name}
                   href={item.href}
-                  className="flex items-center gap-3 px-4 py-3 rounded-xl text-white/70 hover:text-white hover:bg-white/5 transition-all"
+                  className="flex items-center gap-3 px-4 py-3 rounded-xl text-white/60 hover:text-white hover:bg-white/5 transition-all"
                 >
-                  <item.icon size={18} className="text-primary-400" />
+                  <item.icon size={18} style={{ color: '#FF7A67' }} />
                   <span className="font-medium text-sm">{item.name}</span>
                 </a>
               ))}
               <div className="pt-3 space-y-2 border-t border-white/5 mt-3">
                 <a href="/auth/login">
-                  <button className="w-full py-3 rounded-xl font-semibold text-sm text-white/70 border border-white/10 hover:border-white/20 transition-all">
+                  <button className="w-full py-3 rounded-xl font-semibold text-sm text-white/60 border border-white/10 hover:border-white/20 transition-all">
                     Log In
                   </button>
                 </a>
                 <a href="/auth/signup">
                   <button className="w-full py-3 rounded-xl font-bold text-sm text-white"
-                    style={{ background: 'linear-gradient(135deg, #7C3AED, #22D3EE)' }}>
+                    style={{ background: 'linear-gradient(135deg, #E83D2A, #FF5340, #5CE1E6)' }}>
                     Sign Up
                   </button>
                 </a>
