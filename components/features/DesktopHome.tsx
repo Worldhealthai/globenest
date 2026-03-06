@@ -15,16 +15,16 @@ export default function DesktopHome() {
   const [search, setSearch] = useState('')
 
   const stats = [
-    { label: 'Active Rooms', value: '150+', icon: Home, color: '#A78BFA', bg: 'rgba(139,92,246,0.15)', border: 'rgba(139,92,246,0.25)' },
-    { label: 'Items Listed', value: '500+', icon: ShoppingBag, color: '#67E8F9', bg: 'rgba(34,211,238,0.12)', border: 'rgba(34,211,238,0.2)' },
-    { label: 'New Today', value: '24', icon: TrendingUp, color: '#F9A8D4', bg: 'rgba(244,114,182,0.12)', border: 'rgba(244,114,182,0.2)' },
-    { label: 'User Rating', value: '4.9★', icon: Star, color: '#FDE68A', bg: 'rgba(251,191,36,0.1)', border: 'rgba(251,191,36,0.2)' },
+    { label: 'Active Rooms', value: '150+', icon: Home, color: '#FF7A67', bg: 'rgba(255,83,64,0.12)', border: 'rgba(255,83,64,0.22)' },
+    { label: 'Items Listed', value: '500+', icon: ShoppingBag, color: '#6AE3E8', bg: 'rgba(92,225,230,0.1)', border: 'rgba(92,225,230,0.18)' },
+    { label: 'New Today', value: '24', icon: TrendingUp, color: '#FFD4A8', bg: 'rgba(255,184,132,0.1)', border: 'rgba(255,184,132,0.18)' },
+    { label: 'User Rating', value: '4.9★', icon: Star, color: '#FFD4A8', bg: 'rgba(255,184,132,0.1)', border: 'rgba(255,184,132,0.18)' },
   ]
 
   const quickLinks = [
-    { label: 'Find a Room', href: '/rooms', icon: Home, gradient: 'linear-gradient(135deg, #7C3AED, #8B5CF6)', desc: 'Swipe to match with verified rooms' },
-    { label: 'Marketplace', href: '/marketplace', icon: ShoppingBag, gradient: 'linear-gradient(135deg, #0891B2, #22D3EE)', desc: 'Buy & sell with fellow expats' },
-    { label: 'Messages', href: '/messages', icon: Zap, gradient: 'linear-gradient(135deg, #9D174D, #F472B6)', desc: 'Chat with your matches' },
+    { label: 'Find a Room', href: '/rooms', icon: Home, gradient: 'linear-gradient(135deg, #C42A18, #FF5340)', desc: 'Swipe to match with verified rooms' },
+    { label: 'Marketplace', href: '/marketplace', icon: ShoppingBag, gradient: 'linear-gradient(135deg, #21A4A9, #5CE1E6)', desc: 'Buy & sell with fellow expats' },
+    { label: 'Messages', href: '/messages', icon: Zap, gradient: 'linear-gradient(135deg, #A8600A, #FFB884)', desc: 'Chat with your matches' },
   ]
 
   return (
@@ -43,7 +43,7 @@ export default function DesktopHome() {
               transition={{ duration: 3, repeat: Infinity }}
             >
               <div className="relative">
-                <div className="absolute inset-0 blur-xl rounded-full" style={{ background: 'rgba(139,92,246,0.6)' }} />
+                <div className="absolute inset-0 blur-xl rounded-full" style={{ background: 'rgba(255,83,64,0.55)' }} />
                 <Image src="/logo.png" alt="GlobeNest" width={48} height={48}
                   className="w-11 h-11 relative z-10 logo-blend" priority />
               </div>
@@ -73,7 +73,7 @@ export default function DesktopHome() {
             whileHover={{ scale: 1.04 }}
             whileTap={{ scale: 0.96 }}
             className="px-6 py-2 rounded-xl font-bold text-white text-sm flex-shrink-0"
-            style={{ background: 'linear-gradient(135deg, #7C3AED, #22D3EE)' }}
+            style={{ background: 'linear-gradient(135deg, #E83D2A, #FF5340, #5CE1E6)' }}
           >
             Search
           </motion.button>
@@ -86,7 +86,7 @@ export default function DesktopHome() {
           transition={{ delay: 0.15 }}
           className="grid grid-cols-4 gap-4 mb-10"
         >
-          {stats.map((s, i) => (
+          {stats.map((s) => (
             <motion.div
               key={s.label}
               whileHover={{ scale: 1.04, y: -2 }}
@@ -115,7 +115,6 @@ export default function DesktopHome() {
                 whileHover={{ y: -6, scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
                 className="glass rounded-2xl p-6 cursor-pointer card-hover-effect"
-                style={{ boxShadow: '0 4px 24px rgba(0,0,0,0.3)' }}
               >
                 <div className="w-12 h-12 rounded-xl flex items-center justify-center mb-4"
                   style={{ background: link.gradient }}>
@@ -134,15 +133,16 @@ export default function DesktopHome() {
         {/* ─── MAIN CONTENT GRID ───────────────── */}
         <div className="grid grid-cols-5 gap-6">
 
-          {/* ── Featured Rooms (wider) ─── */}
+          {/* Featured Rooms */}
           <div className="col-span-3">
             <div className="flex items-center justify-between mb-5">
               <div className="flex items-center gap-2">
-                <Home size={18} className="text-primary-400" />
+                <Home size={18} style={{ color: '#FF7A67' }} />
                 <h2 className="font-bold text-white text-lg">Featured Rooms</h2>
               </div>
               <Link href="/rooms"
-                className="text-xs font-semibold text-primary-400 hover:text-primary-300 flex items-center gap-1 transition-colors">
+                className="text-xs font-semibold flex items-center gap-1 transition-colors hover:opacity-80"
+                style={{ color: '#FF7A67' }}>
                 View all &amp; swipe <ArrowRight size={13} />
               </Link>
             </div>
@@ -163,7 +163,7 @@ export default function DesktopHome() {
                       <div className="flex-1 min-w-0">
                         <div className="flex items-start justify-between gap-2 mb-1">
                           <h3 className="font-semibold text-white text-sm truncate">{room.title}</h3>
-                          <span className="text-base font-bold gradient-text-violet flex-shrink-0">
+                          <span className="text-base font-bold flex-shrink-0 gradient-text-warm">
                             £{room.price}/mo
                           </span>
                         </div>
@@ -173,7 +173,7 @@ export default function DesktopHome() {
                         <div className="flex items-center gap-2 flex-wrap">
                           {room.amenities.slice(0, 3).map((a) => (
                             <span key={a} className="text-xs px-2 py-0.5 rounded-full text-white/50"
-                              style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.08)' }}>
+                              style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,200,160,0.1)' }}>
                               {a}
                             </span>
                           ))}
@@ -194,7 +194,7 @@ export default function DesktopHome() {
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
                 className="w-full mt-4 py-3.5 rounded-2xl font-bold text-sm text-white flex items-center justify-center gap-2"
-                style={{ background: 'linear-gradient(135deg, #7C3AED, #8B5CF6)', boxShadow: '0 4px 20px rgba(139,92,246,0.35)' }}
+                style={{ background: 'linear-gradient(135deg, #E83D2A, #FF5340)', boxShadow: '0 4px 20px rgba(255,83,64,0.35)' }}
               >
                 <Heart size={16} />
                 Start Swiping Rooms
@@ -202,15 +202,16 @@ export default function DesktopHome() {
             </Link>
           </div>
 
-          {/* ── Marketplace sidebar ─── */}
+          {/* Marketplace Sidebar */}
           <div className="col-span-2">
             <div className="flex items-center justify-between mb-5">
               <div className="flex items-center gap-2">
-                <ShoppingBag size={18} className="text-secondary-400" />
+                <ShoppingBag size={18} style={{ color: '#6AE3E8' }} />
                 <h2 className="font-bold text-white text-lg">Latest Items</h2>
               </div>
               <Link href="/marketplace"
-                className="text-xs font-semibold text-secondary-400 hover:text-secondary-300 flex items-center gap-1 transition-colors">
+                className="text-xs font-semibold flex items-center gap-1 transition-colors hover:opacity-80"
+                style={{ color: '#6AE3E8' }}>
                 Browse all <ArrowRight size={13} />
               </Link>
             </div>
@@ -229,9 +230,9 @@ export default function DesktopHome() {
                       <div className="relative h-28">
                         <img src={item.images[0]} alt={item.title} className="w-full h-full object-cover" />
                         <div className="absolute inset-0"
-                          style={{ background: 'linear-gradient(to top, rgba(6,4,15,0.7) 0%, transparent 55%)' }} />
+                          style={{ background: 'linear-gradient(to top, rgba(8,6,4,0.7) 0%, transparent 55%)' }} />
                         <span className="absolute top-2 right-2 text-xs font-bold text-white px-2 py-0.5 rounded-full"
-                          style={{ background: 'rgba(139,92,246,0.75)', backdropFilter: 'blur(8px)' }}>
+                          style={{ background: 'rgba(255,83,64,0.75)', backdropFilter: 'blur(8px)' }}>
                           £{item.price}
                         </span>
                       </div>
@@ -247,26 +248,26 @@ export default function DesktopHome() {
               ))}
             </div>
 
-            {/* Recent activity card */}
+            {/* Community activity */}
             <div className="glass rounded-2xl p-5"
-              style={{ background: 'linear-gradient(135deg, rgba(34,211,238,0.08), rgba(139,92,246,0.08))', border: '1px solid rgba(34,211,238,0.15)' }}>
+              style={{ background: 'linear-gradient(135deg, rgba(92,225,230,0.07), rgba(255,83,64,0.07))', border: '1px solid rgba(92,225,230,0.12)' }}>
               <div className="flex items-center gap-2 mb-4">
-                <Sparkles size={16} className="text-secondary-400" />
+                <Sparkles size={16} style={{ color: '#6AE3E8' }} />
                 <h3 className="font-bold text-white text-sm">Community Activity</h3>
               </div>
               {[
-                { name: 'Maria S.', action: 'listed a sofa in Hackney', time: '2m ago', dot: '#A78BFA' },
-                { name: 'James K.', action: 'matched with a flatmate', time: '8m ago', dot: '#67E8F9' },
-                { name: 'Priya M.', action: 'sold kitchen items', time: '15m ago', dot: '#F9A8D4' },
-              ].map((item, i) => (
+                { name: 'Maria S.', action: 'listed a sofa in Hackney', time: '2m ago', dot: '#FF7A67' },
+                { name: 'James K.', action: 'matched with a flatmate', time: '8m ago', dot: '#6AE3E8' },
+                { name: 'Priya M.', action: 'sold kitchen items', time: '15m ago', dot: '#FFD4A8' },
+              ].map((a, i) => (
                 <div key={i} className="flex items-start gap-3 mb-3 last:mb-0">
-                  <div className="w-2 h-2 rounded-full mt-1.5 flex-shrink-0" style={{ background: item.dot }} />
+                  <div className="w-2 h-2 rounded-full mt-1.5 flex-shrink-0" style={{ background: a.dot }} />
                   <div className="flex-1 min-w-0">
                     <p className="text-xs text-white/70">
-                      <span className="font-semibold text-white/90">{item.name}</span> {item.action}
+                      <span className="font-semibold text-white/90">{a.name}</span> {a.action}
                     </p>
                     <p className="text-xs text-white/30 flex items-center gap-1 mt-0.5">
-                      <Clock size={10} /> {item.time}
+                      <Clock size={10} /> {a.time}
                     </p>
                   </div>
                 </div>
@@ -281,7 +282,10 @@ export default function DesktopHome() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5 }}
           className="mt-10 rounded-3xl p-8 flex items-center justify-between"
-          style={{ background: 'linear-gradient(135deg, rgba(124,58,237,0.3), rgba(34,211,238,0.15))', border: '1px solid rgba(139,92,246,0.25)' }}
+          style={{
+            background: 'linear-gradient(135deg, rgba(255,83,64,0.2), rgba(92,225,230,0.1))',
+            border: '1px solid rgba(255,83,64,0.2)',
+          }}
         >
           <div>
             <h3 className="text-xl font-bold text-white mb-1">New to London?</h3>
@@ -298,14 +302,13 @@ export default function DesktopHome() {
                 whileHover={{ scale: 1.04 }}
                 whileTap={{ scale: 0.96 }}
                 className="px-6 py-3 rounded-xl font-bold text-sm text-white flex items-center gap-2"
-                style={{ background: 'linear-gradient(135deg, #7C3AED, #22D3EE)', boxShadow: '0 4px 20px rgba(139,92,246,0.4)' }}
+                style={{ background: 'linear-gradient(135deg, #E83D2A, #FF5340, #5CE1E6)', boxShadow: '0 4px 20px rgba(255,83,64,0.4)' }}
               >
                 Get Started Free <ArrowRight size={16} />
               </motion.button>
             </Link>
           </div>
         </motion.div>
-
       </div>
     </div>
   )

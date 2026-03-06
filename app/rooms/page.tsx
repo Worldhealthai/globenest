@@ -78,7 +78,7 @@ export default function RoomsPage() {
             {[
               { label: 'Liked', value: likedRooms.length, icon: Heart, color: '#34D399', bg: 'rgba(16,185,129,0.1)', border: 'rgba(16,185,129,0.2)' },
               { label: 'Passed', value: passedRooms.length, icon: X, color: '#F87171', bg: 'rgba(239,68,68,0.1)', border: 'rgba(239,68,68,0.2)' },
-              { label: 'Remaining', value: rooms.length - currentIndex, icon: Sparkles, color: '#A78BFA', bg: 'rgba(139,92,246,0.1)', border: 'rgba(139,92,246,0.2)' },
+              { label: 'Remaining', value: rooms.length - currentIndex, icon: Sparkles, color: '#FF7A67', bg: 'rgba(255,83,64,0.1)', border: 'rgba(255,83,64,0.2)' },
             ].map(({ label, value, icon: Icon, color, bg, border }) => (
               <div key={label} className="glass rounded-2xl px-4 py-4 text-center card-hover-effect"
                 style={{ background: bg, borderColor: border }}>
@@ -171,13 +171,13 @@ export default function RoomsPage() {
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ delay: index * 0.05 }}
                         className="frosted flex gap-3 p-3 rounded-2xl hover:scale-[1.02] cursor-pointer transition-all duration-300"
-                        style={{ border: '1px solid rgba(255,255,255,0.08)' }}
+                        style={{ border: '1px solid rgba(255,200,160,0.1)' }}
                       >
                         <img src={room.images[0]} alt={room.title} className="w-16 h-16 rounded-xl object-cover" />
                         <div className="flex-1 min-w-0">
                           <h4 className="font-semibold text-sm text-white truncate mb-1">{room.title}</h4>
                           <p className="text-xs text-white/40 mb-1">{room.location}</p>
-                          <p className="text-sm font-bold gradient-text-violet">£{room.price}/mo</p>
+                          <p className="text-sm font-bold gradient-text-warm">£{room.price}/mo</p>
                         </div>
                       </motion.div>
                     ))}
@@ -199,7 +199,7 @@ export default function RoomsPage() {
                 whileHover={{ scale: 1.15, rotate: -5 }}
                 whileTap={{ scale: 0.9 }}
                 onClick={() => handleSwipe('left')}
-                className="w-18 h-18 rounded-full flex items-center justify-center"
+                className="rounded-full flex items-center justify-center"
                 style={{
                   width: 72, height: 72,
                   background: 'rgba(239,68,68,0.1)',
@@ -220,7 +220,7 @@ export default function RoomsPage() {
                 style={{
                   width: 56, height: 56,
                   background: 'rgba(255,255,255,0.05)',
-                  border: '1px solid rgba(255,255,255,0.1)',
+                  border: '1px solid rgba(255,200,160,0.1)',
                   color: 'rgba(255,255,255,0.4)',
                 }}
               >
@@ -234,7 +234,7 @@ export default function RoomsPage() {
                 className="rounded-full flex items-center justify-center glow-pulse"
                 style={{
                   width: 72, height: 72,
-                  background: 'linear-gradient(135deg, rgba(16,185,129,0.2), rgba(16,185,129,0.1))',
+                  background: 'rgba(16,185,129,0.15)',
                   border: '1px solid rgba(16,185,129,0.4)',
                   color: '#34D399',
                   boxShadow: '0 8px 24px rgba(16,185,129,0.25)',
