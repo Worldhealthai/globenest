@@ -2,8 +2,7 @@
 
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Menu, X, Home, ShoppingBag, MessageCircle, User } from 'lucide-react'
-import Button from '@/components/ui/Button'
+import { Menu, X, Home, ShoppingBag, MessageCircle } from 'lucide-react'
 import Image from 'next/image'
 
 export default function Navbar() {
@@ -16,41 +15,49 @@ export default function Navbar() {
   ]
 
   return (
-    <nav className="fixed top-0 left-0 right-0 bg-white/80 backdrop-blur-md border-b border-gray-200 z-50">
+    <nav className="fixed top-0 left-0 right-0 z-50"
+      style={{
+        background: 'rgba(6, 4, 15, 0.7)',
+        backdropFilter: 'blur(24px) saturate(180%)',
+        WebkitBackdropFilter: 'blur(24px) saturate(180%)',
+        borderBottom: '1px solid rgba(255, 255, 255, 0.06)',
+      }}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
+
           {/* Logo */}
-          <a href="/" className="flex items-center gap-2 md:gap-3">
+          <a href="/" className="flex items-center gap-3">
             <motion.div
-              whileHover={{ scale: 1.05, rotate: 5 }}
+              whileHover={{ scale: 1.08, rotate: 5 }}
               whileTap={{ scale: 0.95 }}
               className="relative"
             >
+              <div className="absolute inset-0 blur-lg rounded-full"
+                style={{ background: 'rgba(139, 92, 246, 0.5)' }} />
               <Image
                 src="/logo.png"
                 alt="GlobeNest Logo"
                 width={40}
                 height={40}
-                className="w-8 h-8 md:w-10 md:h-10 logo-blend"
+                className="w-8 h-8 md:w-9 md:h-9 relative z-10 logo-blend"
                 priority
               />
             </motion.div>
-            <motion.div
+            <motion.span
               whileHover={{ scale: 1.02 }}
-              className="text-xl md:text-2xl font-bold"
+              className="text-xl md:text-2xl font-bold gradient-text"
             >
-              <span className="text-primary">Globe</span>
-              <span className="text-secondary">Nest</span>
-            </motion.div>
+              GlobeNest
+            </motion.span>
           </a>
 
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-8">
+          {/* Desktop Nav Items */}
+          <div className="hidden md:flex items-center gap-8">
             {navItems.map((item) => (
               <a
                 key={item.name}
                 href={item.href}
-                className="text-gray-700 hover:text-primary transition-colors duration-200 font-medium"
+                className="text-white/60 hover:text-white transition-colors duration-200 font-medium text-sm"
               >
                 {item.name}
               </a>
@@ -58,18 +65,27 @@ export default function Navbar() {
           </div>
 
           {/* Desktop Actions */}
-          <div className="hidden md:flex items-center space-x-4">
-            <Button variant="ghost" onClick={() => {}}>
-              Log In
-            </Button>
-            <Button onClick={() => {}}>
-              Sign Up
-            </Button>
+          <div className="hidden md:flex items-center gap-3">
+            <a href="/auth/login">
+              <button className="px-5 py-2 text-sm font-semibold text-white/70 hover:text-white rounded-xl transition-all hover:bg-white/5">
+                Log In
+              </button>
+            </a>
+            <a href="/auth/signup">
+              <motion.button
+                whileHover={{ scale: 1.04 }}
+                whileTap={{ scale: 0.96 }}
+                className="px-5 py-2 text-sm font-bold text-white rounded-xl"
+                style={{ background: 'linear-gradient(135deg, #7C3AED, #22D3EE)' }}
+              >
+                Sign Up
+              </motion.button>
+            </a>
           </div>
 
-          {/* Mobile Menu Button */}
+          {/* Mobile Menu Toggle */}
           <button
-            className="md:hidden text-gray-700 hover:text-primary"
+            className="md:hidden text-white/70 hover:text-white p-1"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
           >
             {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
@@ -84,26 +100,32 @@ export default function Navbar() {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            className="md:hidden bg-white border-t border-gray-200"
+            style={{ borderTop: '1px solid rgba(255,255,255,0.06)' }}
           >
-            <div className="px-4 py-4 space-y-3">
+            <div className="px-4 py-4 space-y-1"
+              style={{ background: 'rgba(6, 4, 15, 0.9)', backdropFilter: 'blur(24px)' }}>
               {navItems.map((item) => (
                 <a
                   key={item.name}
                   href={item.href}
-                  className="flex items-center space-x-3 py-2 text-gray-700 hover:text-primary transition-colors"
+                  className="flex items-center gap-3 px-4 py-3 rounded-xl text-white/70 hover:text-white hover:bg-white/5 transition-all"
                 >
-                  <item.icon size={20} />
-                  <span>{item.name}</span>
+                  <item.icon size={18} className="text-primary-400" />
+                  <span className="font-medium text-sm">{item.name}</span>
                 </a>
               ))}
-              <div className="pt-4 space-y-2 border-t border-gray-200">
-                <Button variant="outline" fullWidth onClick={() => {}}>
-                  Log In
-                </Button>
-                <Button fullWidth onClick={() => {}}>
-                  Sign Up
-                </Button>
+              <div className="pt-3 space-y-2 border-t border-white/5 mt-3">
+                <a href="/auth/login">
+                  <button className="w-full py-3 rounded-xl font-semibold text-sm text-white/70 border border-white/10 hover:border-white/20 transition-all">
+                    Log In
+                  </button>
+                </a>
+                <a href="/auth/signup">
+                  <button className="w-full py-3 rounded-xl font-bold text-sm text-white"
+                    style={{ background: 'linear-gradient(135deg, #7C3AED, #22D3EE)' }}>
+                    Sign Up
+                  </button>
+                </a>
               </div>
             </div>
           </motion.div>
