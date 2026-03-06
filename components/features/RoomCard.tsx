@@ -2,16 +2,14 @@
 
 import { useState } from 'react'
 import { motion, useMotionValue, useTransform } from 'framer-motion'
-import { MapPin, Calendar, Home, Shield, Heart, X } from 'lucide-react'
+import { MapPin, Shield, Heart, X, Wifi, Wind, BatteryCharging } from 'lucide-react'
 import { Room } from '@/types'
-import { formatPrice, formatDate } from '@/lib/utils'
-import Badge from '@/components/ui/Badge'
-import Image from 'next/image'
+import { formatPrice } from '@/lib/utils'
 
 interface RoomCardProps {
   room: Room
   onSwipe: (direction: 'left' | 'right') => void
-  style?: any
+  style?: React.CSSProperties
 }
 
 export default function RoomCard({ room, onSwipe, style }: RoomCardProps) {
@@ -19,198 +17,163 @@ export default function RoomCard({ room, onSwipe, style }: RoomCardProps) {
   const [exitX, setExitX] = useState(0)
   const x = useMotionValue(0)
 
-  // Enhanced transforms for smoother, more dynamic swiping
-  const rotate = useTransform(x, [-250, 0, 250], [-25, 0, 25])
-  const scale = useTransform(x, [-150, 0, 150], [1.05, 1, 1.05])
-  const opacity = useTransform(x, [-300, -150, 0, 150, 300], [0, 1, 1, 1, 0])
+  const rotate   = useTransform(x, [-220, 0, 220], [-18, 0, 18])
+  const opacity  = useTransform(x, [-280, -120, 0, 120, 280], [0, 1, 1, 1, 0])
+  const likeOpacity = useTransform(x, [20, 90], [0, 1])
+  const passOpacity = useTransform(x, [-90, -20], [1, 0])
 
-  // Perspective tilt effect
-  const rotateY = useTransform(x, [-250, 0, 250], [-15, 0, 15])
-
-  const handleDragEnd = (_: any, info: any) => {
-    const swipeThreshold = 80 // Lower threshold for easier swiping
-    if (Math.abs(info.offset.x) > swipeThreshold) {
-      setExitX(info.offset.x > 0 ? 400 : -400)
-      setTimeout(() => {
-        onSwipe(info.offset.x > 0 ? 'right' : 'left')
-      }, 150)
+  const handleDragEnd = (_: unknown, info: { offset: { x: number } }) => {
+    if (Math.abs(info.offset.x) > 75) {
+      const dir = info.offset.x > 0 ? 'right' : 'left'
+      setExitX(dir === 'right' ? 500 : -500)
+      setTimeout(() => onSwipe(dir), 120)
     }
   }
 
   return (
     <motion.div
-      style={{
-        x,
-        rotate,
-        scale,
-        opacity,
-        rotateY,
-        ...style,
-      }}
+      style={{ x, rotate, opacity, ...style }}
       drag="x"
       dragConstraints={{ left: 0, right: 0 }}
-      dragElastic={1}
-      dragTransition={{ bounceStiffness: 600, bounceDamping: 40 }}
+      dragElastic={0.9}
+      dragTransition={{ bounceStiffness: 500, bounceDamping: 40 }}
       onDragEnd={handleDragEnd}
-      whileTap={{ cursor: 'grabbing', scale: 1.02 }}
-      animate={exitX !== 0 ? {
-        x: exitX,
-        opacity: 0,
-        scale: 0.8,
-        rotate: exitX > 0 ? 30 : -30,
-        transition: {
-          duration: 0.3,
-          ease: [0.32, 0.72, 0, 1]
-        }
-      } : {}}
-      transition={{
-        type: 'spring',
-        stiffness: 400,
-        damping: 35,
-        mass: 0.8
-      }}
-      className="absolute w-full max-w-sm cursor-grab active:cursor-grabbing"
+      animate={exitX !== 0 ? { x: exitX, opacity: 0, rotate: exitX > 0 ? 25 : -25, transition: { duration: 0.25 } } : {}}
+      whileTap={{ cursor: 'grabbing' }}
+      className="absolute w-full cursor-grab active:cursor-grabbing select-none"
     >
-      <div className="bg-white rounded-3xl shadow-hard overflow-hidden">
-        {/* Image Section */}
-        <div className="relative h-72 md:h-96 bg-gray-200">
+      {/* Card */}
+      <div className="rounded-3xl overflow-hidden"
+        style={{
+          background: 'rgba(18,12,8,0.85)',
+          backdropFilter: 'blur(24px)',
+          border: '1px solid rgba(255,200,160,0.12)',
+          boxShadow: '0 24px 60px rgba(0,0,0,0.6)',
+        }}>
+
+        {/* ── Image ───────────────────────────── */}
+        <div className="relative h-52 md:h-56 bg-black/40">
           {room.images[currentImageIndex] && (
             <img
               src={room.images[currentImageIndex]}
               alt={room.title}
               className="w-full h-full object-cover"
+              draggable={false}
             />
           )}
 
-          {/* Image Navigation Dots */}
+          {/* Dark gradient overlay at bottom */}
+          <div className="absolute inset-0"
+            style={{ background: 'linear-gradient(to top, rgba(8,6,4,0.85) 0%, rgba(8,6,4,0.2) 50%, transparent 100%)' }} />
+
+          {/* Image dots */}
           {room.images.length > 1 && (
-            <div className="absolute top-4 left-0 right-0 flex justify-center gap-1">
-              {room.images.map((_, index) => (
+            <div className="absolute top-3 left-0 right-0 flex justify-center gap-1.5 z-10">
+              {room.images.map((_, i) => (
                 <button
-                  key={index}
-                  onClick={() => setCurrentImageIndex(index)}
-                  className={`h-1 rounded-full transition-all ${
-                    index === currentImageIndex
-                      ? 'w-6 bg-white'
-                      : 'w-1 bg-white/50'
-                  }`}
+                  key={i}
+                  onPointerDown={(e) => { e.stopPropagation(); setCurrentImageIndex(i) }}
+                  className="h-1 rounded-full transition-all duration-200"
+                  style={{ width: i === currentImageIndex ? 20 : 6, background: i === currentImageIndex ? '#fff' : 'rgba(255,255,255,0.4)' }}
                 />
               ))}
             </div>
           )}
 
-          {/* Price Badge */}
-          <div className="absolute top-4 right-4">
-            <div className="bg-white/95 backdrop-blur-sm px-4 py-2 rounded-full font-bold text-xl">
-              {formatPrice(room.price)}
-              <span className="text-sm text-gray-600">/month</span>
+          {/* Price badge */}
+          <div className="absolute top-3 right-3 z-10">
+            <div className="px-3 py-1.5 rounded-full font-bold text-sm text-white"
+              style={{ background: 'rgba(8,6,4,0.75)', backdropFilter: 'blur(12px)', border: '1px solid rgba(255,200,160,0.2)' }}>
+              {formatPrice(room.price)}<span className="text-white/50 font-normal text-xs">/mo</span>
             </div>
           </div>
 
-          {/* Swipe Indicators - Enhanced with smooth fade and scale */}
-          <motion.div
-            className="absolute inset-0 border-8 border-red-500 rounded-3xl flex items-center justify-center bg-red-500/10 backdrop-blur-sm"
-            style={{
-              opacity: useTransform(x, [-150, -40], [1, 0]),
-              scale: useTransform(x, [-150, -40], [1.1, 0.8]),
-            }}
-          >
-            <motion.div
-              className="bg-white px-6 py-3 rounded-full shadow-2xl"
-              style={{
-                rotate: useTransform(x, [-150, 0], [-20, 0]),
-              }}
-            >
-              <X className="text-red-500" size={48} strokeWidth={3} />
-            </motion.div>
-          </motion.div>
-          <motion.div
-            className="absolute inset-0 border-8 border-green-500 rounded-3xl flex items-center justify-center bg-green-500/10 backdrop-blur-sm"
-            style={{
-              opacity: useTransform(x, [40, 150], [0, 1]),
-              scale: useTransform(x, [40, 150], [0.8, 1.1]),
-            }}
-          >
-            <motion.div
-              className="bg-white px-6 py-3 rounded-full shadow-2xl"
-              style={{
-                rotate: useTransform(x, [0, 150], [0, 20]),
-              }}
-            >
-              <Heart className="text-green-500 fill-green-500" size={48} strokeWidth={3} />
-            </motion.div>
-          </motion.div>
-        </div>
-
-        {/* Content Section */}
-        <div className="p-6 space-y-4">
-          {/* Title and Location */}
-          <div>
-            <h3 className="text-2xl font-bold mb-2">{room.title}</h3>
-            <div className="flex items-center text-gray-600">
-              <MapPin size={16} className="mr-1" />
+          {/* Title + location overlaid on image bottom */}
+          <div className="absolute bottom-0 left-0 right-0 p-4 z-10">
+            <h3 className="font-bold text-white text-lg leading-tight mb-1">{room.title}</h3>
+            <div className="flex items-center gap-1 text-white/60 text-xs">
+              <MapPin size={12} />
               <span>{room.location}</span>
             </div>
           </div>
 
-          {/* User Info */}
-          <div className="flex items-center gap-3">
-            <img
-              src={room.user.avatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${room.user.name}`}
-              alt={room.user.name}
-              className="w-12 h-12 rounded-full"
-            />
-            <div>
-              <div className="flex items-center gap-2">
-                <span className="font-semibold">{room.user.name}</span>
+          {/* PASS overlay */}
+          <motion.div
+            className="absolute inset-0 flex items-center justify-center rounded-3xl"
+            style={{ opacity: passOpacity, background: 'rgba(239,68,68,0.15)', border: '3px solid rgba(239,68,68,0.7)' }}
+          >
+            <div className="px-5 py-2 rounded-2xl font-black text-2xl tracking-widest"
+              style={{ background: 'rgba(239,68,68,0.85)', color: '#fff', transform: 'rotate(-15deg)' }}>
+              NOPE
+            </div>
+          </motion.div>
+
+          {/* LIKE overlay */}
+          <motion.div
+            className="absolute inset-0 flex items-center justify-center rounded-3xl"
+            style={{ opacity: likeOpacity, background: 'rgba(16,185,129,0.15)', border: '3px solid rgba(16,185,129,0.7)' }}
+          >
+            <div className="px-5 py-2 rounded-2xl font-black text-2xl tracking-widest"
+              style={{ background: 'rgba(16,185,129,0.85)', color: '#fff', transform: 'rotate(15deg)' }}>
+              LIKE
+            </div>
+          </motion.div>
+        </div>
+
+        {/* ── Content ─────────────────────────── */}
+        <div className="p-4">
+          {/* User row */}
+          <div className="flex items-center justify-between mb-3">
+            <div className="flex items-center gap-2.5">
+              <div className="relative">
+                <img
+                  src={room.user.avatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${room.user.name}`}
+                  alt={room.user.name}
+                  className="w-9 h-9 rounded-full"
+                  style={{ border: '1.5px solid rgba(255,200,160,0.2)' }}
+                />
                 {room.user.verified && (
-                  <Shield className="text-secondary" size={16} fill="currentColor" />
+                  <div className="absolute -bottom-0.5 -right-0.5 rounded-full p-0.5"
+                    style={{ background: 'rgba(8,6,4,0.9)' }}>
+                    <Shield size={10} style={{ color: '#6AE3E8' }} fill="currentColor" />
+                  </div>
                 )}
               </div>
-              <p className="text-sm text-gray-500">
-                {room.user.isLeaving ? 'Leaving London' : 'New to London'}
-              </p>
+              <div>
+                <p className="text-white text-sm font-semibold leading-none">{room.user.name}</p>
+                <p className="text-white/40 text-xs mt-0.5">{room.user.isLeaving ? 'Leaving London' : 'New to London'}</p>
+              </div>
+            </div>
+
+            {/* Key facts row */}
+            <div className="flex items-center gap-2">
+              {room.billsIncluded && (
+                <span className="text-xs px-2 py-1 rounded-full font-semibold"
+                  style={{ background: 'rgba(16,185,129,0.12)', color: '#34D399', border: '1px solid rgba(16,185,129,0.2)' }}>
+                  Bills inc.
+                </span>
+              )}
+              <span className="text-xs px-2 py-1 rounded-full font-medium text-white/50"
+                style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,200,160,0.08)' }}>
+                {room.roomType}
+              </span>
             </div>
           </div>
 
-          {/* Quick Info */}
-          <div className="grid grid-cols-2 gap-3 py-3 border-y border-gray-100">
-            <div>
-              <div className="text-sm text-gray-600">Available</div>
-              <div className="font-semibold">{formatDate(room.available)}</div>
-            </div>
-            <div>
-              <div className="text-sm text-gray-600">Room Type</div>
-              <div className="font-semibold capitalize">{room.roomType}</div>
-            </div>
-          </div>
-
-          {/* Amenities */}
-          <div className="flex flex-wrap gap-2">
-            {room.amenities.slice(0, 4).map((amenity) => (
-              <Badge key={amenity} variant="neutral">
-                {amenity}
-              </Badge>
+          {/* Amenity chips */}
+          <div className="flex flex-wrap gap-1.5">
+            {room.amenities.slice(0, 4).map((a) => (
+              <span key={a} className="text-xs px-2.5 py-1 rounded-full text-white/50"
+                style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,200,160,0.08)' }}>
+                {a}
+              </span>
             ))}
             {room.amenities.length > 4 && (
-              <Badge variant="neutral">+{room.amenities.length - 4} more</Badge>
+              <span className="text-xs px-2.5 py-1 rounded-full text-white/30"
+                style={{ background: 'rgba(255,255,255,0.03)' }}>
+                +{room.amenities.length - 4}
+              </span>
             )}
-          </div>
-
-          {/* Description Preview */}
-          <p className="text-gray-600 line-clamp-2">{room.description}</p>
-
-          {/* Key Details */}
-          <div className="flex flex-wrap gap-3 text-sm text-gray-500">
-            {room.billsIncluded && (
-              <span className="text-green-600 font-medium">Bills Included</span>
-            )}
-            <span>
-              Min. stay: {room.minStay} months
-            </span>
-            <span>
-              Deposit: {formatPrice(room.deposit)}
-            </span>
           </div>
         </div>
       </div>
