@@ -90,12 +90,12 @@ export default function MessagesPage() {
   const ConversationList = ({ compact = false }: { compact?: boolean }) => (
     <div className="flex flex-col h-full">
       {/* Search */}
-      <div className={compact ? 'p-3' : 'p-4'} style={{ borderBottom: '1px solid rgba(255,200,160,0.07)' }}>
+      <div className={compact ? 'p-3' : 'p-4'} style={{ borderBottom: '1px solid rgba(255,255,255,0.07)' }}>
         <div className="relative">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-white/25" size={15} />
           <input
             className="w-full pl-9 pr-3 py-2.5 rounded-xl text-sm text-white placeholder:text-white/25 outline-none"
-            style={{ background: 'rgba(255,248,240,0.05)', border: '1px solid rgba(255,200,160,0.08)' }}
+            style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)' }}
             placeholder="Search messages…"
           />
         </div>
@@ -114,8 +114,8 @@ export default function MessagesPage() {
               onClick={() => openConversation(c.user.id)}
               className="w-full text-left p-3.5 flex items-start gap-3 transition-colors"
               style={{
-                background: isActive ? 'linear-gradient(135deg, rgba(255,83,64,0.12), rgba(92,225,230,0.06))' : 'transparent',
-                borderBottom: '1px solid rgba(255,200,160,0.05)',
+                background: isActive ? 'linear-gradient(135deg, rgba(255,83,64,0.1), rgba(255,83,64,0.04))' : 'transparent',
+                borderBottom: '1px solid rgba(255,255,255,0.05)',
                 borderLeft: isActive ? '2px solid #FF5340' : '2px solid transparent',
               }}
             >
@@ -124,7 +124,7 @@ export default function MessagesPage() {
                   src={c.user.avatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${c.user.name}`}
                   alt={c.user.name}
                   className="w-11 h-11 rounded-full"
-                  style={{ border: '1.5px solid rgba(255,200,160,0.15)' }}
+                  style={{ border: '1.5px solid rgba(255,255,255,0.15)' }}
                 />
                 {c.unread > 0 && (
                   <span className="absolute -top-1 -right-1 w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-bold text-white"
@@ -156,7 +156,7 @@ export default function MessagesPage() {
     <div className="flex flex-col h-full">
       {/* Chat header */}
       <div className="flex items-center justify-between px-4 py-3 flex-shrink-0"
-        style={{ borderBottom: '1px solid rgba(255,200,160,0.07)', background: 'rgba(255,248,240,0.03)' }}>
+        style={{ borderBottom: '1px solid rgba(255,255,255,0.07)', background: 'rgba(255,255,255,0.03)' }}>
         <div className="flex items-center gap-3 min-w-0">
           {onBack && (
             <button onClick={onBack} className="p-1 -ml-1 text-white/50 hover:text-white transition-colors">
@@ -168,10 +168,10 @@ export default function MessagesPage() {
               src={selectedUser?.avatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${selectedUser?.name}`}
               alt={selectedUser?.name}
               className="w-9 h-9 rounded-full"
-              style={{ border: '1.5px solid rgba(255,200,160,0.15)' }}
+              style={{ border: '1.5px solid rgba(255,255,255,0.15)' }}
             />
             <span className="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full"
-              style={{ background: '#34D399', border: '2px solid rgba(12,9,6,1)' }} />
+              style={{ background: '#34D399', border: '2px solid rgba(13,13,16,1)' }} />
           </div>
           <div className="min-w-0">
             <div className="flex items-center gap-1.5">
@@ -209,9 +209,9 @@ export default function MessagesPage() {
                   borderRadius: '18px 18px 4px 18px',
                   boxShadow: '0 4px 16px rgba(255,83,64,0.25)',
                 } : {
-                  background: 'rgba(255,248,240,0.07)',
+                  background: 'rgba(255,255,255,0.07)',
                   color: 'rgba(255,255,255,0.85)',
-                  border: '1px solid rgba(255,200,160,0.08)',
+                  border: '1px solid rgba(255,255,255,0.08)',
                   borderRadius: '18px 18px 18px 4px',
                 }}
               >
@@ -227,7 +227,7 @@ export default function MessagesPage() {
       </div>
 
       {/* Input */}
-      <div className="p-3 flex-shrink-0" style={{ borderTop: '1px solid rgba(255,200,160,0.07)' }}>
+      <div className="p-3 flex-shrink-0" style={{ borderTop: '1px solid rgba(255,255,255,0.07)' }}>
         <div className="flex gap-2 items-center">
           <input
             value={messageInput}
@@ -239,7 +239,7 @@ export default function MessagesPage() {
               }
             }}
             className="flex-1 px-4 py-2.5 rounded-full text-sm text-white placeholder:text-white/25 outline-none"
-            style={{ background: 'rgba(255,248,240,0.05)', border: '1px solid rgba(255,200,160,0.1)' }}
+            style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)' }}
             placeholder="Type a message…"
           />
           <motion.button
@@ -248,7 +248,7 @@ export default function MessagesPage() {
             onClick={handleSendMessage}
             disabled={!messageInput.trim()}
             className="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 text-white disabled:opacity-30 transition-opacity"
-            style={{ background: 'linear-gradient(135deg, #E83D2A, #FF5340, #5CE1E6)', boxShadow: '0 4px 14px rgba(255,83,64,0.3)' }}
+            style={{ background: 'linear-gradient(180deg, #FF6C52, #EE422D)', boxShadow: '0 4px 14px rgba(255,83,64,0.3)' }}
           >
             <Send size={16} />
           </motion.button>
@@ -326,7 +326,7 @@ export default function MessagesPage() {
                     className="text-center"
                   >
                     <div className="w-16 h-16 rounded-2xl mx-auto mb-4 flex items-center justify-center"
-                      style={{ background: 'linear-gradient(135deg, rgba(255,83,64,0.15), rgba(92,225,230,0.1))', border: '1px solid rgba(255,83,64,0.2)' }}>
+                      style={{ background: 'linear-gradient(135deg, rgba(255,83,64,0.12), rgba(255,83,64,0.05))', border: '1px solid rgba(255,83,64,0.2)' }}>
                       <MessageCircle size={28} style={{ color: '#FF7A67' }} />
                     </div>
                     <p className="text-white/60 font-semibold text-sm">Select a conversation</p>

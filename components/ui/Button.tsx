@@ -36,15 +36,15 @@ export default function Button({
 
   const variantStyles: Record<string, React.CSSProperties> = {
     primary: {
-      background: 'linear-gradient(135deg, #E83D2A 0%, #FF5340 55%, #5CE1E6 100%)',
-      boxShadow: '0 4px 24px rgba(255, 83, 64, 0.45)',
+      background: 'linear-gradient(180deg, #FF6C52 0%, #EE422D 100%)',
+      boxShadow: '0 2px 12px rgba(255, 83, 64, 0.25), inset 0 1px 0 rgba(255,255,255,0.15)',
     },
     secondary: {
-      background: 'linear-gradient(135deg, #21A4A9 0%, #5CE1E6 100%)',
-      boxShadow: '0 4px 24px rgba(92, 225, 230, 0.35)',
+      background: 'linear-gradient(180deg, #2BB8BE 0%, #1D9AA0 100%)',
+      boxShadow: '0 2px 12px rgba(45, 205, 211, 0.2), inset 0 1px 0 rgba(255,255,255,0.15)',
     },
     outline: {
-      background: 'rgba(255, 248, 240, 0.05)',
+      background: 'rgba(255, 255, 255, 0.05)',
       backdropFilter: 'blur(12px)',
     },
     ghost: { background: 'transparent' },

@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 @theme {
-  /* Coral-Orange — Primary (from logo) */
+  /* Coral — Primary brand accent (from logo) */
   --color-primary: #FF5340;
   --color-primary-50: #FFF0ED;
   --color-primary-100: #FFE1DD;
@@ -14,7 +14,7 @@
   --color-primary-800: #9B1F0E;
   --color-primary-900: #7A1508;
 
-  /* Teal-Cyan — Secondary (from logo) */
+  /* Teal — Secondary accent, used sparingly (from logo) */
   --color-secondary: #5CE1E6;
   --color-secondary-50: #EDFCFD;
   --color-secondary-100: #D0F7FA;
@@ -27,26 +27,26 @@
   --color-secondary-800: #115255;
   --color-secondary-900: #0A2E30;
 
-  /* Warm Beige-Peach — Accent (from logo bg) */
+  /* Warm neutral accent */
   --color-accent: #FFB884;
 
-  /* Deep Warm Dark — Background */
-  --color-background: #080604;
-  --color-background-secondary: #120C08;
+  /* Neutral charcoal — Backgrounds */
+  --color-background: #0A0A0C;
+  --color-background-secondary: #121216;
 
   --font-family-sans: Inter, system-ui, sans-serif;
 
   --shadow-soft: 0 2px 15px -3px rgba(0, 0, 0, 0.4), 0 10px 20px -2px rgba(0, 0, 0, 0.25);
   --shadow-medium: 0 4px 25px -5px rgba(0, 0, 0, 0.5), 0 10px 30px -5px rgba(0, 0, 0, 0.3);
   --shadow-hard: 0 10px 40px -10px rgba(0, 0, 0, 0.6);
-  --shadow-glow: 0 0 30px rgba(255, 83, 64, 0.55), 0 0 60px rgba(255, 83, 64, 0.25);
-  --shadow-glow-secondary: 0 0 30px rgba(92, 225, 230, 0.5), 0 0 60px rgba(92, 225, 230, 0.2);
-  --shadow-glass: 0 8px 32px 0 rgba(0, 0, 0, 0.4);
+  --shadow-glow: 0 0 24px rgba(255, 83, 64, 0.3);
+  --shadow-glow-secondary: 0 0 24px rgba(92, 225, 230, 0.25);
+  --shadow-glass: 0 8px 32px 0 rgba(0, 0, 0, 0.35);
 }
 
 body {
   background-color: var(--color-background);
-  color: rgb(250 248 245);
+  color: rgb(244 244 246);
   -webkit-font-smoothing: antialiased;
 }
 
@@ -65,16 +65,16 @@ html {
 }
 
 ::-webkit-scrollbar-track {
-  background-color: rgba(18, 12, 8, 0.5);
+  background-color: rgba(18, 18, 22, 0.5);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(to bottom, rgba(255, 83, 64, 0.6), rgba(92, 225, 230, 0.6));
+  background: rgba(255, 255, 255, 0.15);
   border-radius: 9999px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(to bottom, rgba(255, 83, 64, 0.9), rgba(92, 225, 230, 0.9));
+  background: rgba(255, 83, 64, 0.5);
 }
 
 /* App-like styles */
@@ -102,66 +102,61 @@ body {
 }
 
 /* ─────────────────────────────────────────────
-   GLASSMORPHISM — warm dark backgrounds
+   GLASSMORPHISM — neutral, restrained
 ───────────────────────────────────────────── */
 .glass {
-  background: rgba(255, 248, 240, 0.05);
-  backdrop-filter: blur(24px) saturate(180%);
-  -webkit-backdrop-filter: blur(24px) saturate(180%);
-  border: 1px solid rgba(255, 200, 160, 0.1);
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(24px) saturate(160%);
+  -webkit-backdrop-filter: blur(24px) saturate(160%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   box-shadow: var(--shadow-glass);
 }
 
 .glass-dark {
-  background: rgba(8, 6, 4, 0.75);
-  backdrop-filter: blur(24px) saturate(180%);
-  -webkit-backdrop-filter: blur(24px) saturate(180%);
-  border: 1px solid rgba(255, 200, 160, 0.06);
+  background: rgba(10, 10, 12, 0.75);
+  backdrop-filter: blur(24px) saturate(160%);
+  -webkit-backdrop-filter: blur(24px) saturate(160%);
+  border: 1px solid rgba(255, 255, 255, 0.06);
   box-shadow: var(--shadow-glass);
 }
 
 .glass-primary {
-  background: rgba(255, 83, 64, 0.1);
-  backdrop-filter: blur(24px) saturate(180%);
-  -webkit-backdrop-filter: blur(24px) saturate(180%);
-  border: 1px solid rgba(255, 83, 64, 0.3);
-  box-shadow: 0 0 40px rgba(255, 83, 64, 0.2);
+  background: rgba(255, 83, 64, 0.08);
+  backdrop-filter: blur(24px) saturate(160%);
+  -webkit-backdrop-filter: blur(24px) saturate(160%);
+  border: 1px solid rgba(255, 83, 64, 0.22);
+  box-shadow: 0 0 32px rgba(255, 83, 64, 0.12);
 }
 
 .glass-secondary {
-  background: rgba(92, 225, 230, 0.08);
-  backdrop-filter: blur(24px) saturate(180%);
-  -webkit-backdrop-filter: blur(24px) saturate(180%);
-  border: 1px solid rgba(92, 225, 230, 0.25);
-  box-shadow: 0 0 40px rgba(92, 225, 230, 0.15);
+  background: rgba(92, 225, 230, 0.06);
+  backdrop-filter: blur(24px) saturate(160%);
+  -webkit-backdrop-filter: blur(24px) saturate(160%);
+  border: 1px solid rgba(92, 225, 230, 0.18);
+  box-shadow: 0 0 32px rgba(92, 225, 230, 0.1);
 }
 
 /* ─────────────────────────────────────────────
-   GRADIENT BACKGROUNDS
+   GRADIENT BACKGROUNDS — subtle depth, not loud
 ───────────────────────────────────────────── */
 
-/* Aurora — coral + teal + warm beige */
 .aurora-bg {
   background:
-    radial-gradient(ellipse at 20% 30%, rgba(255, 83, 64, 0.3) 0%, transparent 55%),
-    radial-gradient(ellipse at 80% 15%, rgba(92, 225, 230, 0.22) 0%, transparent 55%),
-    radial-gradient(ellipse at 55% 85%, rgba(255, 184, 132, 0.18) 0%, transparent 55%),
-    radial-gradient(ellipse at 5% 85%, rgba(232, 61, 42, 0.18) 0%, transparent 50%),
+    radial-gradient(ellipse at 20% 25%, rgba(255, 83, 64, 0.14) 0%, transparent 55%),
+    radial-gradient(ellipse at 85% 15%, rgba(92, 225, 230, 0.08) 0%, transparent 50%),
     var(--color-background);
 }
 
-/* Mesh Gradient */
 .mesh-gradient {
   background:
-    radial-gradient(at 0% 0%, rgba(255, 83, 64, 0.22) 0px, transparent 50%),
-    radial-gradient(at 100% 0%, rgba(92, 225, 230, 0.18) 0px, transparent 50%),
-    radial-gradient(at 100% 100%, rgba(255, 184, 132, 0.15) 0px, transparent 50%),
-    radial-gradient(at 0% 100%, rgba(232, 61, 42, 0.12) 0px, transparent 50%),
+    radial-gradient(at 0% 0%, rgba(255, 83, 64, 0.1) 0px, transparent 50%),
+    radial-gradient(at 100% 0%, rgba(92, 225, 230, 0.06) 0px, transparent 50%),
+    radial-gradient(at 50% 100%, rgba(255, 255, 255, 0.02) 0px, transparent 50%),
     var(--color-background);
 }
 
 /* ─────────────────────────────────────────────
-   ANIMATED GRADIENTS
+   ANIMATED GRADIENTS — single hue family
 ───────────────────────────────────────────── */
 @keyframes gradientShift {
   0%   { background-position: 0% 50%; }
@@ -171,9 +166,8 @@ body {
 
 .animated-gradient {
   background: linear-gradient(-45deg,
+    rgba(196, 42, 24, 0.85),
     rgba(255, 83, 64, 0.85),
-    rgba(92, 225, 230, 0.85),
-    rgba(255, 184, 132, 0.85),
     rgba(232, 61, 42, 0.9)
   );
   background-size: 400% 400%;
@@ -183,19 +177,18 @@ body {
 .animated-gradient-fast {
   background: linear-gradient(-45deg,
     #C42A18,
-    #5CE1E6,
-    #FFB884,
-    #FF5340
+    #FF5340,
+    #E83D2A
   );
   background-size: 400% 400%;
   animation: gradientShift 8s ease infinite;
 }
 
 /* ─────────────────────────────────────────────
-   GRADIENT TEXT
+   GRADIENT TEXT — refined single-hue coral
 ───────────────────────────────────────────── */
 .gradient-text {
-  background: linear-gradient(135deg, #FF7A67 0%, #FFB884 45%, #5CE1E6 100%);
+  background: linear-gradient(135deg, #FF9078 0%, #FF5340 100%);
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -203,7 +196,7 @@ body {
 }
 
 .gradient-text-warm {
-  background: linear-gradient(135deg, #FF5340 0%, #FF8C6B 100%);
+  background: linear-gradient(135deg, #FF8C6B 0%, #FF5340 100%);
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -222,7 +215,7 @@ body {
   background: linear-gradient(
     90deg,
     rgba(255, 255, 255, 0) 0%,
-    rgba(255, 220, 180, 0.1) 50%,
+    rgba(255, 255, 255, 0.06) 50%,
     rgba(255, 255, 255, 0) 100%
   );
   background-size: 1000px 100%;
@@ -242,14 +235,14 @@ body {
 }
 
 /* ─────────────────────────────────────────────
-   GLOW PULSE — coral orange
+   GLOW PULSE — soft, single colour
 ───────────────────────────────────────────── */
 @keyframes glowPulse {
   0%, 100% {
-    box-shadow: 0 0 20px rgba(255, 83, 64, 0.45), 0 0 40px rgba(255, 83, 64, 0.2);
+    box-shadow: 0 0 16px rgba(255, 83, 64, 0.25);
   }
   50% {
-    box-shadow: 0 0 40px rgba(255, 83, 64, 0.75), 0 0 80px rgba(92, 225, 230, 0.35);
+    box-shadow: 0 0 28px rgba(255, 83, 64, 0.45);
   }
 }
 
@@ -261,9 +254,9 @@ body {
    AURORA ORB DRIFT
 ───────────────────────────────────────────── */
 @keyframes orbDrift {
-  0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.6; }
-  33%       { transform: translate(30px, -20px) scale(1.1); opacity: 0.8; }
-  66%       { transform: translate(-20px, 15px) scale(0.95); opacity: 0.5; }
+  0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.5; }
+  33%       { transform: translate(30px, -20px) scale(1.08); opacity: 0.65; }
+  66%       { transform: translate(-20px, 15px) scale(0.96); opacity: 0.45; }
 }
 
 .orb-drift {
@@ -271,23 +264,23 @@ body {
 }
 
 /* ─────────────────────────────────────────────
-   CARD EFFECTS
+   CARD EFFECTS — lift without neon
 ───────────────────────────────────────────── */
 .card-hover-effect {
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .card-hover-effect:hover {
-  transform: translateY(-8px) scale(1.02);
-  box-shadow: 0 20px 60px -10px rgba(0, 0, 0, 0.5), 0 0 30px rgba(255, 83, 64, 0.15);
+  transform: translateY(-6px) scale(1.01);
+  box-shadow: 0 18px 50px -12px rgba(0, 0, 0, 0.55), 0 0 0 1px rgba(255, 255, 255, 0.06);
 }
 
 /* ─────────────────────────────────────────────
-   GRADIENT BORDER
+   GRADIENT BORDER — subtle brand edge
 ───────────────────────────────────────────── */
 .gradient-border {
   position: relative;
-  background: rgba(255, 248, 240, 0.03);
+  background: rgba(255, 255, 255, 0.02);
   border-radius: 1.5rem;
 }
 
@@ -296,8 +289,8 @@ body {
   position: absolute;
   inset: 0;
   border-radius: 1.5rem;
-  padding: 1.5px;
-  background: linear-gradient(135deg, var(--color-primary), var(--color-accent), var(--color-secondary));
+  padding: 1px;
+  background: linear-gradient(135deg, rgba(255, 83, 64, 0.5), rgba(255, 255, 255, 0.12));
   -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
   mask-composite: exclude;
@@ -307,9 +300,9 @@ body {
    FROSTED
 ───────────────────────────────────────────── */
 .frosted {
-  background: rgba(255, 248, 240, 0.06);
-  backdrop-filter: blur(40px) saturate(180%);
-  -webkit-backdrop-filter: blur(40px) saturate(180%);
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(40px) saturate(160%);
+  -webkit-backdrop-filter: blur(40px) saturate(160%);
 }
 
 /* ─────────────────────────────────────────────
@@ -325,7 +318,7 @@ body {
 }
 
 .logo-blend {
-  filter: drop-shadow(0 2px 12px rgba(255, 83, 64, 0.5));
+  filter: drop-shadow(0 2px 10px rgba(255, 83, 64, 0.3));
   image-rendering: -webkit-optimize-contrast;
   image-rendering: crisp-edges;
 }

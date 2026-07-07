@@ -152,7 +152,7 @@ export default function RoomsPage() {
                     style={{
                       width: 44, height: 44,
                       background: 'rgba(255,255,255,0.05)',
-                      border: '1px solid rgba(255,200,160,0.12)',
+                      border: '1px solid rgba(255,255,255,0.12)',
                       color: 'rgba(255,255,255,0.4)',
                     }}
                   >
@@ -238,7 +238,7 @@ export default function RoomsPage() {
                           exit={{ opacity: 0, x: -16, scale: 0.95 }}
                           transition={{ delay: i * 0.04 }}
                           className="flex gap-3 p-2.5 rounded-xl cursor-pointer transition-all hover:scale-[1.02]"
-                          style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,200,160,0.08)' }}
+                          style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)' }}
                         >
                           <img src={room.images[0]} alt={room.title}
                             className="w-14 h-14 rounded-lg object-cover flex-shrink-0" />

@@ -25,15 +25,15 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
       {/* ─── DESKTOP SIDEBAR ─────────────────── */}
       <aside className="hidden md:flex fixed left-0 top-0 bottom-0 w-60 z-50 flex-col"
         style={{
-          background: 'rgba(12, 9, 6, 0.85)',
+          background: 'rgba(13, 13, 16, 0.85)',
           backdropFilter: 'blur(24px) saturate(180%)',
           WebkitBackdropFilter: 'blur(24px) saturate(180%)',
-          borderRight: '1px solid rgba(255, 200, 160, 0.08)',
+          borderRight: '1px solid rgba(255, 255, 255, 0.08)',
         }}>
 
         {/* Logo */}
         <Link href="/" className="flex items-center gap-3 px-5 h-16 flex-shrink-0"
-          style={{ borderBottom: '1px solid rgba(255, 200, 160, 0.06)' }}>
+          style={{ borderBottom: '1px solid rgba(255, 255, 255, 0.06)' }}>
           <div className="relative">
             <div className="absolute inset-0 blur-lg rounded-full" style={{ background: 'rgba(255, 83, 64, 0.45)' }} />
             <Image src="/logo.png" alt="GlobeNest" width={36} height={36}
@@ -53,7 +53,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
                     layoutId="sidebarActive"
                     className="absolute inset-0 rounded-xl"
                     style={{
-                      background: 'linear-gradient(135deg, rgba(255,83,64,0.18), rgba(92,225,230,0.1))',
+                      background: 'linear-gradient(135deg, rgba(255,83,64,0.16), rgba(255,83,64,0.06))',
                       border: '1px solid rgba(255,83,64,0.25)',
                     }}
                     transition={{ type: 'spring', stiffness: 380, damping: 30 }}
@@ -86,7 +86,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
         <div className="p-3 flex-shrink-0">
           <div className="rounded-2xl p-4"
             style={{
-              background: 'linear-gradient(135deg, rgba(255,83,64,0.12), rgba(92,225,230,0.07))',
+              background: 'linear-gradient(135deg, rgba(255,83,64,0.1), rgba(255,255,255,0.03))',
               border: '1px solid rgba(255,83,64,0.18)',
             }}>
             <p className="text-white text-sm font-bold mb-1">New to London?</p>
@@ -96,7 +96,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
                 whileHover={{ scale: 1.03 }}
                 whileTap={{ scale: 0.97 }}
                 className="w-full py-2.5 rounded-xl font-bold text-xs text-white flex items-center justify-center gap-1.5"
-                style={{ background: 'linear-gradient(135deg, #E83D2A, #FF5340, #5CE1E6)', boxShadow: '0 4px 16px rgba(255,83,64,0.3)' }}
+                style={{ background: 'linear-gradient(180deg, #FF6C52, #EE422D)', boxShadow: '0 4px 16px rgba(255,83,64,0.3)' }}
               >
                 Get Started <ArrowRight size={13} />
               </motion.button>
@@ -113,10 +113,10 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
       {/* ─── MOBILE TOP HEADER ───────────────── */}
       <header className="md:hidden fixed top-0 left-0 right-0 z-40 flex items-center gap-2.5 px-4 h-14"
         style={{
-          background: 'rgba(8, 6, 4, 0.8)',
+          background: 'rgba(10, 10, 12, 0.8)',
           backdropFilter: 'blur(24px) saturate(180%)',
           WebkitBackdropFilter: 'blur(24px) saturate(180%)',
-          borderBottom: '1px solid rgba(255, 200, 160, 0.07)',
+          borderBottom: '1px solid rgba(255, 255, 255, 0.07)',
         }}>
         <div className="relative">
           <div className="absolute inset-0 blur-md rounded-full" style={{ background: 'rgba(255, 83, 64, 0.4)' }} />
