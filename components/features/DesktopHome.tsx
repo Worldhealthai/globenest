@@ -6,10 +6,8 @@ import {
   Heart, Shield, Sparkles, Clock, Star, Zap
 } from 'lucide-react'
 import { useState } from 'react'
-import Image from 'next/image'
 import Link from 'next/link'
 import { mockRooms, mockMarketplaceItems } from '@/lib/mockData'
-import { formatPrice } from '@/lib/utils'
 
 export default function DesktopHome() {
   const [search, setSearch] = useState('')
@@ -28,31 +26,19 @@ export default function DesktopHome() {
   ]
 
   return (
-    <div className="min-h-screen pt-16 mesh-gradient">
-      <div className="max-w-7xl mx-auto px-6 lg:px-8 py-10">
+    <div className="min-h-screen mesh-gradient">
+      <div className="max-w-6xl mx-auto px-6 lg:px-10 py-8">
 
         {/* ─── HERO HEADER ─────────────────────── */}
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="mb-10"
+          className="mb-8"
         >
-          <div className="flex items-center gap-4 mb-2">
-            <motion.div
-              animate={{ scale: [1, 1.06, 1] }}
-              transition={{ duration: 3, repeat: Infinity }}
-            >
-              <div className="relative">
-                <div className="absolute inset-0 blur-xl rounded-full" style={{ background: 'rgba(255,83,64,0.55)' }} />
-                <Image src="/logo.png" alt="GlobeNest" width={48} height={48}
-                  className="w-11 h-11 relative z-10 logo-blend" priority />
-              </div>
-            </motion.div>
-            <div>
-              <h1 className="text-3xl font-bold gradient-text leading-tight">GlobeNest</h1>
-              <p className="text-white/40 text-sm">London&apos;s expat platform</p>
-            </div>
-          </div>
+          <h1 className="text-3xl font-bold text-white leading-tight mb-1">
+            Welcome to <span className="gradient-text">GlobeNest</span>
+          </h1>
+          <p className="text-white/40 text-sm">Everything you need to make London home</p>
         </motion.div>
 
         {/* ─── SEARCH BAR ──────────────────────── */}

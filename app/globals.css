@@ -93,11 +93,6 @@ body {
   padding-bottom: env(safe-area-inset-bottom);
 }
 
-/* Hide desktop navbar for app mode */
-nav.fixed.top-0 {
-  display: none;
-}
-
 /* App-like touch feedback */
 @media (hover: none) {
   button:active,

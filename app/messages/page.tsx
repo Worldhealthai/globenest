@@ -2,11 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { ArrowLeft, Send, Phone, Video, MoreVertical, Search, Shield, Smile, ChevronLeft, User, Bell, Archive, Trash2 } from 'lucide-react'
-import Navbar from '@/components/layout/Navbar'
-import Card from '@/components/ui/Card'
-import Input from '@/components/ui/Input'
-import Button from '@/components/ui/Button'
+import { Send, Phone, MoreVertical, Search, Shield, ChevronLeft, MessageCircle } from 'lucide-react'
 import { mockUsers } from '@/lib/mockData'
 
 interface Message {
@@ -17,85 +13,57 @@ interface Message {
   isOwn: boolean
 }
 
+const conversations = [
+  {
+    user: mockUsers[1],
+    lastMessage: 'The sofa is still available! When would you like to pick it up?',
+    timestamp: new Date('2024-01-15T14:30:00'),
+    unread: 2,
+  },
+  {
+    user: mockUsers[0],
+    lastMessage: "Great! I'd love to view the room this weekend.",
+    timestamp: new Date('2024-01-15T12:15:00'),
+    unread: 0,
+  },
+  {
+    user: mockUsers[2],
+    lastMessage: 'Thanks for the info about the area!',
+    timestamp: new Date('2024-01-14T18:45:00'),
+    unread: 0,
+  },
+]
+
+function initialMessagesFor(userId: string): Message[] {
+  return [
+    { id: '1', sender: userId, content: "Hi! I saw you're interested in the sofa. Are you still looking?", timestamp: new Date('2024-01-15T14:00:00'), isOwn: false },
+    { id: '2', sender: 'me', content: 'Yes, I am! It looks perfect for my new flat. Is it still available?', timestamp: new Date('2024-01-15T14:15:00'), isOwn: true },
+    { id: '3', sender: userId, content: 'The sofa is still available! When would you like to pick it up?', timestamp: new Date('2024-01-15T14:30:00'), isOwn: false },
+    { id: '4', sender: userId, content: "I'm in Shoreditch, so pickup would be from here. I can help you load it if needed!", timestamp: new Date('2024-01-15T14:31:00'), isOwn: false },
+  ]
+}
+
+const fmtTime = (d: Date) => d.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' })
+
 export default function MessagesPage() {
-  const [selectedConversation, setSelectedConversation] = useState<string | null>(null)
+  const [selectedId, setSelectedId] = useState<string | null>(null)
   const [messageInput, setMessageInput] = useState('')
-  const [showMenu, setShowMenu] = useState(false)
   const [messages, setMessages] = useState<Message[]>([])
   const messagesEndRef = useRef<HTMLDivElement>(null)
 
-  // Auto-scroll to bottom when messages change
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
   }, [messages])
 
-  // Mock conversations
-  const conversations = [
-    {
-      user: mockUsers[1],
-      lastMessage: 'The sofa is still available! When would you like to pick it up?',
-      timestamp: new Date('2024-01-15T14:30:00'),
-      unread: 2,
-    },
-    {
-      user: mockUsers[0],
-      lastMessage: 'Great! I\'d love to view the room this weekend.',
-      timestamp: new Date('2024-01-15T12:15:00'),
-      unread: 0,
-    },
-    {
-      user: mockUsers[2],
-      lastMessage: 'Thanks for the info about the area!',
-      timestamp: new Date('2024-01-14T18:45:00'),
-      unread: 0,
-    },
-  ]
+  const selectedUser = conversations.find(c => c.user.id === selectedId)?.user
 
-  // Load initial messages when conversation is selected
-  const loadInitialMessages = (userId: string) => {
-    const initialMessages: Message[] = [
-      {
-        id: '1',
-        sender: userId,
-        content: 'Hi! I saw you\'re interested in the sofa. Are you still looking?',
-        timestamp: new Date('2024-01-15T14:00:00'),
-        isOwn: false,
-      },
-      {
-        id: '2',
-        sender: 'me',
-        content: 'Yes, I am! It looks perfect for my new flat. Is it still available?',
-        timestamp: new Date('2024-01-15T14:15:00'),
-        isOwn: true,
-      },
-      {
-        id: '3',
-        sender: userId,
-        content: 'The sofa is still available! When would you like to pick it up?',
-        timestamp: new Date('2024-01-15T14:30:00'),
-        isOwn: false,
-      },
-      {
-        id: '4',
-        sender: userId,
-        content: 'I\'m in Shoreditch, so pickup would be from here. I can help you load it if needed!',
-        timestamp: new Date('2024-01-15T14:31:00'),
-        isOwn: false,
-      },
-    ]
-    setMessages(initialMessages)
-  }
-
-  const selectedUser = conversations.find(c => c.user.id === selectedConversation)?.user
-
-  // Load messages when conversation changes
-  if (selectedConversation && messages.length === 0) {
-    loadInitialMessages(selectedConversation)
+  const openConversation = (userId: string) => {
+    setSelectedId(userId)
+    setMessages(initialMessagesFor(userId))
   }
 
   const handleSendMessage = () => {
-    if (!messageInput.trim() || !selectedConversation) return
-
+    if (!messageInput.trim() || !selectedId) return
     const newMessage: Message = {
       id: `msg-${Date.now()}`,
       sender: 'me',
@@ -103,624 +71,271 @@ export default function MessagesPage() {
       timestamp: new Date(),
       isOwn: true,
     }
-
-    setMessages([...messages, newMessage])
+    setMessages(prev => [...prev, newMessage])
     setMessageInput('')
 
-    // Simulate reply after 2 seconds
     setTimeout(() => {
-      const replyMessage: Message = {
+      setMessages(prev => [...prev, {
         id: `msg-${Date.now()}-reply`,
-        sender: selectedConversation,
-        content: 'Thanks for your message! I\'ll get back to you soon.',
+        sender: selectedId,
+        content: "Thanks for your message! I'll get back to you soon.",
         timestamp: new Date(),
         isOwn: false,
-      }
-      setMessages(prev => [...prev, replyMessage])
+      }])
     }, 2000)
   }
 
-  return (
-    <div className="min-h-screen mesh-gradient overflow-hidden">
-      <Navbar />
+  /* ── Shared sub-views ─────────────────────── */
 
-      {/* Mobile: Full-screen conversation or chat view */}
+  const ConversationList = ({ compact = false }: { compact?: boolean }) => (
+    <div className="flex flex-col h-full">
+      {/* Search */}
+      <div className={compact ? 'p-3' : 'p-4'} style={{ borderBottom: '1px solid rgba(255,200,160,0.07)' }}>
+        <div className="relative">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-white/25" size={15} />
+          <input
+            className="w-full pl-9 pr-3 py-2.5 rounded-xl text-sm text-white placeholder:text-white/25 outline-none"
+            style={{ background: 'rgba(255,248,240,0.05)', border: '1px solid rgba(255,200,160,0.08)' }}
+            placeholder="Search messages…"
+          />
+        </div>
+      </div>
+
+      {/* List */}
+      <div className="flex-1 overflow-y-auto scrollbar-hide">
+        {conversations.map((c, i) => {
+          const isActive = selectedId === c.user.id
+          return (
+            <motion.button
+              key={c.user.id}
+              initial={{ opacity: 0, x: -12 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: i * 0.06 }}
+              onClick={() => openConversation(c.user.id)}
+              className="w-full text-left p-3.5 flex items-start gap-3 transition-colors"
+              style={{
+                background: isActive ? 'linear-gradient(135deg, rgba(255,83,64,0.12), rgba(92,225,230,0.06))' : 'transparent',
+                borderBottom: '1px solid rgba(255,200,160,0.05)',
+                borderLeft: isActive ? '2px solid #FF5340' : '2px solid transparent',
+              }}
+            >
+              <div className="relative flex-shrink-0">
+                <img
+                  src={c.user.avatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${c.user.name}`}
+                  alt={c.user.name}
+                  className="w-11 h-11 rounded-full"
+                  style={{ border: '1.5px solid rgba(255,200,160,0.15)' }}
+                />
+                {c.unread > 0 && (
+                  <span className="absolute -top-1 -right-1 w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-bold text-white"
+                    style={{ background: 'linear-gradient(135deg, #E83D2A, #FF5340)' }}>
+                    {c.unread}
+                  </span>
+                )}
+              </div>
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center justify-between mb-0.5">
+                  <div className="flex items-center gap-1.5 min-w-0">
+                    <span className="font-semibold text-sm text-white truncate">{c.user.name}</span>
+                    {c.user.verified && <Shield size={12} style={{ color: '#6AE3E8' }} fill="currentColor" className="flex-shrink-0" />}
+                  </div>
+                  <span className="text-[10px] text-white/30 flex-shrink-0 ml-2">{fmtTime(c.timestamp)}</span>
+                </div>
+                <p className={`text-xs line-clamp-2 ${c.unread > 0 ? 'text-white/75 font-medium' : 'text-white/40'}`}>
+                  {c.lastMessage}
+                </p>
+              </div>
+            </motion.button>
+          )
+        })}
+      </div>
+    </div>
+  )
+
+  const ChatView = ({ onBack }: { onBack?: () => void }) => (
+    <div className="flex flex-col h-full">
+      {/* Chat header */}
+      <div className="flex items-center justify-between px-4 py-3 flex-shrink-0"
+        style={{ borderBottom: '1px solid rgba(255,200,160,0.07)', background: 'rgba(255,248,240,0.03)' }}>
+        <div className="flex items-center gap-3 min-w-0">
+          {onBack && (
+            <button onClick={onBack} className="p-1 -ml-1 text-white/50 hover:text-white transition-colors">
+              <ChevronLeft size={22} />
+            </button>
+          )}
+          <div className="relative flex-shrink-0">
+            <img
+              src={selectedUser?.avatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${selectedUser?.name}`}
+              alt={selectedUser?.name}
+              className="w-9 h-9 rounded-full"
+              style={{ border: '1.5px solid rgba(255,200,160,0.15)' }}
+            />
+            <span className="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full"
+              style={{ background: '#34D399', border: '2px solid rgba(12,9,6,1)' }} />
+          </div>
+          <div className="min-w-0">
+            <div className="flex items-center gap-1.5">
+              <span className="font-semibold text-sm text-white truncate">{selectedUser?.name}</span>
+              {selectedUser?.verified && <Shield size={12} style={{ color: '#6AE3E8' }} fill="currentColor" />}
+            </div>
+            <span className="text-[11px]" style={{ color: '#34D399' }}>Online</span>
+          </div>
+        </div>
+        <div className="flex items-center gap-1 flex-shrink-0">
+          <button className="p-2 rounded-xl text-white/40 hover:text-white hover:bg-white/5 transition-all">
+            <Phone size={17} />
+          </button>
+          <button className="p-2 rounded-xl text-white/40 hover:text-white hover:bg-white/5 transition-all">
+            <MoreVertical size={17} />
+          </button>
+        </div>
+      </div>
+
+      {/* Messages */}
+      <div className="flex-1 overflow-y-auto p-4 space-y-3 scrollbar-hide">
+        {messages.map((message) => (
+          <motion.div
+            key={message.id}
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            className={`flex ${message.isOwn ? 'justify-end' : 'justify-start'}`}
+          >
+            <div className="max-w-[80%]">
+              <div
+                className="px-4 py-2.5 text-sm leading-relaxed break-words"
+                style={message.isOwn ? {
+                  background: 'linear-gradient(135deg, #E83D2A, #FF5340)',
+                  color: '#fff',
+                  borderRadius: '18px 18px 4px 18px',
+                  boxShadow: '0 4px 16px rgba(255,83,64,0.25)',
+                } : {
+                  background: 'rgba(255,248,240,0.07)',
+                  color: 'rgba(255,255,255,0.85)',
+                  border: '1px solid rgba(255,200,160,0.08)',
+                  borderRadius: '18px 18px 18px 4px',
+                }}
+              >
+                {message.content}
+              </div>
+              <span className={`text-[10px] text-white/25 mt-1 block px-1 ${message.isOwn ? 'text-right' : ''}`}>
+                {fmtTime(message.timestamp)}
+              </span>
+            </div>
+          </motion.div>
+        ))}
+        <div ref={messagesEndRef} />
+      </div>
+
+      {/* Input */}
+      <div className="p-3 flex-shrink-0" style={{ borderTop: '1px solid rgba(255,200,160,0.07)' }}>
+        <div className="flex gap-2 items-center">
+          <input
+            value={messageInput}
+            onChange={(e) => setMessageInput(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault()
+                handleSendMessage()
+              }
+            }}
+            className="flex-1 px-4 py-2.5 rounded-full text-sm text-white placeholder:text-white/25 outline-none"
+            style={{ background: 'rgba(255,248,240,0.05)', border: '1px solid rgba(255,200,160,0.1)' }}
+            placeholder="Type a message…"
+          />
+          <motion.button
+            whileHover={{ scale: 1.08 }}
+            whileTap={{ scale: 0.92 }}
+            onClick={handleSendMessage}
+            disabled={!messageInput.trim()}
+            className="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 text-white disabled:opacity-30 transition-opacity"
+            style={{ background: 'linear-gradient(135deg, #E83D2A, #FF5340, #5CE1E6)', boxShadow: '0 4px 14px rgba(255,83,64,0.3)' }}
+          >
+            <Send size={16} />
+          </motion.button>
+        </div>
+      </div>
+    </div>
+  )
+
+  return (
+    <div className="min-h-screen mesh-gradient">
+
+      {/* ── MOBILE: list ⇄ full-screen chat ─── */}
       <div className="md:hidden">
         <AnimatePresence mode="wait">
-          {!selectedConversation ? (
-            // Conversation List (Mobile)
+          {!selectedId ? (
             <motion.div
               key="list"
-              initial={{ x: -20, opacity: 0 }}
+              initial={{ x: -16, opacity: 0 }}
               animate={{ x: 0, opacity: 1 }}
-              exit={{ x: -20, opacity: 0 }}
-              transition={{ duration: 0.2 }}
-              className="pt-16 pb-20 px-2"
+              exit={{ x: -16, opacity: 0 }}
+              transition={{ duration: 0.18 }}
+              className="px-4 pt-5"
             >
-              <div className="max-w-2xl mx-auto">
-                {/* Mobile Header */}
-                <motion.div
-                  initial={{ opacity: 0, y: -20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  className="mb-4 px-2"
-                >
-                  <h1 className="text-3xl font-bold mb-2">
-                    <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">Messages</span>
-                  </h1>
-                  <p className="text-gray-600">Chat with your matches</p>
-                </motion.div>
-
-                {/* Search */}
-                <div className="mb-4 px-2">
-                  <Input
-                    placeholder="Search messages..."
-                    icon={<Search size={18} />}
-                    className="glass backdrop-blur-xl"
-                  />
-                </div>
-
-                {/* Conversation List */}
-                <div className="space-y-2">
-                  {conversations.map((conversation, index) => (
-                    <motion.div
-                      key={conversation.user.id}
-                      initial={{ opacity: 0, x: -20 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: index * 0.1 }}
-                      whileHover={{ x: 4 }}
-                      whileTap={{ scale: 0.98 }}
-                      onClick={() => {
-                        setSelectedConversation(conversation.user.id)
-                        setMessages([])
-                      }}
-                      className="glass rounded-2xl p-4 cursor-pointer backdrop-blur-xl active:bg-white/30"
-                    >
-                      <div className="flex items-start gap-3">
-                        <div className="relative flex-shrink-0">
-                          <img
-                            src={conversation.user.avatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${conversation.user.name}`}
-                            alt={conversation.user.name}
-                            className="w-14 h-14 rounded-full ring-2 ring-white/30"
-                          />
-                          {conversation.unread > 0 && (
-                            <motion.div
-                              initial={{ scale: 0 }}
-                              animate={{ scale: 1 }}
-                              className="absolute -top-1 -right-1 bg-gradient-to-r from-primary to-secondary text-white text-xs w-6 h-6 rounded-full flex items-center justify-center font-bold shadow-lg"
-                            >
-                              {conversation.unread}
-                            </motion.div>
-                          )}
-                        </div>
-                        <div className="flex-1 min-w-0">
-                          <div className="flex items-center justify-between mb-1">
-                            <div className="flex items-center gap-1.5">
-                              <span className="font-semibold text-base truncate">
-                                {conversation.user.name}
-                              </span>
-                              {conversation.user.verified && (
-                                <Shield className="text-secondary flex-shrink-0" size={14} fill="currentColor" />
-                              )}
-                            </div>
-                            <span className="text-xs text-gray-500 flex-shrink-0 ml-2">
-                              {conversation.timestamp.toLocaleTimeString('en-GB', {
-                                hour: '2-digit',
-                                minute: '2-digit'
-                              })}
-                            </span>
-                          </div>
-                          <p className={`text-sm line-clamp-2 ${
-                            conversation.unread > 0 ? 'font-medium text-gray-900' : 'text-gray-600'
-                          }`}>
-                            {conversation.lastMessage}
-                          </p>
-                        </div>
-                      </div>
-                    </motion.div>
-                  ))}
-                </div>
+              <h1 className="text-2xl font-bold mb-0.5">
+                <span className="gradient-text">Messages</span>
+              </h1>
+              <p className="text-white/45 text-sm mb-4">Chat with your matches</p>
+              <div className="glass rounded-2xl overflow-hidden" style={{ height: 'calc(100vh - 220px)' }}>
+                <ConversationList compact />
               </div>
             </motion.div>
           ) : (
-            // Full-Page Chat View (Mobile)
             <motion.div
               key="chat"
-              initial={{ x: 20, opacity: 0 }}
+              initial={{ x: 16, opacity: 0 }}
               animate={{ x: 0, opacity: 1 }}
-              exit={{ x: 20, opacity: 0 }}
-              transition={{ duration: 0.2 }}
-              className="fixed inset-0 bg-background z-50 flex flex-col"
+              exit={{ x: 16, opacity: 0 }}
+              transition={{ duration: 0.18 }}
+              className="fixed inset-0 z-50 flex flex-col"
+              style={{ background: 'var(--color-background)' }}
             >
-              {/* Chat Header */}
-              <div className="pt-16 pb-3 px-4 border-b border-gray-200 frosted backdrop-blur-xl flex items-center justify-between">
-                <div className="flex items-center gap-3 flex-1 min-w-0">
-                  <motion.button
-                    whileTap={{ scale: 0.9 }}
-                    onClick={() => setSelectedConversation(null)}
-                    className="p-2 hover:bg-white/20 rounded-xl transition-all min-h-[44px] min-w-[44px] flex items-center justify-center"
-                  >
-                    <ChevronLeft size={24} className="text-gray-700" />
-                  </motion.button>
-                  <div className="relative flex-shrink-0">
-                    <img
-                      src={selectedUser?.avatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${selectedUser?.name}`}
-                      alt={selectedUser?.name}
-                      className="w-10 h-10 rounded-full ring-2 ring-white/50"
-                    />
-                    <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border-2 border-white" />
-                  </div>
-                  <div className="min-w-0 flex-1">
-                    <div className="flex items-center gap-1.5">
-                      <span className="font-semibold text-base truncate">{selectedUser?.name}</span>
-                      {selectedUser?.verified && (
-                        <Shield className="text-secondary flex-shrink-0" size={14} fill="currentColor" />
-                      )}
-                    </div>
-                    <span className="text-xs text-gray-500 truncate block">Online</span>
-                  </div>
-                </div>
-                <div className="flex items-center gap-1 flex-shrink-0 relative">
-                  <motion.button
-                    whileHover={{ scale: 1.1 }}
-                    whileTap={{ scale: 0.9 }}
-                    className="p-2 hover:bg-white/20 rounded-xl transition-all min-h-[44px] min-w-[44px] flex items-center justify-center"
-                  >
-                    <Phone size={18} className="text-gray-600" />
-                  </motion.button>
-                  <div className="relative">
-                    <motion.button
-                      whileHover={{ scale: 1.1 }}
-                      whileTap={{ scale: 0.9 }}
-                      onClick={() => setShowMenu(!showMenu)}
-                      className="p-2 hover:bg-white/20 rounded-xl transition-all min-h-[44px] min-w-[44px] flex items-center justify-center"
-                    >
-                      <MoreVertical size={18} className="text-gray-600" />
-                    </motion.button>
-
-                    {/* Dropdown Menu */}
-                    <AnimatePresence>
-                      {showMenu && (
-                        <>
-                          {/* Backdrop */}
-                          <div
-                            className="fixed inset-0 z-40"
-                            onClick={() => setShowMenu(false)}
-                          />
-                          {/* Menu */}
-                          <motion.div
-                            initial={{ opacity: 0, scale: 0.95, y: -10 }}
-                            animate={{ opacity: 1, scale: 1, y: 0 }}
-                            exit={{ opacity: 0, scale: 0.95, y: -10 }}
-                            transition={{ duration: 0.15 }}
-                            className="absolute right-0 top-12 z-50 w-56 glass backdrop-blur-xl rounded-2xl shadow-hard border border-white/30 overflow-hidden"
-                          >
-                            <div className="py-2">
-                              <button
-                                onClick={() => setShowMenu(false)}
-                                className="w-full px-4 py-3 flex items-center gap-3 hover:bg-white/20 transition-colors text-left"
-                              >
-                                <User size={18} className="text-gray-600" />
-                                <span className="text-sm font-medium">View Profile</span>
-                              </button>
-                              <button
-                                onClick={() => setShowMenu(false)}
-                                className="w-full px-4 py-3 flex items-center gap-3 hover:bg-white/20 transition-colors text-left"
-                              >
-                                <Bell size={18} className="text-gray-600" />
-                                <span className="text-sm font-medium">Mute</span>
-                              </button>
-                              <button
-                                onClick={() => setShowMenu(false)}
-                                className="w-full px-4 py-3 flex items-center gap-3 hover:bg-white/20 transition-colors text-left"
-                              >
-                                <Archive size={18} className="text-gray-600" />
-                                <span className="text-sm font-medium">Archive</span>
-                              </button>
-                              <div className="border-t border-white/20 my-1" />
-                              <button
-                                onClick={() => setShowMenu(false)}
-                                className="w-full px-4 py-3 flex items-center gap-3 hover:bg-red-50 transition-colors text-left text-red-600"
-                              >
-                                <Trash2 size={18} />
-                                <span className="text-sm font-medium">Delete Chat</span>
-                              </button>
-                            </div>
-                          </motion.div>
-                        </>
-                      )}
-                    </AnimatePresence>
-                  </div>
-                </div>
-              </div>
-
-              {/* Messages */}
-              <div className="flex-1 overflow-y-auto overflow-x-hidden p-4 space-y-3 bg-gradient-to-b from-white/5 to-white/10 overscroll-contain">
-                {!selectedConversation ? (
-                  <div className="flex items-center justify-center h-full">
-                    <div className="text-center glass backdrop-blur-xl p-8 rounded-3xl">
-                      <div className="text-6xl mb-4">👈</div>
-                      <p className="text-gray-600 font-semibold">Select a conversation to start chatting</p>
-                    </div>
-                  </div>
-                ) : messages.length === 0 ? (
-                  <div className="flex items-center justify-center h-full">
-                    <div className="text-center glass backdrop-blur-xl p-8 rounded-3xl">
-                      <div className="text-6xl mb-4">💬</div>
-                      <p className="text-gray-600">Loading messages...</p>
-                    </div>
-                  </div>
-                ) : (
-                  <>
-                    {messages.map((message, index) => (
-                  <motion.div
-                    key={message.id}
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: index * 0.05 }}
-                    className={`flex ${message.isOwn ? 'justify-end' : 'justify-start'}`}
-                  >
-                    <div className={`max-w-[85%] ${message.isOwn ? 'order-2' : 'order-1'}`}>
-                      <div
-                        className={`rounded-3xl px-4 py-3 shadow-md ${
-                          message.isOwn
-                            ? 'bg-gradient-to-br from-primary to-secondary text-white rounded-br-md'
-                            : 'glass backdrop-blur-xl text-gray-900 rounded-bl-md border border-white/30'
-                        }`}
-                      >
-                        <p className="text-sm leading-relaxed break-words">{message.content}</p>
-                      </div>
-                      <span className="text-xs text-gray-500 mt-1.5 block px-2">
-                        {message.timestamp.toLocaleTimeString('en-GB', {
-                          hour: '2-digit',
-                          minute: '2-digit',
-                        })}
-                      </span>
-                    </div>
-                  </motion.div>
-                ))}
-                    <div ref={messagesEndRef} />
-                  </>
-                )}
-              </div>
-
-              {/* Message Input - Minimalist */}
-              <div className="p-3 pb-20 bg-white border-t border-gray-100">
-                <div className="flex gap-2 items-center">
-                  <textarea
-                    value={messageInput}
-                    onChange={(e) => setMessageInput(e.target.value)}
-                    onKeyDown={(e) => {
-                      if (e.key === 'Enter' && !e.shiftKey) {
-                        e.preventDefault()
-                        handleSendMessage()
-                      }
-                    }}
-                    disabled={!selectedConversation}
-                    className="flex-1 px-4 py-2.5 border border-gray-200 rounded-full focus:border-gray-300 focus:outline-none resize-none text-sm bg-white disabled:bg-gray-50 disabled:cursor-not-allowed transition-all"
-                    rows={1}
-                    style={{ maxHeight: '100px' }}
-                  />
-                  <button
-                    onClick={handleSendMessage}
-                    disabled={!messageInput.trim() || !selectedConversation}
-                    className={`w-9 h-9 rounded-full flex items-center justify-center transition-all ${
-                      messageInput.trim() && selectedConversation
-                        ? 'bg-primary text-white hover:bg-primary/90'
-                        : 'bg-gray-100 text-gray-400 cursor-not-allowed'
-                    }`}
-                  >
-                    <Send size={16} />
-                  </button>
-                </div>
+              <div className="pt-14 flex-1 flex flex-col min-h-0">
+                <ChatView onBack={() => setSelectedId(null)} />
               </div>
             </motion.div>
           )}
         </AnimatePresence>
       </div>
 
-      {/* Desktop: Original split-screen layout */}
-      <div className="hidden md:block pt-16 pb-12 px-4">
-        <div className="max-w-7xl mx-auto">
-          {/* Header */}
-          <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="mb-10"
-          >
-            <a href="/" className="flex items-center text-gray-600 hover:text-primary mb-4 transition-all hover:translate-x-1">
-              <ArrowLeft size={20} className="mr-2" />
-              Back to Home
-            </a>
-            <h1 className="text-6xl font-bold mb-3 leading-tight text-gray-900">
-              Messages
+      {/* ── DESKTOP: split pane ──────────────── */}
+      <div className="hidden md:block px-8 py-6 h-screen">
+        <div className="max-w-6xl mx-auto h-full flex flex-col">
+          <div className="mb-5 flex-shrink-0">
+            <h1 className="text-2xl md:text-3xl font-bold leading-tight mb-1">
+              <span className="gradient-text">Messages</span>
             </h1>
-            <p className="text-gray-500 text-xl">
-              Chat with matches and coordinate your move
-            </p>
-          </motion.div>
+            <p className="text-white/40 text-sm">Chat with matches and coordinate your move</p>
+          </div>
 
-          {/* Messages Interface */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
-            className="grid lg:grid-cols-3 gap-6 h-[700px]"
-          >
-            {/* Conversations List */}
-            <div className="glass rounded-3xl overflow-hidden flex flex-col backdrop-blur-xl">
-              <div className="p-6 border-b border-white/20">
-                <Input
-                  placeholder="Search messages..."
-                  icon={<Search size={18} />}
-                  className="glass backdrop-blur-xl"
-                />
-              </div>
-
-              <div className="flex-1 overflow-y-auto">
-                {conversations.map((conversation, index) => (
-                  <motion.div
-                    key={conversation.user.id}
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: index * 0.1 }}
-                    whileHover={{ x: 4 }}
-                    onClick={() => {
-                      setSelectedConversation(conversation.user.id)
-                      setMessages([])
-                    }}
-                    className={`p-5 cursor-pointer border-b border-white/10 transition-all duration-300 ${
-                      selectedConversation === conversation.user.id
-                        ? 'frosted border-l-4 border-l-secondary shadow-md'
-                        : 'hover:bg-white/10'
-                    }`}
-                  >
-                    <div className="flex items-start gap-4">
-                      <div className="relative">
-                        <img
-                          src={conversation.user.avatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${conversation.user.name}`}
-                          alt={conversation.user.name}
-                          className="w-14 h-14 rounded-full ring-2 ring-white/30"
-                        />
-                        {conversation.unread > 0 && (
-                          <motion.div
-                            initial={{ scale: 0 }}
-                            animate={{ scale: 1 }}
-                            className="absolute -top-1 -right-1 bg-gradient-to-r from-primary to-secondary text-white text-xs w-6 h-6 rounded-full flex items-center justify-center font-bold shadow-lg"
-                          >
-                            {conversation.unread}
-                          </motion.div>
-                        )}
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <div className="flex items-center justify-between mb-1">
-                          <div className="flex items-center gap-2">
-                            <span className="font-semibold text-base">
-                              {conversation.user.name}
-                            </span>
-                            {conversation.user.verified && (
-                              <Shield className="text-secondary" size={14} fill="currentColor" />
-                            )}
-                          </div>
-                          <span className="text-xs text-gray-500">
-                            {conversation.timestamp.toLocaleTimeString('en-GB', {
-                              hour: '2-digit',
-                              minute: '2-digit'
-                            })}
-                          </span>
-                        </div>
-                        <p className={`text-sm line-clamp-2 ${
-                          conversation.unread > 0 ? 'font-medium text-gray-900' : 'text-gray-600'
-                        }`}>
-                          {conversation.lastMessage}
-                        </p>
-                      </div>
-                    </div>
-                  </motion.div>
-                ))}
-              </div>
+          <div className="flex-1 min-h-0 grid grid-cols-3 gap-4">
+            {/* Conversations */}
+            <div className="glass rounded-2xl overflow-hidden">
+              <ConversationList />
             </div>
 
-            {/* Chat Area */}
-            <div className="lg:col-span-2 glass rounded-3xl overflow-hidden flex flex-col backdrop-blur-xl">
+            {/* Chat area */}
+            <div className="col-span-2 glass rounded-2xl overflow-hidden">
               {selectedUser ? (
-                <>
-                  {/* Chat Header */}
-                  <div className="p-6 border-b border-white/20 flex items-center justify-between frosted">
-                    <div className="flex items-center gap-4 flex-1 min-w-0">
-                      <div className="relative flex-shrink-0">
-                        <img
-                          src={selectedUser.avatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${selectedUser.name}`}
-                          alt={selectedUser.name}
-                          className="w-12 h-12 rounded-full ring-2 ring-white/50"
-                        />
-                        <div className="absolute bottom-0 right-0 w-4 h-4 bg-green-500 rounded-full border-2 border-white" />
-                      </div>
-                      <div className="min-w-0 flex-1">
-                        <div className="flex items-center gap-1.5">
-                          <span className="font-semibold text-lg truncate">{selectedUser.name}</span>
-                          {selectedUser.verified && (
-                            <Shield className="text-secondary flex-shrink-0" size={14} fill="currentColor" />
-                          )}
-                        </div>
-                        <span className="text-sm text-gray-500 truncate block">
-                          {selectedUser.isLeaving ? 'Leaving London' : 'New to London'} • Online
-                        </span>
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-2 flex-shrink-0">
-                      <motion.button
-                        whileHover={{ scale: 1.1 }}
-                        whileTap={{ scale: 0.9 }}
-                        className="p-3 hover:bg-white/20 rounded-xl transition-all duration-300"
-                      >
-                        <Phone size={20} className="text-gray-600" />
-                      </motion.button>
-                      <motion.button
-                        whileHover={{ scale: 1.1 }}
-                        whileTap={{ scale: 0.9 }}
-                        className="p-3 hover:bg-white/20 rounded-xl transition-all duration-300"
-                      >
-                        <Video size={20} className="text-gray-600" />
-                      </motion.button>
-                      <div className="relative">
-                        <motion.button
-                          whileHover={{ scale: 1.1 }}
-                          whileTap={{ scale: 0.9 }}
-                          onClick={() => setShowMenu(!showMenu)}
-                          className="p-3 hover:bg-white/20 rounded-xl transition-all duration-300"
-                        >
-                          <MoreVertical size={20} className="text-gray-600" />
-                        </motion.button>
-
-                        {/* Dropdown Menu */}
-                        <AnimatePresence>
-                          {showMenu && (
-                            <>
-                              <div
-                                className="fixed inset-0 z-40"
-                                onClick={() => setShowMenu(false)}
-                              />
-                              <motion.div
-                                initial={{ opacity: 0, scale: 0.95, y: -10 }}
-                                animate={{ opacity: 1, scale: 1, y: 0 }}
-                                exit={{ opacity: 0, scale: 0.95, y: -10 }}
-                                transition={{ duration: 0.15 }}
-                                className="absolute right-0 top-14 z-50 w-56 glass backdrop-blur-xl rounded-2xl shadow-hard border border-white/30 overflow-hidden"
-                              >
-                                <div className="py-2">
-                                  <button
-                                    onClick={() => setShowMenu(false)}
-                                    className="w-full px-4 py-3 flex items-center gap-3 hover:bg-white/20 transition-colors text-left"
-                                  >
-                                    <User size={18} className="text-gray-600" />
-                                    <span className="text-sm font-medium">View Profile</span>
-                                  </button>
-                                  <button
-                                    onClick={() => setShowMenu(false)}
-                                    className="w-full px-4 py-3 flex items-center gap-3 hover:bg-white/20 transition-colors text-left"
-                                  >
-                                    <Bell size={18} className="text-gray-600" />
-                                    <span className="text-sm font-medium">Mute Notifications</span>
-                                  </button>
-                                  <button
-                                    onClick={() => setShowMenu(false)}
-                                    className="w-full px-4 py-3 flex items-center gap-3 hover:bg-white/20 transition-colors text-left"
-                                  >
-                                    <Archive size={18} className="text-gray-600" />
-                                    <span className="text-sm font-medium">Archive Chat</span>
-                                  </button>
-                                  <div className="border-t border-white/20 my-1" />
-                                  <button
-                                    onClick={() => setShowMenu(false)}
-                                    className="w-full px-4 py-3 flex items-center gap-3 hover:bg-red-50 transition-colors text-left text-red-600"
-                                  >
-                                    <Trash2 size={18} />
-                                    <span className="text-sm font-medium">Delete Chat</span>
-                                  </button>
-                                </div>
-                              </motion.div>
-                            </>
-                          )}
-                        </AnimatePresence>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Messages */}
-                  <div className="flex-1 overflow-y-auto overflow-x-hidden p-6 space-y-4 bg-gradient-to-b from-white/5 to-white/10 overscroll-contain">
-                    {!selectedConversation ? (
-                      <div className="flex items-center justify-center h-full">
-                        <div className="text-center glass backdrop-blur-xl p-12 rounded-3xl">
-                          <div className="text-8xl mb-6">👈</div>
-                          <p className="text-gray-600 text-xl font-semibold">Select a conversation to start chatting</p>
-                        </div>
-                      </div>
-                    ) : messages.length === 0 ? (
-                      <div className="flex items-center justify-center h-full">
-                        <div className="text-center glass backdrop-blur-xl p-12 rounded-3xl">
-                          <div className="text-8xl mb-6">💬</div>
-                          <p className="text-gray-600 text-xl">Loading messages...</p>
-                        </div>
-                      </div>
-                    ) : (
-                      <>
-                        {messages.map((message, index) => (
-                      <motion.div
-                        key={message.id}
-                        initial={{ opacity: 0, y: 10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: index * 0.1 }}
-                        className={`flex ${message.isOwn ? 'justify-end' : 'justify-start'}`}
-                      >
-                        <div className={`max-w-[70%] ${message.isOwn ? 'order-2' : 'order-1'}`}>
-                          <div
-                            className={`rounded-3xl px-6 py-3 shadow-md ${
-                              message.isOwn
-                                ? 'bg-gradient-to-br from-primary to-secondary text-white rounded-br-md'
-                                : 'glass backdrop-blur-xl text-gray-900 rounded-bl-md border border-white/30'
-                            }`}
-                          >
-                            <p className="text-base leading-relaxed break-words">{message.content}</p>
-                          </div>
-                          <span className="text-xs text-gray-500 mt-1.5 block px-3">
-                            {message.timestamp.toLocaleTimeString('en-GB', {
-                              hour: '2-digit',
-                              minute: '2-digit',
-                            })}
-                          </span>
-                        </div>
-                      </motion.div>
-                    ))}
-                        <div ref={messagesEndRef} />
-                      </>
-                    )}
-                  </div>
-
-                  {/* Message Input - Minimalist */}
-                  <div className="p-4 bg-white border-t border-gray-100">
-                    <div className="flex gap-3 items-center">
-                      <textarea
-                        value={messageInput}
-                        onChange={(e) => setMessageInput(e.target.value)}
-                        onKeyDown={(e) => {
-                          if (e.key === 'Enter' && !e.shiftKey) {
-                            e.preventDefault()
-                            handleSendMessage()
-                          }
-                        }}
-                        disabled={!selectedConversation}
-                        className="flex-1 px-4 py-3 border border-gray-200 rounded-full focus:border-gray-300 focus:outline-none resize-none text-sm bg-white disabled:bg-gray-50 disabled:cursor-not-allowed transition-all"
-                        rows={1}
-                        style={{ maxHeight: '100px' }}
-                      />
-                      <button
-                        onClick={handleSendMessage}
-                        disabled={!messageInput.trim() || !selectedConversation}
-                        className={`w-10 h-10 rounded-full flex items-center justify-center transition-all ${
-                          messageInput.trim() && selectedConversation
-                            ? 'bg-primary text-white hover:bg-primary/90'
-                            : 'bg-gray-100 text-gray-400 cursor-not-allowed'
-                        }`}
-                      >
-                        <Send size={18} />
-                      </button>
-                    </div>
-                  </div>
-                </>
+                <ChatView />
               ) : (
-                <div className="flex-1 flex items-center justify-center text-gray-500">
+                <div className="h-full flex items-center justify-center">
                   <motion.div
-                    initial={{ opacity: 0, scale: 0.9 }}
+                    initial={{ opacity: 0, scale: 0.92 }}
                     animate={{ opacity: 1, scale: 1 }}
                     className="text-center"
                   >
-                    <div className="text-8xl mb-6">💬</div>
-                    <p className="text-2xl font-medium">Select a conversation to start messaging</p>
+                    <div className="w-16 h-16 rounded-2xl mx-auto mb-4 flex items-center justify-center"
+                      style={{ background: 'linear-gradient(135deg, rgba(255,83,64,0.15), rgba(92,225,230,0.1))', border: '1px solid rgba(255,83,64,0.2)' }}>
+                      <MessageCircle size={28} style={{ color: '#FF7A67' }} />
+                    </div>
+                    <p className="text-white/60 font-semibold text-sm">Select a conversation</p>
+                    <p className="text-white/30 text-xs mt-1">Your chats with matches appear here</p>
                   </motion.div>
                 </div>
               )}
             </div>
-          </motion.div>
+          </div>
         </div>
       </div>
     </div>

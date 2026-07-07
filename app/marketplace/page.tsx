@@ -2,8 +2,7 @@
 
 import { useState } from 'react'
 import { motion } from 'framer-motion'
-import { ArrowLeft, Search, MapPin, Clock, Shield, Plus } from 'lucide-react'
-import Navbar from '@/components/layout/Navbar'
+import { Search, MapPin, Clock, Shield, Plus } from 'lucide-react'
 import Badge from '@/components/ui/Badge'
 import Button from '@/components/ui/Button'
 import { mockMarketplaceItems } from '@/lib/mockData'
@@ -31,25 +30,19 @@ export default function MarketplacePage() {
 
   return (
     <div className="min-h-screen mesh-gradient overflow-hidden">
-      <Navbar />
-
-      <div className="pt-20 pb-12 px-4">
-        <div className="max-w-7xl mx-auto">
+      <div className="pt-5 pb-12 px-4 md:px-8">
+        <div className="max-w-6xl mx-auto">
 
           {/* Header */}
           <motion.div
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="mb-8"
+            className="mb-6"
           >
-            <a href="/" className="inline-flex items-center text-white/40 hover:text-white/70 mb-4 transition-all text-sm gap-2">
-              <ArrowLeft size={16} />
-              Back to Home
-            </a>
-            <h1 className="text-3xl sm:text-4xl md:text-6xl font-bold leading-tight text-white mb-2">
+            <h1 className="text-2xl md:text-3xl font-bold leading-tight text-white mb-1">
               <span className="gradient-text">Marketplace</span>
             </h1>
-            <p className="text-white/40 text-sm md:text-base">Buy and sell with fellow expats</p>
+            <p className="text-white/40 text-sm">Buy and sell with fellow expats</p>
           </motion.div>
 
           {/* Search */}

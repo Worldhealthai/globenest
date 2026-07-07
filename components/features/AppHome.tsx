@@ -3,7 +3,6 @@
 import { motion } from 'framer-motion'
 import { Search, MapPin, Home, ShoppingBag, TrendingUp, Sparkles, ArrowRight } from 'lucide-react'
 import { useState } from 'react'
-import Image from 'next/image'
 import { mockRooms, mockMarketplaceItems } from '@/lib/mockData'
 
 export default function AppHome() {
@@ -16,36 +15,19 @@ export default function AppHome() {
   ]
 
   return (
-    <div className="min-h-screen pt-6 pb-28 px-4 mesh-gradient">
+    <div className="min-h-screen pt-5 pb-6 px-4 mesh-gradient">
       <div className="max-w-2xl mx-auto">
 
         {/* Header */}
         <motion.div
-          initial={{ opacity: 0, y: -20 }}
+          initial={{ opacity: 0, y: -16 }}
           animate={{ opacity: 1, y: 0 }}
-          className="text-center mb-8 pt-4"
+          className="mb-6"
         >
-          <motion.div
-            animate={{ scale: [1, 1.06, 1] }}
-            transition={{ duration: 3, repeat: Infinity }}
-            className="inline-block mb-4"
-          >
-            <div className="relative">
-              <div className="absolute inset-0 blur-2xl rounded-full" style={{ background: 'rgba(255,83,64,0.5)' }} />
-              <Image
-                src="/logo.png"
-                alt="GlobeNest"
-                width={72}
-                height={72}
-                className="w-16 h-16 relative z-10 logo-blend"
-                priority
-              />
-            </div>
-          </motion.div>
-          <h1 className="text-3xl font-bold mb-1">
+          <h1 className="text-2xl font-bold mb-0.5">
             <span className="gradient-text">Find Your Perfect Place</span>
           </h1>
-          <p className="text-white/50 text-sm">Search by area to discover rooms &amp; items</p>
+          <p className="text-white/45 text-sm">Search by area to discover rooms &amp; items</p>
         </motion.div>
 
         {/* Search */}

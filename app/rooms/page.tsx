@@ -2,8 +2,7 @@
 
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Heart, X, RotateCcw, Filter, ArrowLeft, Sparkles } from 'lucide-react'
-import Navbar from '@/components/layout/Navbar'
+import { Heart, X, RotateCcw, Filter, Sparkles } from 'lucide-react'
 import Button from '@/components/ui/Button'
 import RoomCard from '@/components/features/RoomCard'
 import { mockRooms } from '@/lib/mockData'
@@ -34,13 +33,11 @@ export default function RoomsPage() {
 
   return (
     <div className="min-h-screen mesh-gradient overflow-hidden">
-      <Navbar />
-
-      <div className="pt-16 pb-6 px-4">
+      <div className="pt-5 pb-6 px-4 md:px-8">
         <div className="max-w-6xl mx-auto">
 
           {/* ── Desktop: two-column ─── Mobile: stacked */}
-          <div className="flex flex-col lg:flex-row gap-6 items-start pt-4">
+          <div className="flex flex-col lg:flex-row gap-6 items-start">
 
             {/* ── LEFT: header + card stack + buttons ── */}
             <div className="flex-1 flex flex-col items-center">
@@ -48,9 +45,6 @@ export default function RoomsPage() {
               {/* Page header */}
               <div className="w-full flex items-center justify-between mb-4">
                 <div>
-                  <a href="/" className="inline-flex items-center text-white/35 hover:text-white/60 mb-1 text-xs gap-1 transition-colors">
-                    <ArrowLeft size={13} /> Home
-                  </a>
                   <h1 className="text-xl md:text-2xl font-bold text-white leading-tight">
                     Find Your <span className="gradient-text">Perfect Room</span>
                   </h1>
@@ -201,7 +195,7 @@ export default function RoomsPage() {
             </div>
 
             {/* ── RIGHT: sidebar (desktop only) ── */}
-            <div className="hidden lg:flex flex-col gap-4 w-72 sticky top-20">
+            <div className="hidden lg:flex flex-col gap-4 w-72 sticky top-5">
 
               {/* Stats */}
               <div className="glass rounded-2xl p-4">
