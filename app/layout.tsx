@@ -1,6 +1,6 @@
 import type { Metadata, Viewport } from 'next'
 import './globals.css'
-import MobileBottomNav from '@/components/layout/MobileBottomNav'
+import AppShell from '@/components/layout/AppShell'
 
 export const metadata: Metadata = {
   title: 'GlobeNest - Connect. Relocate. Thrive.',
@@ -33,7 +33,7 @@ export const metadata: Metadata = {
 }
 
 export const viewport: Viewport = {
-  themeColor: '#FF4741',
+  themeColor: '#FF5340',
   width: 'device-width',
   initialScale: 1,
   maximumScale: 1,
@@ -55,8 +55,7 @@ export default function RootLayout({
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
       </head>
       <body className="font-sans">
-        <div className="pb-16 md:pb-0">{children}</div>
-        <MobileBottomNav />
+        <AppShell>{children}</AppShell>
       </body>
     </html>
   )

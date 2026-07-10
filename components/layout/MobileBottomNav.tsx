@@ -21,10 +21,10 @@ export default function MobileBottomNav() {
     <nav className="md:hidden fixed bottom-0 left-0 right-0 z-50 safe-area-pb">
       <div className="mx-3 mb-3 rounded-2xl overflow-hidden"
         style={{
-          background: 'rgba(18, 12, 8, 0.88)',
+          background: 'rgba(16, 16, 20, 0.88)',
           backdropFilter: 'blur(24px) saturate(180%)',
           WebkitBackdropFilter: 'blur(24px) saturate(180%)',
-          border: '1px solid rgba(255, 200, 160, 0.1)',
+          border: '1px solid rgba(255, 255, 255, 0.1)',
           boxShadow: '0 8px 40px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,83,64,0.08)',
         }}>
         <div className="flex justify-around items-center h-16 px-2">
@@ -49,7 +49,7 @@ export default function MobileBottomNav() {
                       layoutId="navPill"
                       className="absolute -inset-2 rounded-xl"
                       style={{
-                        background: 'linear-gradient(135deg, rgba(255,83,64,0.2), rgba(92,225,230,0.12))',
+                        background: 'linear-gradient(135deg, rgba(255,83,64,0.16), rgba(255,83,64,0.07))',
                         border: '1px solid rgba(255,83,64,0.25)',
                       }}
                       transition={{ type: 'spring', stiffness: 380, damping: 30 }}

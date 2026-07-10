@@ -2,8 +2,7 @@
 
 import { useState } from 'react'
 import { motion } from 'framer-motion'
-import { ArrowLeft, Search, MapPin, Clock, Shield, Plus } from 'lucide-react'
-import Navbar from '@/components/layout/Navbar'
+import { Search, MapPin, Clock, Shield, Plus } from 'lucide-react'
 import Badge from '@/components/ui/Badge'
 import Button from '@/components/ui/Button'
 import { mockMarketplaceItems } from '@/lib/mockData'
@@ -31,25 +30,19 @@ export default function MarketplacePage() {
 
   return (
     <div className="min-h-screen mesh-gradient overflow-hidden">
-      <Navbar />
-
-      <div className="pt-20 pb-12 px-4">
-        <div className="max-w-7xl mx-auto">
+      <div className="pt-5 pb-12 px-4 md:px-8">
+        <div className="max-w-6xl mx-auto">
 
           {/* Header */}
           <motion.div
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="mb-8"
+            className="mb-6"
           >
-            <a href="/" className="inline-flex items-center text-white/40 hover:text-white/70 mb-4 transition-all text-sm gap-2">
-              <ArrowLeft size={16} />
-              Back to Home
-            </a>
-            <h1 className="text-3xl sm:text-4xl md:text-6xl font-bold leading-tight text-white mb-2">
+            <h1 className="text-2xl md:text-3xl font-bold leading-tight text-white mb-1">
               <span className="gradient-text">Marketplace</span>
             </h1>
-            <p className="text-white/40 text-sm md:text-base">Buy and sell with fellow expats</p>
+            <p className="text-white/40 text-sm">Buy and sell with fellow expats</p>
           </motion.div>
 
           {/* Search */}
@@ -63,7 +56,7 @@ export default function MarketplacePage() {
               <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-white/30" size={18} />
               <input
                 className="w-full pl-11 pr-4 py-3.5 rounded-xl text-white placeholder:text-white/30 outline-none transition-all text-sm"
-                style={{ background: 'rgba(255,248,240,0.05)', border: '1px solid rgba(255,200,160,0.08)' }}
+                style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)' }}
                 placeholder="Search for items..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
@@ -80,7 +73,7 @@ export default function MarketplacePage() {
           >
             <div className="flex items-center gap-3 mb-3 px-1">
               <h3 className="text-xs font-bold uppercase tracking-wider text-white/30">Categories</h3>
-              <div className="flex-1 h-px" style={{ background: 'linear-gradient(to right, rgba(255,200,160,0.15), transparent)' }} />
+              <div className="flex-1 h-px" style={{ background: 'linear-gradient(to right, rgba(255,255,255,0.15), transparent)' }} />
             </div>
             <div className="flex flex-wrap gap-2">
               {categories.map((category, index) => (
@@ -94,13 +87,13 @@ export default function MarketplacePage() {
                   whileTap={{ scale: 0.96 }}
                   className="px-5 py-2.5 rounded-2xl font-semibold text-sm transition-all duration-300 min-h-[40px]"
                   style={selectedCategory === category ? {
-                    background: 'linear-gradient(135deg, rgba(255,83,64,0.25), rgba(92,225,230,0.2))',
+                    background: 'rgba(255,83,64,0.14)',
                     border: '1px solid rgba(255,83,64,0.4)',
                     color: '#FF7A67',
                     boxShadow: '0 4px 16px rgba(255,83,64,0.15)',
                   } : {
-                    background: 'rgba(255,248,240,0.04)',
-                    border: '1px solid rgba(255,200,160,0.08)',
+                    background: 'rgba(255,255,255,0.04)',
+                    border: '1px solid rgba(255,255,255,0.08)',
                     color: 'rgba(255,255,255,0.45)',
                   }}
                 >
@@ -134,13 +127,13 @@ export default function MarketplacePage() {
                   <div className="relative h-56">
                     <img src={item.images[0]} alt={item.title} className="w-full h-full object-cover" />
                     <div className="absolute inset-0"
-                      style={{ background: 'linear-gradient(to top, rgba(8,6,4,0.7) 0%, transparent 50%)' }} />
+                      style={{ background: 'linear-gradient(to top, rgba(10,10,12,0.7) 0%, transparent 50%)' }} />
                     <div className="absolute top-3 right-3">
                       <Badge variant={conditionColors[item.condition]}>{item.condition}</Badge>
                     </div>
                     <div className="absolute bottom-3 left-3">
                       <div className="px-4 py-1.5 rounded-full font-bold text-white text-lg"
-                        style={{ background: 'rgba(8,6,4,0.75)', backdropFilter: 'blur(12px)', border: '1px solid rgba(255,200,160,0.15)' }}>
+                        style={{ background: 'rgba(10,10,12,0.75)', backdropFilter: 'blur(12px)', border: '1px solid rgba(255,255,255,0.15)' }}>
                         {formatPrice(item.price)}
                       </div>
                     </div>
@@ -165,11 +158,11 @@ export default function MarketplacePage() {
                               src={item.user.avatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${item.user.name}`}
                               alt={item.user.name}
                               className="w-9 h-9 rounded-full"
-                              style={{ border: '1.5px solid rgba(255,200,160,0.15)' }}
+                              style={{ border: '1.5px solid rgba(255,255,255,0.15)' }}
                             />
                             {item.user.verified && (
                               <div className="absolute -bottom-0.5 -right-0.5 rounded-full p-0.5"
-                                style={{ background: 'rgba(8,6,4,0.9)' }}>
+                                style={{ background: 'rgba(10,10,12,0.9)' }}>
                                 <Shield className="w-3.5 h-3.5" style={{ color: '#6AE3E8' }} fill="currentColor" />
                               </div>
                             )}

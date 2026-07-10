@@ -45,9 +45,9 @@ export default function RoomCard({ room, onSwipe, style }: RoomCardProps) {
       {/* Card */}
       <div className="rounded-3xl overflow-hidden"
         style={{
-          background: 'rgba(18,12,8,0.85)',
+          background: 'rgba(16,16,20,0.85)',
           backdropFilter: 'blur(24px)',
-          border: '1px solid rgba(255,200,160,0.12)',
+          border: '1px solid rgba(255,255,255,0.12)',
           boxShadow: '0 24px 60px rgba(0,0,0,0.6)',
         }}>
 
@@ -64,7 +64,7 @@ export default function RoomCard({ room, onSwipe, style }: RoomCardProps) {
 
           {/* Dark gradient overlay at bottom */}
           <div className="absolute inset-0"
-            style={{ background: 'linear-gradient(to top, rgba(8,6,4,0.85) 0%, rgba(8,6,4,0.2) 50%, transparent 100%)' }} />
+            style={{ background: 'linear-gradient(to top, rgba(10,10,12,0.85) 0%, rgba(10,10,12,0.2) 50%, transparent 100%)' }} />
 
           {/* Image dots */}
           {room.images.length > 1 && (
@@ -83,7 +83,7 @@ export default function RoomCard({ room, onSwipe, style }: RoomCardProps) {
           {/* Price badge */}
           <div className="absolute top-3 right-3 z-10">
             <div className="px-3 py-1.5 rounded-full font-bold text-sm text-white"
-              style={{ background: 'rgba(8,6,4,0.75)', backdropFilter: 'blur(12px)', border: '1px solid rgba(255,200,160,0.2)' }}>
+              style={{ background: 'rgba(10,10,12,0.75)', backdropFilter: 'blur(12px)', border: '1px solid rgba(255,255,255,0.2)' }}>
               {formatPrice(room.price)}<span className="text-white/50 font-normal text-xs">/mo</span>
             </div>
           </div>
@@ -130,11 +130,11 @@ export default function RoomCard({ room, onSwipe, style }: RoomCardProps) {
                   src={room.user.avatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${room.user.name}`}
                   alt={room.user.name}
                   className="w-9 h-9 rounded-full"
-                  style={{ border: '1.5px solid rgba(255,200,160,0.2)' }}
+                  style={{ border: '1.5px solid rgba(255,255,255,0.2)' }}
                 />
                 {room.user.verified && (
                   <div className="absolute -bottom-0.5 -right-0.5 rounded-full p-0.5"
-                    style={{ background: 'rgba(8,6,4,0.9)' }}>
+                    style={{ background: 'rgba(10,10,12,0.9)' }}>
                     <Shield size={10} style={{ color: '#6AE3E8' }} fill="currentColor" />
                   </div>
                 )}
@@ -154,7 +154,7 @@ export default function RoomCard({ room, onSwipe, style }: RoomCardProps) {
                 </span>
               )}
               <span className="text-xs px-2 py-1 rounded-full font-medium text-white/50"
-                style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,200,160,0.08)' }}>
+                style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.08)' }}>
                 {room.roomType}
               </span>
             </div>
@@ -164,7 +164,7 @@ export default function RoomCard({ room, onSwipe, style }: RoomCardProps) {
           <div className="flex flex-wrap gap-1.5">
             {room.amenities.slice(0, 4).map((a) => (
               <span key={a} className="text-xs px-2.5 py-1 rounded-full text-white/50"
-                style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,200,160,0.08)' }}>
+                style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)' }}>
                 {a}
               </span>
             ))}

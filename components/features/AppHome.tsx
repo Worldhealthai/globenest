@@ -3,49 +3,31 @@
 import { motion } from 'framer-motion'
 import { Search, MapPin, Home, ShoppingBag, TrendingUp, Sparkles, ArrowRight } from 'lucide-react'
 import { useState } from 'react'
-import Image from 'next/image'
 import { mockRooms, mockMarketplaceItems } from '@/lib/mockData'
 
 export default function AppHome() {
   const [postcode, setPostcode] = useState('')
 
   const quickStats = [
-    { label: 'Rooms', value: '150+', icon: Home, gradient: 'linear-gradient(135deg, #C42A18, #FF5340)', glow: 'rgba(255,83,64,0.5)' },
-    { label: 'Items', value: '500+', icon: ShoppingBag, gradient: 'linear-gradient(135deg, #21A4A9, #5CE1E6)', glow: 'rgba(92,225,230,0.5)' },
-    { label: 'New Today', value: '24', icon: TrendingUp, gradient: 'linear-gradient(135deg, #C27A3A, #FFB884)', glow: 'rgba(255,184,132,0.5)' },
+    { label: 'Rooms', value: '150+', icon: Home, chipBg: 'rgba(255,83,64,0.14)', chipColor: '#FF7A67', glow: 'rgba(255,83,64,0.16)' },
+    { label: 'Items', value: '500+', icon: ShoppingBag, chipBg: 'rgba(45,205,211,0.12)', chipColor: '#5CE1E6', glow: 'rgba(45,205,211,0.12)' },
+    { label: 'New Today', value: '24', icon: TrendingUp, chipBg: 'rgba(255,184,132,0.12)', chipColor: '#FFB884', glow: 'rgba(255,184,132,0.12)' },
   ]
 
   return (
-    <div className="min-h-screen pt-6 pb-28 px-4 mesh-gradient">
+    <div className="min-h-screen pt-5 pb-6 px-4 mesh-gradient">
       <div className="max-w-2xl mx-auto">
 
         {/* Header */}
         <motion.div
-          initial={{ opacity: 0, y: -20 }}
+          initial={{ opacity: 0, y: -16 }}
           animate={{ opacity: 1, y: 0 }}
-          className="text-center mb-8 pt-4"
+          className="mb-6"
         >
-          <motion.div
-            animate={{ scale: [1, 1.06, 1] }}
-            transition={{ duration: 3, repeat: Infinity }}
-            className="inline-block mb-4"
-          >
-            <div className="relative">
-              <div className="absolute inset-0 blur-2xl rounded-full" style={{ background: 'rgba(255,83,64,0.5)' }} />
-              <Image
-                src="/logo.png"
-                alt="GlobeNest"
-                width={72}
-                height={72}
-                className="w-16 h-16 relative z-10 logo-blend"
-                priority
-              />
-            </div>
-          </motion.div>
-          <h1 className="text-3xl font-bold mb-1">
+          <h1 className="text-2xl font-bold mb-0.5">
             <span className="gradient-text">Find Your Perfect Place</span>
           </h1>
-          <p className="text-white/50 text-sm">Search by area to discover rooms &amp; items</p>
+          <p className="text-white/45 text-sm">Search by area to discover rooms &amp; items</p>
         </motion.div>
 
         {/* Search */}
@@ -65,8 +47,8 @@ export default function AppHome() {
               <input
                 className="w-full pl-9 pr-4 py-3 rounded-xl text-sm font-medium text-white placeholder:text-white/30 outline-none transition-all"
                 style={{
-                  background: 'rgba(255,248,240,0.06)',
-                  border: '1px solid rgba(255,200,160,0.12)',
+                  background: 'rgba(255,255,255,0.06)',
+                  border: '1px solid rgba(255,255,255,0.12)',
                 }}
                 placeholder="Enter postcode (e.g., SW1A 1AA)"
                 value={postcode}
@@ -77,7 +59,7 @@ export default function AppHome() {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               className="px-5 py-3 rounded-xl font-bold text-white glow-pulse"
-              style={{ background: 'linear-gradient(135deg, #E83D2A, #FF5340, #5CE1E6)' }}
+              style={{ background: 'linear-gradient(180deg, #FF6C52, #EE422D)' }}
             >
               <Search size={18} />
             </motion.button>
@@ -97,10 +79,10 @@ export default function AppHome() {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               className="glass rounded-2xl p-4 text-center card-hover-effect"
-              style={{ boxShadow: `0 8px 24px -8px ${stat.glow}` }}
+              style={{ boxShadow: `0 8px 24px -10px ${stat.glow}` }}
             >
-              <div className="inline-flex p-2 rounded-xl mb-2" style={{ background: stat.gradient }}>
-                <stat.icon className="w-4 h-4 text-white" />
+              <div className="inline-flex p-2 rounded-xl mb-2" style={{ background: stat.chipBg }}>
+                <stat.icon className="w-4 h-4" style={{ color: stat.chipColor }} />
               </div>
               <div className="font-bold text-lg text-white">{stat.value}</div>
               <div className="text-xs text-white/40">{stat.label}</div>
@@ -185,7 +167,7 @@ export default function AppHome() {
                 <div className="relative h-28">
                   <img src={item.images[0]} alt={item.title} className="w-full h-full object-cover" />
                   <div className="absolute inset-0"
-                    style={{ background: 'linear-gradient(to top, rgba(8,6,4,0.65) 0%, transparent 60%)' }} />
+                    style={{ background: 'linear-gradient(to top, rgba(10,10,12,0.65) 0%, transparent 60%)' }} />
                   <div className="absolute top-2 right-2">
                     <span className="px-2 py-0.5 rounded-full text-xs font-bold text-white"
                       style={{ background: 'rgba(255,83,64,0.75)', backdropFilter: 'blur(8px)' }}>
@@ -211,7 +193,7 @@ export default function AppHome() {
           transition={{ delay: 1 }}
           className="mt-8 glass rounded-3xl p-6 text-center"
           style={{
-            background: 'linear-gradient(135deg, rgba(255,83,64,0.12), rgba(92,225,230,0.07))',
+            background: 'linear-gradient(135deg, rgba(255,83,64,0.1), rgba(255,255,255,0.03))',
             border: '1px solid rgba(255,83,64,0.2)',
           }}
         >

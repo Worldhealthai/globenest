@@ -6,10 +6,8 @@ import {
   Heart, Shield, Sparkles, Clock, Star, Zap
 } from 'lucide-react'
 import { useState } from 'react'
-import Image from 'next/image'
 import Link from 'next/link'
 import { mockRooms, mockMarketplaceItems } from '@/lib/mockData'
-import { formatPrice } from '@/lib/utils'
 
 export default function DesktopHome() {
   const [search, setSearch] = useState('')
@@ -22,37 +20,25 @@ export default function DesktopHome() {
   ]
 
   const quickLinks = [
-    { label: 'Find a Room', href: '/rooms', icon: Home, gradient: 'linear-gradient(135deg, #C42A18, #FF5340)', desc: 'Swipe to match with verified rooms' },
-    { label: 'Marketplace', href: '/marketplace', icon: ShoppingBag, gradient: 'linear-gradient(135deg, #21A4A9, #5CE1E6)', desc: 'Buy & sell with fellow expats' },
-    { label: 'Messages', href: '/messages', icon: Zap, gradient: 'linear-gradient(135deg, #A8600A, #FFB884)', desc: 'Chat with your matches' },
+    { label: 'Find a Room', href: '/rooms', icon: Home, chipBg: 'rgba(255,83,64,0.14)', chipBorder: 'rgba(255,83,64,0.25)', chipColor: '#FF7A67', desc: 'Swipe to match with verified rooms' },
+    { label: 'Marketplace', href: '/marketplace', icon: ShoppingBag, chipBg: 'rgba(45,205,211,0.12)', chipBorder: 'rgba(45,205,211,0.22)', chipColor: '#5CE1E6', desc: 'Buy & sell with fellow expats' },
+    { label: 'Messages', href: '/messages', icon: Zap, chipBg: 'rgba(255,184,132,0.12)', chipBorder: 'rgba(255,184,132,0.22)', chipColor: '#FFB884', desc: 'Chat with your matches' },
   ]
 
   return (
-    <div className="min-h-screen pt-16 mesh-gradient">
-      <div className="max-w-7xl mx-auto px-6 lg:px-8 py-10">
+    <div className="min-h-screen mesh-gradient">
+      <div className="max-w-6xl mx-auto px-6 lg:px-10 py-8">
 
         {/* ─── HERO HEADER ─────────────────────── */}
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="mb-10"
+          className="mb-8"
         >
-          <div className="flex items-center gap-4 mb-2">
-            <motion.div
-              animate={{ scale: [1, 1.06, 1] }}
-              transition={{ duration: 3, repeat: Infinity }}
-            >
-              <div className="relative">
-                <div className="absolute inset-0 blur-xl rounded-full" style={{ background: 'rgba(255,83,64,0.55)' }} />
-                <Image src="/logo.png" alt="GlobeNest" width={48} height={48}
-                  className="w-11 h-11 relative z-10 logo-blend" priority />
-              </div>
-            </motion.div>
-            <div>
-              <h1 className="text-3xl font-bold gradient-text leading-tight">GlobeNest</h1>
-              <p className="text-white/40 text-sm">London&apos;s expat platform</p>
-            </div>
-          </div>
+          <h1 className="text-3xl font-bold text-white leading-tight mb-1">
+            Welcome to <span className="gradient-text">GlobeNest</span>
+          </h1>
+          <p className="text-white/40 text-sm">Everything you need to make London home</p>
         </motion.div>
 
         {/* ─── SEARCH BAR ──────────────────────── */}
@@ -73,7 +59,7 @@ export default function DesktopHome() {
             whileHover={{ scale: 1.04 }}
             whileTap={{ scale: 0.96 }}
             className="px-6 py-2 rounded-xl font-bold text-white text-sm flex-shrink-0"
-            style={{ background: 'linear-gradient(135deg, #E83D2A, #FF5340, #5CE1E6)' }}
+            style={{ background: 'linear-gradient(180deg, #FF6C52, #EE422D)' }}
           >
             Search
           </motion.button>
@@ -117,8 +103,8 @@ export default function DesktopHome() {
                 className="glass rounded-2xl p-6 cursor-pointer card-hover-effect"
               >
                 <div className="w-12 h-12 rounded-xl flex items-center justify-center mb-4"
-                  style={{ background: link.gradient }}>
-                  <link.icon size={24} className="text-white" />
+                  style={{ background: link.chipBg, border: `1px solid ${link.chipBorder}` }}>
+                  <link.icon size={24} style={{ color: link.chipColor }} />
                 </div>
                 <h3 className="font-bold text-white text-base mb-1">{link.label}</h3>
                 <p className="text-xs text-white/40">{link.desc}</p>
@@ -173,7 +159,7 @@ export default function DesktopHome() {
                         <div className="flex items-center gap-2 flex-wrap">
                           {room.amenities.slice(0, 3).map((a) => (
                             <span key={a} className="text-xs px-2 py-0.5 rounded-full text-white/50"
-                              style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,200,160,0.1)' }}>
+                              style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)' }}>
                               {a}
                             </span>
                           ))}
@@ -230,7 +216,7 @@ export default function DesktopHome() {
                       <div className="relative h-28">
                         <img src={item.images[0]} alt={item.title} className="w-full h-full object-cover" />
                         <div className="absolute inset-0"
-                          style={{ background: 'linear-gradient(to top, rgba(8,6,4,0.7) 0%, transparent 55%)' }} />
+                          style={{ background: 'linear-gradient(to top, rgba(10,10,12,0.7) 0%, transparent 55%)' }} />
                         <span className="absolute top-2 right-2 text-xs font-bold text-white px-2 py-0.5 rounded-full"
                           style={{ background: 'rgba(255,83,64,0.75)', backdropFilter: 'blur(8px)' }}>
                           £{item.price}
@@ -250,7 +236,7 @@ export default function DesktopHome() {
 
             {/* Community activity */}
             <div className="glass rounded-2xl p-5"
-              style={{ background: 'linear-gradient(135deg, rgba(92,225,230,0.07), rgba(255,83,64,0.07))', border: '1px solid rgba(92,225,230,0.12)' }}>
+              style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)' }}>
               <div className="flex items-center gap-2 mb-4">
                 <Sparkles size={16} style={{ color: '#6AE3E8' }} />
                 <h3 className="font-bold text-white text-sm">Community Activity</h3>
@@ -283,7 +269,7 @@ export default function DesktopHome() {
           transition={{ delay: 0.5 }}
           className="mt-10 rounded-3xl p-8 flex items-center justify-between"
           style={{
-            background: 'linear-gradient(135deg, rgba(255,83,64,0.2), rgba(92,225,230,0.1))',
+            background: 'linear-gradient(135deg, rgba(255,83,64,0.14), rgba(255,255,255,0.03))',
             border: '1px solid rgba(255,83,64,0.2)',
           }}
         >
@@ -302,7 +288,7 @@ export default function DesktopHome() {
                 whileHover={{ scale: 1.04 }}
                 whileTap={{ scale: 0.96 }}
                 className="px-6 py-3 rounded-xl font-bold text-sm text-white flex items-center gap-2"
-                style={{ background: 'linear-gradient(135deg, #E83D2A, #FF5340, #5CE1E6)', boxShadow: '0 4px 20px rgba(255,83,64,0.4)' }}
+                style={{ background: 'linear-gradient(180deg, #FF6C52, #EE422D)', boxShadow: '0 4px 20px rgba(255,83,64,0.4)' }}
               >
                 Get Started Free <ArrowRight size={16} />
               </motion.button>
